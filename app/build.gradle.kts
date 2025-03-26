@@ -51,4 +51,7 @@ dependencies {
 
     //Splashscreen
     implementation(libs.androidx.core.splashscreen)
+
+    //Material
+    implementation("com.google.android.material:material:1.10.0")
 }

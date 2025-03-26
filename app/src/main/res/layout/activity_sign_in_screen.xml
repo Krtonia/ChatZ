@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".signin.SignInScreen"
+    android:fitsSystemWindows="true"
+    tools:ignore="ExtraText">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <!-- ImageView -->
+        <ImageView
+            android:id="@+id/signin_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="30dp"
+            android:src="@drawable/welcome" />
+
+        <!-- TextView centered over the ImageView -->
+        <TextView
+            android:id="@+id/welcome_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/satoshi"
+            android:gravity="center"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="148.5dp"
+            android:text="Welcome Back"
+            android:textSize="30sp"
+            android:textStyle="bold" /> <!-- Centers the TextView in the RelativeLayout -->
+    </RelativeLayout>
+
+
+    <!-- TextView
+        android:id="@+id/sign_in"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="66dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="502dp"
+        android:fontFamily="@font/mulish_regular"
+        android:text="Sigin in to access your account"
+        android:textFontWeight="700"
+        android:textSize="20sp"
+        android:textStyle="normal" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/shapes"
+        android:backgroundTint="#C4C4C4"
+        android:fontFamily="@font/mulish_regular"
+        android:hint="Enter password"
+        android:inputType="textPassword"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="8dp"
+        android:textFontWeight="1000"
+        android:textSize="24dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="133dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="138dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginBottom="219dp"
+        android:background="@drawable/shapes"
+        android:backgroundTint="#FF3951"
+        android:fontFamily="@font/noto"
+        android:text="Login"
+        android:textColor="@color/white"
+        android:textFontWeight="1000"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:cornerRadius="20dp"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end"
+        android:layout_marginEnd="200dp"
+        android:layout_marginBottom="137dp"
+        android:text="Reigster Now"
+        android:textColor="#FF3951"
+        android:textFontWeight="1000"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="147dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="248dp"
+        android:layout_marginBottom="147dp"
+        android:fontFamily="@font/noto"
+        android:text="New User ?"
+        android:textFontWeight="1000"
+        android:textSize="15sp"
+        android:textStyle="bold" /-->
+</LinearLayout>
