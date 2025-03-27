@@ -1,6 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+    id ("com.google.firebase.crashlytics")
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -45,12 +49,38 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
     //Splashscreen
     implementation(libs.androidx.core.splashscreen)
+
+    //Dagger-Hilt
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+
+    //FireBase
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-analytics")
+    implementation(platform("com.google.firebase:firebase-bom:33.11.0"))
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-database")
+    implementation (libs.firebase.firestore.ktx)
+    implementation("com.google.firebase:firebase-storage")
+
+    //Glide Image
+    implementation (libs.glide)
+
+    //Recycler
+    implementation ("androidx.recyclerview:recyclerview:1.4.0")
+
+    // CardView for item layout
+    implementation (libs.androidx.cardview)
 
     //Material
     implementation("com.google.android.material:material:1.10.0")

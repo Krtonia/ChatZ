@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme -->
-    <style name="Base.Theme.Chatz" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="Base.Theme.Chatz" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your theme here -->
         <item name="materialButtonStyle">@style/Widget.MaterialComponents.Button</item>
         <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
@@ -10,7 +10,7 @@
     <style name="Theme.Chatz" parent="Base.Theme.Chatz" />
 
     <!-- Splash Screen Theme -->
-    <style name="App.Starting.Theme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="App.Starting.Theme" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Android 12+ Splash Screen API attributes -->
         <item name="windowSplashScreenBackground">#000000</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_dark</item>

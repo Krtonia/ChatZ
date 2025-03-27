@@ -7,14 +7,14 @@
     android:layout_height="match_parent"
     android:background="@drawable/shapes"
     android:paddingHorizontal="20dp"
-    tools:context=".MainActivity">
+    tools:context=".start.signin.SignInScreen">
 
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageView"
         android:layout_width="266dp"
         android:layout_height="201dp"
-        android:src="@drawable/logo_removebg"
+        android:src="@drawable/status_logo"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,8 +24,8 @@
         app:layout_constraintVertical_bias="0.126"
         tools:visibility="visible" />
 
-    <EditText
-        android:id="@+id/editTextText"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/email"
         android:layout_width="324dp"
         android:layout_height="62dp"
         android:background="@drawable/shapes"
@@ -46,8 +46,8 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.138" />
 
-    <EditText
-        android:id="@+id/editTextTextPassword"
+    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+        android:id="@+id/pass"
         android:layout_width="324dp"
         android:layout_height="62dp"
         android:background="@drawable/shapes"
@@ -64,11 +64,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText"
+        app:layout_constraintTop_toBottomOf="@+id/email"
         app:layout_constraintVertical_bias="0.114" />
 
-    <Button
-        android:id="@+id/button"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/lgbtn"
         android:layout_width="211dp"
         android:layout_height="52dp"
         android:background="@drawable/shapes"
@@ -82,15 +82,19 @@
         android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword"
-        app:layout_constraintVertical_bias="0.202" />
+        app:layout_constraintTop_toBottomOf="@+id/pass"
+        app:layout_constraintVertical_bias="0.236" />
 
-    <Button
-        android:id="@+id/button2"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/regbtn"
         style="@style/ThemeOverlay.Material3.Button.TextButton"
-        android:layout_width="73dp"
-        android:layout_height="25dp"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="60dp"
         android:background="@drawable/shapes"
         android:fontFamily="@font/mulish"
         android:text="Register"
@@ -99,13 +103,12 @@
         android:textSize="16sp"
         android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/button"
-        app:layout_constraintHorizontal_bias="0.731"
-        app:layout_constraintStart_toStartOf="@+id/button"
-        app:layout_constraintTop_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="@+id/lgbtn"
+        app:layout_constraintHorizontal_bias="0.759"
+        app:layout_constraintStart_toStartOf="@+id/lgbtn"
         app:layout_constraintVertical_bias="0.468" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textView"
         android:layout_width="267dp"
         android:layout_height="47dp"
@@ -121,7 +124,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintVertical_bias="0.05" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -137,20 +140,21 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textView3"
         android:layout_width="94dp"
         android:layout_height="26dp"
+        android:layout_marginBottom="60dp"
         android:fontFamily="@font/mulish"
         android:text="New User ?"
         android:textColor="#040404"
         android:textSize="16sp"
         android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/button"
-        app:layout_constraintHorizontal_bias="0.17"
-        app:layout_constraintStart_toStartOf="@+id/button"
-        app:layout_constraintTop_toTopOf="@+id/button"
-        app:layout_constraintVertical_bias="0.471" />
+        app:layout_constraintEnd_toEndOf="@+id/lgbtn"
+        app:layout_constraintHorizontal_bias="0.145"
+        app:layout_constraintStart_toStartOf="@+id/lgbtn"
+        app:layout_constraintTop_toTopOf="@+id/lgbtn"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

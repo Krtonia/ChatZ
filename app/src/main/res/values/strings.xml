@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">chatz</string>
+    <string name="gets_started">Gets Started</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register">REGISTER</string>
+    <string name="already_a_member">Already a member?</string>
+    <string name="login">Login</string>
+    <string name="by_creating_a_free_account">by creating a free account.</string>
 </resources>
