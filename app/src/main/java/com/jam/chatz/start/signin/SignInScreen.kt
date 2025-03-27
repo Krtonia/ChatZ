@@ -1,4 +1,4 @@
-package com.jam.chatz.signin
+package com.jam.chatz.start.signin
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

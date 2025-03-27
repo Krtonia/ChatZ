@@ -1,127 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:context=".signin.SignInScreen"
-    android:fitsSystemWindows="true"
-    tools:ignore="ExtraText">
+    android:layout_height="match_parent"
+    android:background="@drawable/shapes"
+    android:paddingHorizontal="20dp"
+    tools:context=".MainActivity">
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <!-- ImageView -->
-        <ImageView
-            android:id="@+id/signin_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="30dp"
-            android:src="@drawable/welcome" />
-
-        <!-- TextView centered over the ImageView -->
-        <TextView
-            android:id="@+id/welcome_back"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerHorizontal="true"
-            android:fontFamily="@font/satoshi"
-            android:gravity="center"
-            android:layout_marginLeft="14dp"
-            android:layout_marginTop="148.5dp"
-            android:text="Welcome Back"
-            android:textSize="30sp"
-            android:textStyle="bold" /> <!-- Centers the TextView in the RelativeLayout -->
-    </RelativeLayout>
-
-
-    <!-- TextView
-        android:id="@+id/sign_in"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="66dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="502dp"
-        android:fontFamily="@font/mulish_regular"
-        android:text="Sigin in to access your account"
-        android:textFontWeight="700"
-        android:textSize="20sp"
-        android:textStyle="normal" />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="266dp"
+        android:layout_height="201dp"
+        android:src="@drawable/logo_removebg"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.126"
+        tools:visibility="visible" />
 
     <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="80dp"
+        android:id="@+id/editTextText"
+        android:layout_width="324dp"
+        android:layout_height="62dp"
         android:background="@drawable/shapes"
         android:backgroundTint="#C4C4C4"
-        android:fontFamily="@font/mulish_regular"
+        android:ems="10"
+        android:fontFamily="@font/mulish"
+        android:hint="Enter Email"
+        android:inputType="textEmailAddress"
+        android:paddingHorizontal="20dp"
+        android:textAlignment="gravity"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="18sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.138" />
+
+    <EditText
+        android:id="@+id/editTextTextPassword"
+        android:layout_width="324dp"
+        android:layout_height="62dp"
+        android:background="@drawable/shapes"
+        android:backgroundTint="#C4C4C4"
+        android:ems="10"
+        android:fontFamily="@font/mulish"
         android:hint="Enter password"
         android:inputType="textPassword"
-        android:paddingHorizontal="14dp"
-        android:paddingVertical="8dp"
-        android:textFontWeight="1000"
-        android:textSize="24dp"
-        android:textStyle="bold" />
+        android:paddingHorizontal="20dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="18sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText"
+        app:layout_constraintVertical_bias="0.114" />
 
     <Button
-        android:id="@+id/login_button"
-        android:layout_width="133dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="138dp"
-        android:layout_marginEnd="124dp"
-        android:layout_marginBottom="219dp"
+        android:id="@+id/button"
+        android:layout_width="211dp"
+        android:layout_height="52dp"
         android:background="@drawable/shapes"
         android:backgroundTint="#FF3951"
-        android:fontFamily="@font/noto"
+        android:fontFamily="@font/mulish"
         android:text="Login"
-        android:textColor="@color/white"
-        android:textFontWeight="1000"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:cornerRadius="20dp"
-        tools:ignore="HardcodedText" />
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#FDFCFC"
+        android:textSize="20sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword"
+        app:layout_constraintVertical_bias="0.202" />
 
     <Button
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="end"
-        android:layout_marginEnd="200dp"
-        android:layout_marginBottom="137dp"
-        android:text="Reigster Now"
+        android:id="@+id/button2"
+        style="@style/ThemeOverlay.Material3.Button.TextButton"
+        android:layout_width="73dp"
+        android:layout_height="25dp"
+        android:background="@drawable/shapes"
+        android:fontFamily="@font/mulish"
+        android:text="Register"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="#FF3951"
-        android:textFontWeight="1000"
-        android:textSize="12sp"
-        android:textStyle="bold" />
+        android:textSize="16sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/button"
+        app:layout_constraintHorizontal_bias="0.731"
+        app:layout_constraintStart_toStartOf="@+id/button"
+        app:layout_constraintTop_toTopOf="@+id/button"
+        app:layout_constraintVertical_bias="0.468" />
 
     <TextView
-        android:layout_width="147dp"
+        android:id="@+id/textView"
+        android:layout_width="267dp"
+        android:layout_height="47dp"
+        android:fontFamily="@font/satoshi"
+        android:text="Welcome Back !"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="#252525"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.05" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="248dp"
-        android:layout_marginBottom="147dp"
-        android:fontFamily="@font/noto"
+        android:fontFamily="@font/mulish"
+        android:text="sign in to access your account"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.288"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="94dp"
+        android:layout_height="26dp"
+        android:fontFamily="@font/mulish"
         android:text="New User ?"
-        android:textFontWeight="1000"
-        android:textSize="15sp"
-        android:textStyle="bold" /-->
-</LinearLayout>
+        android:textColor="#040404"
+        android:textSize="16sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/button"
+        app:layout_constraintHorizontal_bias="0.17"
+        app:layout_constraintStart_toStartOf="@+id/button"
+        app:layout_constraintTop_toTopOf="@+id/button"
+        app:layout_constraintVertical_bias="0.471" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
