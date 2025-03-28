@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="16dp">
+
+
+
+    <ImageView
+        android:id="@+id/user_image_view"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/img"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/username_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/text"
+        app:layout_constraintStart_toEndOf="@id/user_image_view"
+        app:layout_constraintTop_toTopOf="@id/user_image_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Username"/>
+
+    <TextView
+        android:id="@+id/email_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="14sp"
+        android:textColor="@color/text"
+        app:layout_constraintStart_toStartOf="@id/username_text_view"
+        app:layout_constraintTop_toBottomOf="@id/username_text_view"
+        app:layout_constraintEnd_toEndOf="@id/username_text_view"
+        tools:text="user@example.com"/>
+
+    <TextView
+        android:id="@+id/status_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="12sp"
+        android:textColor="@color/text"
+        app:layout_constraintStart_toStartOf="@id/email_text_view"
+        app:layout_constraintTop_toBottomOf="@id/email_text_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="Online"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

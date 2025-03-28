@@ -1,18 +1,21 @@
 package com.jam.chatz.start.Home
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
 import com.jam.chatz.R
-import com.jam.chatz.User
+import com.jam.chatz.adapter.UserAdapter
+import com.jam.chatz.viewmodel.UserViewModel
 
 class Home : AppCompatActivity() {
     private lateinit var userRecyclerView: RecyclerView
     private lateinit var userAdapter: UserAdapter
-    private val users = mutableListOf<User>()
+    private val userViewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,32 +24,23 @@ class Home : AppCompatActivity() {
 
         // Setup RecyclerView
         userRecyclerView = findViewById(R.id.usersRecyclerView)
-        userAdapter = UserAdapter(users)
+        userAdapter = UserAdapter(emptyList())
         userRecyclerView.layoutManager = LinearLayoutManager(this)
         userRecyclerView.adapter = userAdapter
 
-        // Fetch users from Firestore
-        fetchUsers()
+        // Observe users from ViewModel
+        observeUsers()
     }
 
-    private fun fetchUsers() {
-        val db = FirebaseFirestore.getInstance()
-        db.collection("users")
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                users.clear()
-                for (document in querySnapshot.documents) {
-                    val user = User(
-                        id = document.id,
-                        username = document.getString("username") ?: "",
-                        email = document.getString("email") ?: "",
-                        profilePictureUrl = document.getString("profilePictureUrl")
-                    )
-                    users.add(user)
-                }
+    private fun observeUsers() {
+        userViewModel.users.observe(this) { users ->
+            if (users.isNotEmpty()) {
                 userAdapter.updateUsers(users)
+                Log.d("Home", "Users loaded: ${users.size}")
+            } else {
+                Toast.makeText(this, "No users found", Toast.LENGTH_SHORT).show()
+                Log.d("Home", "No users available")
             }
-            .addOnFailureListener { exception ->
-            }
+        }
     }
 }

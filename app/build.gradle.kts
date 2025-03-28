@@ -73,6 +73,11 @@ dependencies {
     implementation (libs.firebase.firestore.ktx)
     implementation("com.google.firebase:firebase-storage")
 
+    //ViewModel
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+    implementation ("com.github.bumptech.glide:glide:4.15.1")
+
     //Glide Image
     implementation (libs.glide)
 
@@ -83,5 +88,5 @@ dependencies {
     implementation (libs.androidx.cardview)
 
     //Material
-    implementation("com.google.android.material:material:1.10.0")
+    implementation(libs.google.material)
 }
