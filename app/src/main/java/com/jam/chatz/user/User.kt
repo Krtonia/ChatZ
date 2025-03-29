@@ -1,4 +1,4 @@
-package com.jam.chatz
+package com.jam.chatz.user
 
 import android.os.Parcel
 import android.os.Parcelable

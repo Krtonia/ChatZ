@@ -6,8 +6,10 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.jam.chatz.R
 import com.jam.chatz.adapter.UserAdapter
 import com.jam.chatz.viewmodel.UserViewModel
@@ -30,6 +32,14 @@ class Home : AppCompatActivity() {
 
         // Observe users from ViewModel
         observeUsers()
+
+        //Test
+        val searchCard: MaterialCardView = findViewById(R.id.searchCard)
+        val searchView: SearchView = findViewById(R.id.searchView)
+
+        searchCard.setOnClickListener {
+            searchView.isIconified = false // Expand SearchView when clicked
+        }
     }
 
     private fun observeUsers() {

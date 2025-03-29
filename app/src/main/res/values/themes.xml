@@ -52,7 +52,6 @@
     <!-- Splash Screen Theme -->
     <style name="App.Starting.Theme" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Android 12+ Splash Screen API attributes -->
-        <item name="windowSplashScreenBackground">#FFFFFF</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_light</item>
 
         <!-- Pre-Android 12 Splash Screen attributes -->

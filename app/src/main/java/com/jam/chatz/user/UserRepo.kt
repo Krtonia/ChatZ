@@ -1,10 +1,11 @@
-package com.jam.chatz
+package com.jam.chatz.user
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.jam.chatz.user.User
 
 class UserRepo {
     private val firestore = FirebaseFirestore.getInstance()
