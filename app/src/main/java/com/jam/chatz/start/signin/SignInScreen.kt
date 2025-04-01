@@ -26,22 +26,10 @@ class SignInScreen : AppCompatActivity() {
         ActivitySignInScreenBinding.inflate(layoutInflater)
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        var auth: FirebaseAuth
-        auth = FirebaseAuth.getInstance()
-
-        //Check if User already logged in
-        val user: FirebaseUser? = auth.currentUser
-
-        if (user != null)
-            startActivity(Intent(this, Home::class.java))
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        alreadyLogin()
 
         var auth: FirebaseAuth
         auth = FirebaseAuth.getInstance()
@@ -54,8 +42,7 @@ class SignInScreen : AppCompatActivity() {
 
             if (email.isEmpty() || pass.isEmpty()) {
                 Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_LONG).show()
-            }
-            else {
+            } else {
                 auth.signInWithEmailAndPassword(email, pass)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
@@ -63,7 +50,11 @@ class SignInScreen : AppCompatActivity() {
                                 .show()
                             startActivity(Intent(this, Home::class.java))
                         } else {
-                            Toast.makeText(this, "Login failed ${task.exception.toString()}", Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                this,
+                                "Login failed ${task.exception.toString()}",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     }
 
@@ -71,52 +62,15 @@ class SignInScreen : AppCompatActivity() {
         }
     }
 
-    /*override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    private fun alreadyLogin() {
         var auth: FirebaseAuth
         auth = FirebaseAuth.getInstance()
-
-        setContentView(binding.root)
-        binding.regbtn.setOnClickListener { startActivity(Intent(this, SignUpScreen::class.java)) }
-        binding.lgbtn.setOnClickListener {
-            val email = binding.email.text.toString().trim()
-            val pass = binding.pass.text.toString().trim()
-
-            fun handleLoginError(exception: Exception?) {
-                val errorMessage = when (exception) {
-                    is FirebaseAuthInvalidCredentialsException -> "Invalid email or password"
-                    is FirebaseAuthInvalidUserException -> "No account found with this email"
-                    else -> "Login failed: ${exception?.localizedMessage}"
-                }
-                Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
-            }
-
-            fun performFirebaseLogin(email: String, password: String) {
-                auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { task ->
-                        binding.lgbtn.isEnabled = true
-                        if (task.isSuccessful) {
-                            Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(this, Home::class.java))
-                            finish()
-                        } else {
-                            handleLoginError(task.exception)
-                        }
-                    }
-            }
-
-            when {
-                email.isEmpty() -> binding.email.error = "Email cannot be empty"
-                pass.isEmpty() -> binding.pass.error = "Password cannot be empty"
-                pass.length < 6 -> binding.pass.error = "Password too short"
-                else -> {
-                    binding.lgbtn.isEnabled = false
-                    performFirebaseLogin(email, pass)
-                }
-            }
+        val currentUser: FirebaseUser? = auth.currentUser
+        if (currentUser != null) {
+            startActivity(Intent(this, Home::class.java))
+            finish()
         }
-    }*/
+    }
 }
 
 

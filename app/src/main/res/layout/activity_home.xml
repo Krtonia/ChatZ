@@ -15,6 +15,7 @@
         android:orientation="vertical"
         tools:context=".start.Home.Home">
 
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textView4"
             android:layout_width="match_parent"
@@ -45,6 +46,17 @@
                 android:queryHint="Search..." />
         </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/noUsersFoundText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="No users found"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:visibility="gone    " />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/usersRecyclerView"
             android:layout_width="match_parent"
@@ -52,6 +64,5 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:paddingBottom="?attr/actionBarSize" />
-
     </LinearLayout>
 </ScrollView>
