@@ -90,7 +90,6 @@ class SignUpScreen : AppCompatActivity() {
 
     private fun navigateToSignIn() {
         startActivity(Intent(this, SignInScreen::class.java)).apply {
-            var flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             finish()
         }
 

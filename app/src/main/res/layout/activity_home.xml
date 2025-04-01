@@ -26,7 +26,6 @@
             android:textSize="50sp"
             android:textStyle="bold" />
 
-
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/searchCard"
             android:layout_width="match_parent"
@@ -55,7 +54,7 @@
             android:text="No users found"
             android:textAlignment="center"
             android:textSize="18sp"
-            android:visibility="gone    " />
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/usersRecyclerView"

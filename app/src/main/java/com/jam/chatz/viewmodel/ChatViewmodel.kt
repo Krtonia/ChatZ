@@ -2,7 +2,6 @@ package com.jam.chatz.chat
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.jam.chatz.user.User
 import com.jam.chatz.message.Message
 
 class ChatViewModel : ViewModel() {

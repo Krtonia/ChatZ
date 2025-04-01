@@ -2,23 +2,14 @@ package com.jam.chatz.start.signin
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseUser
 import com.jam.chatz.databinding.ActivitySignInScreenBinding
-import com.jam.chatz.databinding.ActivitySignupScreenBinding
 import com.jam.chatz.start.Home.Home
 import com.jam.chatz.start.signup.SignUpScreen
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 
 class SignInScreen : AppCompatActivity() {
 

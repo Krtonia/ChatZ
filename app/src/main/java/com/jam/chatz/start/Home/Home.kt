@@ -1,5 +1,6 @@
 package com.jam.chatz.start.Home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -84,6 +85,7 @@ class Home : AppCompatActivity() {
         })
     }
 
+    @SuppressLint("SetTextI18n")
     private fun filterUsers(query: String) {
         var nouserfoundtext: TextView = findViewById(R.id.noUsersFoundText)
         val filteredList = if (query.isEmpty()) {
