@@ -6,7 +6,7 @@ import android.os.Parcelable
 data class User(
     val userid: String? = "",
     val username: String? = "",
-    val useremail: String? = "",  // Changed from email to match Firestore document
+    val useremail: String? = "",
     val status: String? = "",
     val imageurl: String? = ""
 ) : Parcelable {

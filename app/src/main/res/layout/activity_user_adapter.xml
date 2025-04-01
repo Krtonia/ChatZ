@@ -5,15 +5,15 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/username_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/email_text_view"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/status_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14sp"/>

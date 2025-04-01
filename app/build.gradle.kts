@@ -63,6 +63,10 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
 
+    //Navigation
+    implementation("androidx.navigation:navigation-fragment:2.8.9")
+    implementation("androidx.navigation:navigation-ui:2.8.9")
+
     //FireBase
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-analytics")

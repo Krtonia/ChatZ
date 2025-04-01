@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.jam.chatz.R
@@ -52,7 +53,7 @@ class ChatActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         binding.chatUsername.text = otherUser?.username
-        binding.chatStatus.text = otherUser?.status
+     // shows user email need to fix //binding.chatStatus.text = otherUser?.status
         Glide.with(this)
             .load(otherUser?.imageurl)
             .placeholder(R.drawable.img)

@@ -99,6 +99,7 @@
                 app:boxCornerRadiusBottomStart="16dp"
                 app:boxCornerRadiusTopEnd="16dp"
                 app:boxCornerRadiusTopStart="16dp"
+                app:endIconMode="password_toggle"
                 app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText

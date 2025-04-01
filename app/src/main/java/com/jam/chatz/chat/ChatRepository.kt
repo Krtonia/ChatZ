@@ -79,7 +79,12 @@ class ChatRepository {
     }
 
     // Update chat metadata for both users
-    private fun updateChatMetadata(chatId: String, senderId: String, receiverId: String, lastMessage: String) {
+    private fun updateChatMetadata(
+        chatId: String,
+        senderId: String,
+        receiverId: String,
+        lastMessage: String
+    ) {
         val timestamp = Timestamp.Companion.now()
 
         // Get user data for display in chat list
