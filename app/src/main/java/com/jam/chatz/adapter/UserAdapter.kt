@@ -19,7 +19,7 @@ class UserAdapter(private var users: List<User>) :
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val usernameTextView: TextView = itemView.findViewById(R.id.username_text_view)
         val userImageView: ImageView = itemView.findViewById(R.id.user_image_view)
-        val statusTextView: TextView = itemView.findViewById(R.id.status_text_view)
+//        val statusTextView: TextView = itemView.findViewById(R.id.status_text_view)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -31,7 +31,7 @@ class UserAdapter(private var users: List<User>) :
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val currentUser = users[position]
         holder.usernameTextView.text = currentUser.username ?: "No name"
-        holder.statusTextView.text = currentUser.status ?: "Offline"
+//        holder.statusTextView.text = currentUser.status ?: "Offline"
 
         // Load image using Glide
         Glide.with(holder.itemView.context)

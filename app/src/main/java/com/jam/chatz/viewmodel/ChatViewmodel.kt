@@ -14,6 +14,6 @@ class ChatViewModel : ViewModel() {
 
     // Send a new message
     fun sendMessage(receiverId: String, messageText: String, callback: (Boolean) -> Unit) {
-        chatRepository.sendMessage(receiverId, messageText, callback)
+        return chatRepository.sendMessage(receiverId, messageText, callback)
     }
 }

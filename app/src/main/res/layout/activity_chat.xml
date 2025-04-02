@@ -51,20 +51,20 @@
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="Username" />
 
-            <!--            <com.google.android.material.textview.MaterialTextView-->
-<!--                android:id="@+id/chat_status"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:ellipsize="end"-->
-<!--                android:maxLines="1"-->
-<!--                android:fontFamily="@font/mulish"-->
-<!--                android:textStyle="normal"-->
-<!--                android:textSize="12sp"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="@id/chat_username"-->
-<!--                app:layout_constraintStart_toStartOf="@id/chat_username"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/chat_username"-->
-<!--                tools:text="Online" />-->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/userkastatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/mulish"
+                android:maxLines="1"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/chat_username"
+                app:layout_constraintStart_toStartOf="@id/chat_username"
+                app:layout_constraintTop_toBottomOf="@+id/chat_username"
+                tools:text="Online" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.MaterialToolbar>

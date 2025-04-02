@@ -1,67 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    tools:context=".start.Home.Home">
 
-    <LinearLayout
-        android:id="@+id/main"
+    <!-- Main Content Area (above bottom navigation) -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:context=".start.Home.Home">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginHorizontal="10dp"
-            android:fontFamily="@font/mulish"
-            android:text="@string/chatz"
-            android:textSize="50sp"
-            android:textStyle="bold" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/searchCard"
+        <LinearLayout
+            android:id="@+id/main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="6dp">
+            android:orientation="vertical">
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchView"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="64dp"
+                android:layout_marginHorizontal="12dp"
+                android:fontFamily="@font/satoshi"
+                android:text="@string/chatz"
+                android:textSize="55sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/searchCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="4dp"
-                android:iconifiedByDefault="false"
-                android:queryHint="Search..." />
-        </com.google.android.material.card.MaterialCardView>
+                android:layout_margin="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="6dp">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/noUsersFoundText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="16dp"
-            android:text="No users found"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:visibility="gone" />
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="4dp"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="Search..." />
+            </com.google.android.material.card.MaterialCardView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/usersRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:paddingBottom="?attr/actionBarSize" />
-    </LinearLayout>
-</ScrollView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/usersRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingBottom="16dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Floating action button aligned to bottom right -->
+    <ImageButton
+        android:id="@+id/moreButton"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/surface"
+        android:layout_margin="16dp"
+        android:src="@drawable/more"
+        tools:ignore="ContentDescription" />
+</RelativeLayout>

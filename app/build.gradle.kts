@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
+    id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
     id ("com.google.firebase.crashlytics")
     alias(libs.plugins.google.gms.google.services)
@@ -80,6 +81,10 @@ dependencies {
 
     //Glide Image
     implementation (libs.glide)
+
+    //Room Database
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
 
     //Recycler
     implementation ("androidx.recyclerview:recyclerview:1.4.0")

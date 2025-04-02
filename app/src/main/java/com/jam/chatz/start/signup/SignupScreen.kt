@@ -70,7 +70,7 @@ class SignUpScreen : AppCompatActivity() {
                 "userid" to user.uid,
                 "username" to name,
                 "useremail" to email,
-                "status" to "Hey there! I'm using ChatZ",
+                "status" to "",
                 "imageurl" to "https://www.pngarts.com/files/5/User-Avatar-PNG-Image.png"
             )
 

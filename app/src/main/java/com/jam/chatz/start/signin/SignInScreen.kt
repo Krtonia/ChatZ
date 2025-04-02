@@ -2,17 +2,19 @@ package com.jam.chatz.start.signin
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 import com.jam.chatz.databinding.ActivitySignInScreenBinding
 import com.jam.chatz.start.Home.Home
 import com.jam.chatz.start.signup.SignUpScreen
+import com.jam.chatz.user.User
 
 class SignInScreen : AppCompatActivity() {
-
     private val binding: ActivitySignInScreenBinding by lazy {
         ActivitySignInScreenBinding.inflate(layoutInflater)
     }
