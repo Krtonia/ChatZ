@@ -85,6 +85,8 @@ dependencies {
     //Room Database
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
+    implementation (libs.androidx.room.ktx)
+    annotationProcessor ("androidx.room:room-compiler:2.6.1")
 
     //Recycler
     implementation ("androidx.recyclerview:recyclerview:1.4.0")

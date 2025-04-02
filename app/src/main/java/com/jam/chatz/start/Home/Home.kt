@@ -3,6 +3,7 @@ package com.jam.chatz.start.Home
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -27,7 +28,6 @@ class Home : AppCompatActivity() {
     private var allUsers: List<User> = emptyList()
     private lateinit var auth: FirebaseAuth
     private val binding : ActivityHomeBinding by lazy { ActivityHomeBinding.inflate(layoutInflater) }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,6 +107,7 @@ class Home : AppCompatActivity() {
     }
 
     private fun filterUsers(query: String) {
+        var nouserfoundtext: TextView = findViewById(R.id.noUsersFoundText)
         val filteredList = if (query.isEmpty()) {
             allUsers
         } else {
@@ -116,5 +117,14 @@ class Home : AppCompatActivity() {
             }
         }
         userAdapter.updateUsers(filteredList)
+        if (query.isNotEmpty() && filteredList.isEmpty()) {
+            nouserfoundtext.text = "No users found matching '$query'"
+            nouserfoundtext.visibility = View.VISIBLE
+        } else if (filteredList.isEmpty()) {
+            nouserfoundtext.text = "No users found"
+            nouserfoundtext.visibility = View.VISIBLE
+        } else {
+            nouserfoundtext.visibility = View.GONE
+        }
     }
 }
