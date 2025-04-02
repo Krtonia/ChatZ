@@ -28,7 +28,6 @@ class Home : AppCompatActivity() {
     private var allUsers: List<User> = emptyList()
     private lateinit var auth: FirebaseAuth
     private val binding : ActivityHomeBinding by lazy { ActivityHomeBinding.inflate(layoutInflater) }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
