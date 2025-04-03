@@ -3,6 +3,7 @@ package com.jam.chatz.start.signin
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -35,12 +36,13 @@ class SignInScreen : AppCompatActivity() {
 
             if (email.isEmpty() || pass.isEmpty()) {
                 Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_LONG).show()
-            } else {
+            } else {binding.pgbar.visibility = View.VISIBLE
                 auth.signInWithEmailAndPassword(email, pass)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             Toast.makeText(this, "Login successfull", Toast.LENGTH_LONG)
                                 .show()
+                            binding.pgbar.visibility = View.GONE
                             startActivity(Intent(this, Home::class.java))
                         } else {
                             Toast.makeText(

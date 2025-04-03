@@ -157,6 +157,17 @@
                 app:boxCornerRadiusTopStart="16dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <ProgressBar
+            android:id="@+id/pgbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <!-- Buttons -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/regbtn"
@@ -182,5 +193,8 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:cornerRadius="10dp" />
+
+
+
     </LinearLayout>
 </ScrollView>

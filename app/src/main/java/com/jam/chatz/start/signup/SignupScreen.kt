@@ -1,10 +1,13 @@
 package com.jam.chatz.start.signup
 
 import android.content.Intent
+import com.jam.chatz.R
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jam.chatz.databinding.ActivitySignupScreenBinding
@@ -15,6 +18,7 @@ class SignUpScreen : AppCompatActivity() {
     private lateinit var binding: ActivitySignupScreenBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
+    private var isLoading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +40,7 @@ class SignUpScreen : AppCompatActivity() {
 
         // Register button
         binding.regbtn.setOnClickListener {
+
             val name = binding.signupname.text?.trim().toString()
             val email = binding.signupemail.text?.trim().toString()
             val pass = binding.signuppassword.text?.trim().toString()
@@ -48,7 +53,10 @@ class SignUpScreen : AppCompatActivity() {
                 cnfpass.isEmpty() -> showError("Please confirm your password")
                 pass != cnfpass -> showError("Passwords don't match")
                 pass.length < 6 -> showError("Password must be at least 6 characters")
-                else -> registerUser(name, email, pass)
+                else -> {
+                    binding.pgbar.visibility = View.VISIBLE
+                    registerUser(name, email, pass)
+                }
             }
         }
     }
@@ -56,6 +64,7 @@ class SignUpScreen : AppCompatActivity() {
     private fun registerUser(name: String, email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
+
                 if (task.isSuccessful) {
                     saveUserToFirestore(name, email)
                 } else {
@@ -77,6 +86,7 @@ class SignUpScreen : AppCompatActivity() {
             firestore.collection("Users").document(user.uid)
                 .set(userData)
                 .addOnSuccessListener {
+                    binding.pgbar.visibility = View.GONE
                     showSuccess("Registration successful!")
                     // Sign out the automatically logged-in user
                     auth.signOut()
