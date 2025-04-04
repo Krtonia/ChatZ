@@ -15,6 +15,8 @@ import java.util.Locale
 class MessageAdapter(private var messages: List<Message>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    var currentList = messages.toMutableList()
+
     companion object {
         private const val VIEW_TYPE_SENT = 1
         private const val VIEW_TYPE_RECEIVED = 2
@@ -30,7 +32,6 @@ class MessageAdapter(private var messages: List<Message>) :
     private fun processMessages() {
         items.clear()
         var lastDate: String? = null
-
         messages.sortedBy { it.timestamp.seconds }.forEach { message ->
             val currentDate = getFormattedDate(message.timestamp.seconds * 1000)
             if (lastDate == null || currentDate != lastDate) {
@@ -66,6 +67,7 @@ class MessageAdapter(private var messages: List<Message>) :
                     VIEW_TYPE_RECEIVED
                 }
             }
+
             else -> throw IllegalArgumentException("Unknown view type")
         }
     }
@@ -77,11 +79,13 @@ class MessageAdapter(private var messages: List<Message>) :
                     .inflate(R.layout.item_date_header, parent, false)
                 DateHeaderViewHolder(view)
             }
+
             VIEW_TYPE_SENT -> {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_sent_message, parent, false)
                 SentMessageViewHolder(view)
             }
+
             else -> {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_recieved_message, parent, false)
@@ -115,6 +119,8 @@ class MessageAdapter(private var messages: List<Message>) :
     override fun getItemCount(): Int = items.size
 
     fun updateMessages(newMessages: List<Message>) {
+        currentList.clear()
+        currentList.addAll(newMessages)
         messages = newMessages
         processMessages()
         notifyDataSetChanged()
