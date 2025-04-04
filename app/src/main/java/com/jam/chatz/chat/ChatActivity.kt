@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.jam.chatz.R
 import com.jam.chatz.user.User
 import com.jam.chatz.databinding.ActivityChatBinding
+import kotlin.jvm.Throws
 
 class ChatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatBinding
@@ -21,6 +23,7 @@ class ChatActivity : AppCompatActivity() {
     private var otherUser: User? = null
     private val auth = FirebaseAuth.getInstance()
     private val firestore = FirebaseFirestore.getInstance()
+    private var statusListener : ListenerRegistration? = null
 
     private fun setUserOnlineStatus(online: Boolean) {
         auth.currentUser?.uid?.let { userId ->
@@ -33,18 +36,19 @@ class ChatActivity : AppCompatActivity() {
                     )
                 )
                 .addOnFailureListener { e ->
-                    Log.d("Presence", "Failed to update status",)
+                    Log.e("Presence", "Failed to update status")
                 }
         }
     }
 
     override fun onStart() {
+
         super.onStart()
         setUserOnlineStatus(online = true)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onPause() {
+        super.onPause()
         setUserOnlineStatus(online = false)
     }
 
@@ -53,9 +57,6 @@ class ChatActivity : AppCompatActivity() {
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
         enableEdgeToEdge()
-
-        // Toolbar
-        binding.chatToolbar.elevation = 20f
 
         otherUser = intent.getParcelableExtra("USER")
         if (otherUser == null) {
@@ -84,9 +85,12 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+
     private fun setupToolbar() {
         binding.chatUsername.text = otherUser?.username
         binding.userkastatus.text = otherUser?.status ?: "Offline"
+        // Toolbar - Doesn't work
+        binding.chatToolbar.elevation = 20f
 
         // Add real-time status listener
         otherUser?.userid?.let { userId ->
@@ -96,9 +100,7 @@ class ChatActivity : AppCompatActivity() {
                 .addSnapshotListener { snapshot, error ->
                     if (error != null) {
                         Log.e("STATUS_ERROR", "Error listening to status", error)
-                        return@addSnapshotListener
                     }
-
                     val status = snapshot?.getString("status") ?: "Offline"
                     binding.userkastatus.text = status
                     Log.d("STATUS_UPDATE", "New status: $status") // Debug log
