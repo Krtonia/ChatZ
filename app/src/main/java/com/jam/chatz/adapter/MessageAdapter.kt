@@ -99,6 +99,7 @@ class MessageAdapter(private var messages: List<Message>) :
             is DateHeader -> {
                 (holder as DateHeaderViewHolder).dateText.text = item.date
             }
+
             is Message -> {
                 val formatter = SimpleDateFormat("hh:mm a", Locale.getDefault())
                 val timeString = formatter.format(Date(item.timestamp.seconds * 1000))

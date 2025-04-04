@@ -15,11 +15,9 @@ import com.jam.chatz.chat.ChatActivity
 class UserAdapter(private var users: List<User>) :
     RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
-    // ViewHolder class
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val usernameTextView: TextView = itemView.findViewById(R.id.username_text_view)
         val userImageView: ImageView = itemView.findViewById(R.id.user_image_view)
-//        val statusTextView: TextView = itemView.findViewById(R.id.status_text_view)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -31,15 +29,11 @@ class UserAdapter(private var users: List<User>) :
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val currentUser = users[position]
         holder.usernameTextView.text = currentUser.username ?: "No name"
-//        holder.statusTextView.text = currentUser.status ?: "Offline"
-
-        // Load image using Glide
         Glide.with(holder.itemView.context)
             .load(currentUser.imageurl ?: R.drawable.img)
             .circleCrop()
             .into(holder.userImageView)
 
-        // Add click listener to open chat screen
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, ChatActivity::class.java)
             intent.putExtra("USER", currentUser)

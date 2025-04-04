@@ -127,7 +127,6 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-
     private fun loadMoreMessages() {
         if (isLoading || isLastPage || lastVisibleDocument == null) return
         isLoading = true
