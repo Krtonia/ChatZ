@@ -17,6 +17,11 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+    versionCatalogs {
+        create("version") {
+            from(files("gradle/version.versions.toml"))
+        }
+    }
 }
 
 rootProject.name = "chatz"

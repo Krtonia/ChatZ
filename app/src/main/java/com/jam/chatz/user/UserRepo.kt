@@ -14,18 +14,16 @@ class UserRepo {
         val usersLiveData = MutableLiveData<List<User>>()
         val currentUserId = auth.currentUser?.uid ?: ""
 
-        firestore.collection("Users")  // Ensure collection name matches exactly
+        firestore.collection("Users")
             .get()
             .addOnSuccessListener { querySnapshot ->
                 val userList = querySnapshot.documents.mapNotNull { document ->
                     val user = document.toObject(User::class.java)
-                    // Exclude current user if needed
                     if (user?.userid != currentUserId) user else null
                 }
                 usersLiveData.value = userList
             }
             .addOnFailureListener { exception ->
-                // Log the error or handle it appropriately
                 usersLiveData.value = emptyList()
             }
 

@@ -15,16 +15,12 @@ class ChatRepository {
     private val auth = FirebaseAuth.getInstance()
     private val currentUserId = auth.currentUser?.uid ?: ""
 
-    // Get chat messages between current user and selected user
+
     fun getMessages(otherUserId: String): LiveData<List<Message>> {
         val messagesLiveData = MutableLiveData<List<Message>>()
-
-        // Create a unique chat ID using both user IDs (sorted to ensure consistency)
         val chatId = getChatId(currentUserId, otherUserId)
 
-        firestore.collection("chats")
-            .document(chatId)
-            .collection("messages")
+        firestore.collection("chats").document(chatId).collection("messages")
             .orderBy("timestamp", Query.Direction.ASCENDING)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
@@ -41,7 +37,6 @@ class ChatRepository {
         return messagesLiveData
     }
 
-    // Send a new message
     fun sendMessage(receiverId: String, messageText: String, callback: (Boolean) -> Unit) {
         if (messageText.isBlank() || currentUserId.isEmpty()) {
             callback(false)
@@ -49,10 +44,8 @@ class ChatRepository {
         }
 
         val chatId = getChatId(currentUserId, receiverId)
-        val messageId = firestore.collection("chats")
-            .document(chatId)
-            .collection("messages")
-            .document().id
+        val messageId =
+            firestore.collection("chats").document(chatId).collection("messages").document().id
 
         val message = Message(
             messageId = messageId,
@@ -63,37 +56,25 @@ class ChatRepository {
             isRead = false
         )
 
-        // Save message
-        firestore.collection("chats")
-            .document(chatId)
-            .collection("messages")
-            .document(messageId)
-            .set(message)
-            .addOnSuccessListener {
+        firestore.collection("chats").document(chatId).collection("messages").document(messageId)
+            .set(message).addOnSuccessListener {
                 // Also update last message in chat metadata
                 updateChatMetadata(chatId, currentUserId, receiverId, messageText)
                 callback(true)
-            }
-            .addOnFailureListener {
+            }.addOnFailureListener {
                 callback(false)
             }
     }
 
-    // Update chat metadata for both users
     private fun updateChatMetadata(
-        chatId: String,
-        senderId: String,
-        receiverId: String,
-        lastMessage: String
+        chatId: String, senderId: String, receiverId: String, lastMessage: String
     ) {
         val timestamp = Timestamp.Companion.now()
 
-        // Get user data for display in chat list
         firestore.collection("Users").document(receiverId).get()
             .addOnSuccessListener { receiverDoc ->
                 val receiver = receiverDoc.toObject(User::class.java)
 
-                // Chat metadata for sender
                 val senderChatMetadata = hashMapOf(
                     "chatId" to chatId,
                     "userId" to receiverId,
@@ -104,37 +85,28 @@ class ChatRepository {
                     "unreadCount" to 0
                 )
 
-                firestore.collection("Users")
-                    .document(senderId)
-                    .collection("chats")
-                    .document(receiverId)
-                    .set(senderChatMetadata)
+                firestore.collection("Users").document(senderId).collection("chats")
+                    .document(receiverId).set(senderChatMetadata)
             }
 
-        firestore.collection("Users").document(senderId).get()
-            .addOnSuccessListener { senderDoc ->
-                val sender = senderDoc.toObject(User::class.java)
+        firestore.collection("Users").document(senderId).get().addOnSuccessListener { senderDoc ->
+            val sender = senderDoc.toObject(User::class.java)
 
-                // Chat metadata for receiver
-                val receiverChatMetadata = hashMapOf(
-                    "chatId" to chatId,
-                    "userId" to senderId,
-                    "username" to (sender?.username ?: ""),
-                    "imageUrl" to (sender?.imageurl ?: ""),
-                    "lastMessage" to lastMessage,
-                    "timestamp" to timestamp,
-                    "unreadCount" to 1  // Increment unread for receiver
-                )
+            val receiverChatMetadata = hashMapOf(
+                "chatId" to chatId,
+                "userId" to senderId,
+                "username" to (sender?.username ?: ""),
+                "imageUrl" to (sender?.imageurl ?: ""),
+                "lastMessage" to lastMessage,
+                "timestamp" to timestamp,
+                "unreadCount" to 1
+            )
 
-                firestore.collection("Users")
-                    .document(receiverId)
-                    .collection("chats")
-                    .document(senderId)
-                    .set(receiverChatMetadata)
-            }
+            firestore.collection("Users").document(receiverId).collection("chats")
+                .document(senderId).set(receiverChatMetadata)
+        }
     }
 
-    // Helper to create consistent chat ID
     private fun getChatId(uid1: String, uid2: String): String {
         return if (uid1 < uid2) {
             "${uid1}_${uid2}"

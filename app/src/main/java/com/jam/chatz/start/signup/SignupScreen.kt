@@ -1,13 +1,11 @@
 package com.jam.chatz.start.signup
 
 import android.content.Intent
-import com.jam.chatz.R
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jam.chatz.databinding.ActivitySignupScreenBinding
@@ -18,7 +16,6 @@ class SignUpScreen : AppCompatActivity() {
     private lateinit var binding: ActivitySignupScreenBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
-    private var isLoading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +43,8 @@ class SignUpScreen : AppCompatActivity() {
             val pass = binding.signuppassword.text?.trim().toString()
             val cnfpass = binding.signupconfirmpassword.text?.trim().toString()
 
+            binding.pgbar.visibility = View.GONE
+
             when {
                 name.isEmpty() -> showError("Please enter your name")
                 email.isEmpty() -> showError("Please enter your email")
@@ -62,12 +61,11 @@ class SignUpScreen : AppCompatActivity() {
     }
 
     private fun registerUser(name: String, email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     saveUserToFirestore(name, email)
                 } else {
+                    binding.pgbar.visibility = View.GONE
                     showError("Registration failed: ${task.exception?.message}")
                 }
             }
@@ -83,16 +81,13 @@ class SignUpScreen : AppCompatActivity() {
                 "imageurl" to "https://www.pngarts.com/files/5/User-Avatar-PNG-Image.png"
             )
 
-            firestore.collection("Users").document(user.uid)
-                .set(userData)
-                .addOnSuccessListener {
+            firestore.collection("Users").document(user.uid).set(userData).addOnSuccessListener {
                     binding.pgbar.visibility = View.GONE
                     showSuccess("Registration successful!")
                     // Sign out the automatically logged-in user
                     auth.signOut()
                     navigateToSignIn()
-                }
-                .addOnFailureListener { e ->
+                }.addOnFailureListener { e ->
                     showError("Failed to save user data: ${e.message}")
                 }
         } ?: showError("User creation failed")

@@ -47,4 +47,5 @@
     <color name="surfaceContainer">#EEEFE3</color>
     <color name="surfaceContainerHigh">#E8E9DE</color>
     <color name="surfaceContainerHighest">#E2E3D8</color>
+    <color name="toolbar">#2C5F34</color>
 </resources>

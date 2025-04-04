@@ -26,13 +26,14 @@ class ChatActivity : AppCompatActivity() {
         auth.currentUser?.uid?.let { userId ->
             firestore.collection("Users")
                 .document(userId)
-                .update(mapOf(
-                    "status" to if (online) "Online" else "Offline",
-                    "lastSeen" to System.currentTimeMillis()
-                ))
+                .update(
+                    mapOf(
+                        "status" to if (online) "Online" else "Offline",
+                        "lastSeen" to System.currentTimeMillis()
+                    )
+                )
                 .addOnFailureListener { e ->
-                    Log.e("Presence", "Failed to update status", e)
-                    // Add retry logic if needed
+                    Log.d("Presence", "Failed to update status",)
                 }
         }
     }
@@ -52,6 +53,9 @@ class ChatActivity : AppCompatActivity() {
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
         enableEdgeToEdge()
+
+        // Toolbar
+        binding.chatToolbar.elevation = 20f
 
         otherUser = intent.getParcelableExtra("USER")
         if (otherUser == null) {
@@ -80,10 +84,9 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-
     private fun setupToolbar() {
         binding.chatUsername.text = otherUser?.username
-        binding.userkastatus.text = otherUser?.status?: "Offline"
+        binding.userkastatus.text = otherUser?.status ?: "Offline"
 
         // Add real-time status listener
         otherUser?.userid?.let { userId ->

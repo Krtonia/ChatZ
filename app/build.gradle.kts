@@ -4,7 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
-    id ("com.google.firebase.crashlytics")
+    id("com.google.firebase.crashlytics")
     alias(libs.plugins.google.gms.google.services)
 }
 
@@ -18,7 +18,6 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -71,28 +70,28 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database")
-    implementation (libs.firebase.firestore.ktx)
+    implementation(libs.firebase.firestore.ktx)
     implementation("com.google.firebase:firebase-storage")
 
     //ViewModel
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
-    implementation ("com.github.bumptech.glide:glide:4.15.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+    implementation("com.github.bumptech.glide:glide:4.15.1")
 
     //Glide Image
-    implementation (libs.glide)
+    implementation(libs.glide)
 
     //Room Database
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
-    implementation (libs.androidx.room.ktx)
-    annotationProcessor ("androidx.room:room-compiler:2.6.1")
+    implementation(libs.androidx.room.ktx)
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
 
     //Recycler
-    implementation ("androidx.recyclerview:recyclerview:1.4.0")
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
 
     // CardView for item layout
-    implementation (libs.androidx.cardview)
+    implementation(libs.androidx.cardview)
 
     //Material
     implementation(libs.google.material)

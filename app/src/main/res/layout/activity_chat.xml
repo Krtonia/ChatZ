@@ -12,7 +12,9 @@
         android:id="@+id/chat_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:elevation="4dp"
+        android:elevation="20dp"
+        app:elevationOverlayEnabled="true"
+        android:windowTranslucentStatus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -48,6 +50,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@id/chat_user_image"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.279"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="Username" />
 
@@ -58,12 +61,14 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/mulish"
                 android:maxLines="1"
-                android:textSize="12sp"
+                android:textSize="13sp"
                 android:textStyle="normal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/chat_username"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@id/chat_username"
                 app:layout_constraintTop_toBottomOf="@+id/chat_username"
+                app:layout_constraintVertical_bias="0.0"
                 tools:text="Online" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -122,9 +127,9 @@
             android:layout_width="wrap_content"
             android:layout_height="65dp"
             android:fontFamily="@font/mulish"
-            android:text="Send"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            app:iconSize="30dp"
+            app:iconGravity="end"
+            app:icon="@drawable/send"
             app:cornerRadius="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

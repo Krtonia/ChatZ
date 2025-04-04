@@ -20,7 +20,8 @@
             android:exported="false" />
         <activity
             android:name=".adapter.UserAdapter"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".start.Home.Home"
             android:exported="false" />

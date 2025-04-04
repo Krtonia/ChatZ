@@ -18,7 +18,35 @@ class MessageAdapter(private var messages: List<Message>) :
     companion object {
         private const val VIEW_TYPE_SENT = 1
         private const val VIEW_TYPE_RECEIVED = 2
+        private val VIEW_TYPE_DATE_HEADER = 0
     }
+
+    private val items = mutableListOf<Any>()
+
+    init {
+        processMessages()
+    }
+
+    private fun processMessages() {
+        items.clear()
+        var lastDate: String? = null
+
+        messages.sortedBy { it.timestamp.seconds }.forEach { message ->
+            val currentDate = getFormattedDate(message.timestamp.seconds * 1000)
+            if (currentDate != lastDate) {
+                items.add(DateHeader(currentDate))
+                lastDate = currentDate
+            }
+
+            items.add(message)
+        }
+    }
+
+    // Viewholder for date header
+    class DateHeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val dateText: TextView = itemView.findViewById(R.id.dateHeader)
+    }
+
 
     // ViewHolder for sent messages
     class SentMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -33,39 +61,64 @@ class MessageAdapter(private var messages: List<Message>) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
-        return if (messages[position].senderId == currentUserId) {
-            VIEW_TYPE_SENT
-        } else {
-            VIEW_TYPE_RECEIVED
+        return when (val item = items[position]) {
+            is DateHeader -> VIEW_TYPE_DATE_HEADER
+            is Message -> {
+                val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+                return if (messages[position].senderId == currentUserId) {
+                    VIEW_TYPE_SENT
+                } else {
+                    VIEW_TYPE_RECEIVED
+                }
+            }
+
+            else -> throw IllegalArgumentException("Unknown view type")
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == VIEW_TYPE_SENT) {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_sent_message, parent, false)
-            SentMessageViewHolder(view)
-        } else {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_recieved_message, parent, false)
-            ReceivedMessageViewHolder(view)
+        return when (viewType) {
+            VIEW_TYPE_DATE_HEADER -> {
+                val view = LayoutInflater.from((parent.context))
+                    .inflate(R.layout.item_date_header, parent, false)
+                DateHeaderViewHolder(view)
+            }
+
+            VIEW_TYPE_SENT -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_sent_message, parent, false)
+                SentMessageViewHolder(view)
+            }
+
+            else -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_recieved_message, parent, false)
+                ReceivedMessageViewHolder(view)
+            }
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val message = messages[position]
-        val formatter = SimpleDateFormat("hh:mm a", Locale.getDefault())
-        val timeString = formatter.format(Date(message.timestamp.seconds * 1000))
+        when (val item = items[position]) {
+            is DateHeader -> {
+                (holder as DateHeaderViewHolder).dateText.text = item.date
+            }
 
-        if (holder.itemViewType == VIEW_TYPE_SENT) {
-            val sentHolder = holder as SentMessageViewHolder
-            sentHolder.messageText.text = message.message
-            sentHolder.timeText.text = timeString
-        } else {
-            val receivedHolder = holder as ReceivedMessageViewHolder
-            receivedHolder.messageText.text = message.message
-            receivedHolder.timeText.text = timeString
+            is Message -> {
+                val message = messages[position]
+                val formatter = SimpleDateFormat("hh:mm a", Locale.getDefault())
+                val timeString = formatter.format(Date(message.timestamp.seconds * 1000))
+
+                if (holder.itemViewType == VIEW_TYPE_SENT) {
+                    val sentHolder = holder as SentMessageViewHolder
+                    sentHolder.messageText.text = message.message
+                    sentHolder.timeText.text = timeString
+                } else {
+                    val receivedHolder = holder as ReceivedMessageViewHolder
+                    receivedHolder.messageText.text = message.message
+                    receivedHolder.timeText.text = timeString
+                }
+            }
         }
     }
 
@@ -73,6 +126,13 @@ class MessageAdapter(private var messages: List<Message>) :
 
     fun updateMessages(newMessages: List<Message>) {
         messages = newMessages
+        processMessages()
         notifyDataSetChanged()
     }
+
+    private fun getFormattedDate(timestamp: Long): String {
+        return SimpleDateFormat("EEE, MMM d", Locale.getDefault()).format(Date(timestamp))
+    }
+
+    private data class DateHeader(val date: String)
 }

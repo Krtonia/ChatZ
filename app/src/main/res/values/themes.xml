@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <style name="Theme.Chatz" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorOnPrimary">@color/onPrimary</item>
@@ -47,6 +48,10 @@
         <item name="colorSurfaceContainer">@color/surfaceContainer</item>
         <item name="colorSurfaceContainerHigh">@color/surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/surfaceContainerHighest</item>
+
+        <item name="android:statusBarColor">#2C5F34</item>
+        <item name="android:windowLightStatusBar">true</item>
+
     </style>
 
     <!-- Splash Screen Theme -->
@@ -56,7 +61,9 @@
 
         <!-- Pre-Android 12 Splash Screen attributes -->
         <item name="android:windowSplashScreenBackground" tools:targetApi="31">#FFFFFF</item>
-        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="31">@drawable/splash_light</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="31">
+            @drawable/splash_light
+        </item>
 
         <!-- Specify the theme to use after splash screen -->
         <item name="postSplashScreenTheme">@style/Theme.Chatz</item>
