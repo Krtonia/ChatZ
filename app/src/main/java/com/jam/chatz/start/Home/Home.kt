@@ -105,19 +105,6 @@ class Home : AppCompatActivity() {
         finish()
     }
 
-    /*private fun observeUsers() {
-        userViewModel.users.observe(this) { users ->
-            allUsers = users
-            userAdapter.updateUsers(users)
-            if (users.isNotEmpty()) {
-                userAdapter.updateUsers(users)
-            } else {
-                Toast.makeText(this, "No users found", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }*/
-
-
     private fun filterUsers(query: String) {
         var nouserfoundtext: TextView = findViewById(R.id.noUsersFoundText)
         val filteredList = if (query.isEmpty()) {

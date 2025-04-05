@@ -21,7 +21,7 @@ class UserAdapter(private var users: List<User>) :
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val usernameTextView: TextView = itemView.findViewById(R.id.username_text_view)
         val userImageView: ImageView = itemView.findViewById(R.id.user_image_view)
-        val lastMessageText : TextView = itemView.findViewById(R.id.last_message_text)
+        val lastMessageText: TextView = itemView.findViewById(R.id.last_message_text)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -33,7 +33,8 @@ class UserAdapter(private var users: List<User>) :
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val currentUser = users[position]
         holder.usernameTextView.text = currentUser.username ?: "No name"
-        holder.lastMessageText.text = currentUser.lastMessage ?: "No messages yet" // Set last message
+        holder.lastMessageText.text =
+            currentUser.lastMessage ?: "No messages yet" // Set last message
 
         Glide.with(holder.itemView.context)
             .load(currentUser.imageurl ?: R.drawable.img)
