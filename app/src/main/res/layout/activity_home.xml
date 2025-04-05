@@ -7,6 +7,11 @@
     android:fitsSystemWindows="true"
     tools:context=".start.Home.Home">
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <!-- Main Content Area (above bottom navigation) -->
     <ScrollView
         android:layout_width="match_parent"
@@ -59,6 +64,15 @@
                 android:textSize="18sp"
                 android:visibility="gone" />
 
+            <ProgressBar
+                android:id="@+id/swiperefresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone">
+
+            </ProgressBar>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/usersRecyclerView"
                 android:layout_width="match_parent"
@@ -67,6 +81,7 @@
                 android:paddingBottom="16dp" />
         </LinearLayout>
     </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <!-- Floating action button aligned to bottom right -->
     <ImageButton

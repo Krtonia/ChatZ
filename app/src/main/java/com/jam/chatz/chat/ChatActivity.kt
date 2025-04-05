@@ -1,6 +1,8 @@
 package com.jam.chatz.chat
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -10,9 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.DocumentSnapshot
 import com.jam.chatz.R
+import com.jam.chatz.adapter.MessageAdapter
 import com.jam.chatz.user.User
 import com.jam.chatz.databinding.ActivityChatBinding
 import com.jam.chatz.message.Message
+import com.jam.chatz.viewmodel.ChatViewModel
 
 class ChatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatBinding
@@ -21,12 +25,10 @@ class ChatActivity : AppCompatActivity() {
     private var otherUser: User? = null
     private val allMessages = mutableListOf<Message>()
     private var realTimeListenerActive = false
-
     private var isLoading = false
     private var isLastPage = false
     private var lastVisibleDocument: DocumentSnapshot? = null
-    private val pageSize = 10
-
+    private val pageSize = 20
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +41,8 @@ class ChatActivity : AppCompatActivity() {
             finish()
             return
         }
+        binding.godbtn.setOnClickListener { scrollToBottom() }
+        binding.godbtn.visibility = View.GONE
         setupToolbar()
         setupRecyclerView()
         loadInitialMessages()
@@ -52,9 +56,6 @@ class ChatActivity : AppCompatActivity() {
                         if (success) {
                             binding.messageInput.text?.clear()
                             scrollToBottom()
-                        } else {
-                            Toast.makeText(this, "Failed to send message", Toast.LENGTH_SHORT)
-                                .show()
                         }
                     }
                 }
@@ -62,16 +63,17 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setupToolbar() {
         binding.chatUsername.text = otherUser?.username
-        binding.userkastatus.text = "Hey There I'm using Chatz!"
+        binding.userkastatus.text = "Hey There I am using Chatz!"
         binding.chatToolbar.elevation = 20f
         Glide.with(this).load(otherUser?.imageurl).placeholder(R.drawable.img).circleCrop()
             .into(binding.chatUserImage)
     }
 
     private fun setupRecyclerView() {
-        messageAdapter = MessageAdapter(allMessages) // Use the combined list
+        messageAdapter = MessageAdapter(allMessages)
         val layoutManager = LinearLayoutManager(this).apply {
             stackFromEnd = true
             reverseLayout = false
@@ -86,6 +88,12 @@ class ChatActivity : AppCompatActivity() {
                     val totalItemCount = layoutManager.itemCount
                     if (!isLoading && !isLastPage && firstVisibleItemPosition <= 5 && totalItemCount >= pageSize) {
                         loadMoreMessages()
+                    }
+                    val pos = layoutManager.findLastVisibleItemPosition()
+                    if (pos < totalItemCount - 15) {
+                        binding.godbtn.visibility = View.VISIBLE
+                    } else {
+                        binding.godbtn.visibility = View.GONE
                     }
                 }
             })
@@ -150,10 +158,11 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun scrollToBottom() {
-        if (allMessages.isEmpty()) return
         binding.messagesRecyclerView.post {
-            val layoutManager = binding.messagesRecyclerView.layoutManager as LinearLayoutManager
-            layoutManager.scrollToPositionWithOffset(allMessages.size - 1, 0)
+            val itemCount = messageAdapter.itemCount
+            if (itemCount > 0) {
+                binding.messagesRecyclerView.smoothScrollToPosition(itemCount - 1)
+            }
         }
     }
 }

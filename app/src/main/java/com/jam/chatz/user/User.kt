@@ -2,15 +2,20 @@ package com.jam.chatz.user
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.firebase.Timestamp
+import com.google.firebase.database.PropertyName
 
 data class User(
     val userid: String? = "",
     val username: String? = "",
     val useremail: String? = "",
     val status: String? = "",
-    val imageurl: String? = ""
+    val imageurl: String? = "",
+    val lastMessage: String? = "",
+    var lastMessageTimestamp: Timestamp? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),

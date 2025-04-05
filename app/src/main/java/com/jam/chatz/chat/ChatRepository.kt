@@ -17,14 +17,10 @@ class ChatRepository {
     private val currentUserId = auth.currentUser?.uid ?: ""
 
     fun getInitialMessages(
-        chatId: String,
-        pageSize: Int,
-        callback: (List<Message>, DocumentSnapshot?) -> Unit
+        chatId: String, pageSize: Int, callback: (List<Message>, DocumentSnapshot?) -> Unit
     ) {
         firestore.collection("chats").document(chatId).collection("messages")
-            .orderBy("timestamp", Query.Direction.DESCENDING)
-            .limit(pageSize.toLong())
-            .get()
+            .orderBy("timestamp", Query.Direction.DESCENDING).limit(pageSize.toLong()).get()
             .addOnSuccessListener { querySnapshot ->
                 val messages = querySnapshot.toObjects(Message::class.java).reversed()
                 val lastVisible = if (!querySnapshot.isEmpty) {
@@ -33,8 +29,7 @@ class ChatRepository {
                     null
                 }
                 callback(messages, lastVisible)
-            }
-            .addOnFailureListener { e ->
+            }.addOnFailureListener { e ->
                 Log.e("ChatRepository", "Error loading initial messages", e)
                 callback(emptyList(), null)
             }
@@ -47,11 +42,8 @@ class ChatRepository {
         callback: (List<Message>, DocumentSnapshot?) -> Unit
     ) {
         firestore.collection("chats").document(chatId).collection("messages")
-            .orderBy("timestamp", Query.Direction.DESCENDING)
-            .startAfter(lastVisible)
-            .limit(pageSize.toLong())
-            .get()
-            .addOnSuccessListener { querySnapshot ->
+            .orderBy("timestamp", Query.Direction.DESCENDING).startAfter(lastVisible)
+            .limit(pageSize.toLong()).get().addOnSuccessListener { querySnapshot ->
                 val messages = querySnapshot.toObjects(Message::class.java).reversed()
                 val newLastVisible = if (!querySnapshot.isEmpty) {
                     querySnapshot.documents[querySnapshot.size() - 1]
@@ -59,8 +51,7 @@ class ChatRepository {
                     null
                 }
                 callback(messages, newLastVisible)
-            }
-            .addOnFailureListener { e ->
+            }.addOnFailureListener { e ->
                 Log.e("ChatRepository", "Error loading more messages", e)
                 callback(emptyList(), null)
             }
@@ -108,12 +99,10 @@ class ChatRepository {
         )
 
         firestore.collection("chats").document(chatId).collection("messages").document(messageId)
-            .set(message)
-            .addOnSuccessListener {
+            .set(message).addOnSuccessListener {
                 updateChatMetadata(chatId, currentUserId, receiverId, messageText)
                 callback(true)
-            }
-            .addOnFailureListener {
+            }.addOnFailureListener {
                 callback(false)
             }
     }

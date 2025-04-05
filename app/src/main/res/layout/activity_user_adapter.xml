@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="#2c5f34"
     android:padding="16dp">
@@ -18,4 +20,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14sp"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/last_message_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="14sp"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/last_message_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/user_image_view"
+        app:layout_constraintEnd_toEndOf="@+id/username_text_view"
+        app:layout_constraintHorizontal_bias="0.179"
+        app:layout_constraintStart_toStartOf="@+id/user_image_view"
+        app:layout_constraintTop_toBottomOf="@+id/username_text_view"
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="Message" />
 </LinearLayout>

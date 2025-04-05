@@ -1,4 +1,4 @@
-package com.jam.chatz.chat
+package com.jam.chatz.adapter
 
 import android.view.LayoutInflater
 import android.view.View

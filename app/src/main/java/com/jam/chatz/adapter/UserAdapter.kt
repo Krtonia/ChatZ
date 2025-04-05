@@ -11,6 +11,9 @@ import com.bumptech.glide.Glide
 import com.jam.chatz.R
 import com.jam.chatz.user.User
 import com.jam.chatz.chat.ChatActivity
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class UserAdapter(private var users: List<User>) :
     RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
@@ -18,6 +21,7 @@ class UserAdapter(private var users: List<User>) :
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val usernameTextView: TextView = itemView.findViewById(R.id.username_text_view)
         val userImageView: ImageView = itemView.findViewById(R.id.user_image_view)
+        val lastMessageText : TextView = itemView.findViewById(R.id.last_message_text)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -29,6 +33,8 @@ class UserAdapter(private var users: List<User>) :
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val currentUser = users[position]
         holder.usernameTextView.text = currentUser.username ?: "No name"
+        holder.lastMessageText.text = currentUser.lastMessage ?: "No messages yet" // Set last message
+
         Glide.with(holder.itemView.context)
             .load(currentUser.imageurl ?: R.drawable.img)
             .circleCrop()
@@ -44,7 +50,7 @@ class UserAdapter(private var users: List<User>) :
     override fun getItemCount() = users.size
 
     fun updateUsers(newUsers: List<User>) {
-        users = newUsers
+        users = newUsers.sortedByDescending { it.lastMessageTimestamp?.seconds ?: 0 }
         notifyDataSetChanged()
     }
 }

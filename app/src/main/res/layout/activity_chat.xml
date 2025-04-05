@@ -137,23 +137,22 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--    <com.google.android.material.textview.MaterialTextView-->
-<!--        android:id="@+id/date"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center_horizontal"-->
-<!--        android:layout_marginVertical="16dp"-->
-<!--        android:background="@drawable/bg_date_header"-->
-<!--        android:fontFamily="@font/mulish"-->
-<!--        android:gravity="center"-->
-<!--        android:paddingHorizontal="12dp"-->
-<!--        android:paddingVertical="4dp"-->
-<!--        android:textSize="15sp"-->
-<!--        android:textStyle="bold"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/messages_recycler_view"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/messages_recycler_view"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/chat_toolbar"-->
-<!--        tools:text="This Date" />-->
+    <ImageButton
+        android:clickable="true"
+        android:id="@+id/godbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        android:contentDescription="godown-button"
+        android:src="@drawable/godown"
+        app:layout_constraintBottom_toBottomOf="@+id/messages_recycler_view"
+        app:layout_constraintEnd_toEndOf="@+id/messages_recycler_view"
+        app:layout_constraintHorizontal_bias="0.96"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chat_toolbar"
+        app:layout_constraintVertical_bias="0.945"
+        app:tint="@color/primary"
+        android:visibility="gone"
+        tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

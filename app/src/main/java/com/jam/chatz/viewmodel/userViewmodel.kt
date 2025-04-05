@@ -1,11 +1,23 @@
 package com.jam.chatz.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.jam.chatz.user.User
 import com.jam.chatz.user.UserRepo
+import kotlinx.coroutines.launch
 
 class UserViewModel : ViewModel() {
-    private val userRepo = UserRepo()
-    val users: LiveData<List<User>> = userRepo.getUsers()
+    private val repo = UserRepo()
+    private val _users = MutableLiveData<List<User>>()
+    val users: LiveData<List<User>> = _users
+
+    // Call this to load users with last messages
+    fun loadUsers() {
+        viewModelScope.launch {
+            _users.value = repo.getUsersWithLastMessage() // Sorted by last message time
+        }
+    }
+
 }

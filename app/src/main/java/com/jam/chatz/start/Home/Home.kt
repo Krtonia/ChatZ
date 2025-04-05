@@ -2,6 +2,8 @@ package com.jam.chatz.start.Home
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -27,7 +29,7 @@ class Home : AppCompatActivity() {
     private val userViewModel: UserViewModel by viewModels()
     private var allUsers: List<User> = emptyList()
     private lateinit var auth: FirebaseAuth
-    private val binding : ActivityHomeBinding by lazy { ActivityHomeBinding.inflate(layoutInflater) }
+    private val binding: ActivityHomeBinding by lazy { ActivityHomeBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
@@ -36,6 +38,15 @@ class Home : AppCompatActivity() {
         setupRecyclerView()
         setupSearchView()
         clicklistener()
+        userViewModel.loadUsers()
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            userViewModel.loadUsers()
+            Handler(Looper.getMainLooper()).postDelayed({
+                binding.swipeRefreshLayout.isRefreshing = false
+            }, 3000)
+        }
+
     }
 
     private fun setupRecyclerView() {
@@ -64,7 +75,7 @@ class Home : AppCompatActivity() {
         })
     }
 
-    private fun clicklistener(){
+    private fun clicklistener() {
         binding.moreButton.setOnClickListener {
             showLogoutConfirmation()
         }
@@ -94,16 +105,18 @@ class Home : AppCompatActivity() {
         finish()
     }
 
-    private fun observeUsers() {
+    /*private fun observeUsers() {
         userViewModel.users.observe(this) { users ->
             allUsers = users
+            userAdapter.updateUsers(users)
             if (users.isNotEmpty()) {
                 userAdapter.updateUsers(users)
             } else {
                 Toast.makeText(this, "No users found", Toast.LENGTH_SHORT).show()
             }
         }
-    }
+    }*/
+
 
     private fun filterUsers(query: String) {
         var nouserfoundtext: TextView = findViewById(R.id.noUsersFoundText)
@@ -125,5 +138,21 @@ class Home : AppCompatActivity() {
         } else {
             nouserfoundtext.visibility = View.GONE
         }
+    }
+
+    private fun observeUsers() {
+        userViewModel.users.observe(this) { users ->
+            allUsers = users
+            if (users.isNotEmpty()) {
+                userAdapter.updateUsers(users)
+                findViewById<TextView>(R.id.noUsersFoundText).visibility = View.GONE
+            } else {
+                findViewById<TextView>(R.id.noUsersFoundText).apply {
+                    text = "No users found"
+                    visibility = View.VISIBLE
+                }
+            }
+        }
+
     }
 }
