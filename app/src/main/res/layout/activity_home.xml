@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:elevation="10dp"
     android:fitsSystemWindows="true"
     tools:context=".start.Home.Home">
 
@@ -12,17 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <!-- Main Content Area (above bottom navigation) -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
 
+        <!-- Main Content Area -->
         <LinearLayout
-            android:id="@+id/main"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
+
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/textView4"
@@ -59,40 +56,31 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="16dp"
-                android:text="No users found"
+                android:text="@string/no_users_found"
                 android:textAlignment="center"
                 android:textSize="18sp"
                 android:visibility="gone" />
 
-            <ProgressBar
-                android:id="@+id/swiperefresh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone">
-
-            </ProgressBar>
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/usersRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:paddingBottom="16dp" />
         </LinearLayout>
-    </ScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <!-- Floating action button aligned to bottom right -->
-    <ImageButton
-        android:id="@+id/moreButton"
-        android:clickable="true"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:background="@color/surface"
-        android:layout_margin="16dp"
-        android:src="@drawable/more"
-        tools:ignore="ContentDescription" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="70dp"
+        android:contentDescription="@string/add_user_button"
+        android:src="@drawable/add"
+        app:elevation="10dp"
+        app:fabSize="auto" />
+
 </RelativeLayout>

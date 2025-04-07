@@ -30,12 +30,9 @@ class SignUpScreen : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
-        // Login button - go to SignIn screen
         binding.lgbtn.setOnClickListener {
             navigateToSignIn()
         }
-
-        // Register button
         binding.regbtn.setOnClickListener {
 
             val name = binding.signupname.text?.trim().toString()
@@ -62,13 +59,13 @@ class SignUpScreen : AppCompatActivity() {
 
     private fun registerUser(name: String, email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    saveUserToFirestore(name, email)
-                } else {
-                    binding.pgbar.visibility = View.GONE
-                    showError("Registration failed: ${task.exception?.message}")
-                }
+            if (task.isSuccessful) {
+                saveUserToFirestore(name, email)
+            } else {
+                binding.pgbar.visibility = View.GONE
+                showError("Registration failed: ${task.exception?.message}")
             }
+        }
     }
 
     private fun saveUserToFirestore(name: String, email: String) {
@@ -82,15 +79,14 @@ class SignUpScreen : AppCompatActivity() {
             )
 
             firestore.collection("Users").document(user.uid).set(userData).addOnSuccessListener {
-                    binding.pgbar.visibility = View.GONE
-                    showSuccess("Registration successful!")
+                binding.pgbar.visibility = View.GONE
+                showSuccess("Registration successful!")
                 finish()
-                    // Sign out the automatically logged-in user
-                    auth.signOut()
-                    navigateToSignIn()
-                }.addOnFailureListener { e ->
-                    showError("Failed to save user data: ${e.message}")
-                }
+                auth.signOut()
+                navigateToSignIn()
+            }.addOnFailureListener { e ->
+                showError("Failed to save user data: ${e.message}")
+            }
         } ?: showError("User creation failed")
     }
 

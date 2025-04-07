@@ -1,6 +1,7 @@
 package com.jam.chatz.chat
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -16,6 +17,7 @@ import com.jam.chatz.adapter.MessageAdapter
 import com.jam.chatz.user.User
 import com.jam.chatz.databinding.ActivityChatBinding
 import com.jam.chatz.message.Message
+import com.jam.chatz.start.Home.Home
 import com.jam.chatz.viewmodel.ChatViewModel
 
 class ChatActivity : AppCompatActivity() {
@@ -25,7 +27,7 @@ class ChatActivity : AppCompatActivity() {
     private var otherUser: User? = null
     private val allMessages = mutableListOf<Message>()
     private var realTimeListenerActive = false
-    private var isLoading : Boolean = false
+    private var isLoading: Boolean = false
     private var isLastPage = false
     private var lastVisibleDocument: DocumentSnapshot? = null
     private val pageSize = 20
@@ -46,6 +48,7 @@ class ChatActivity : AppCompatActivity() {
         setupToolbar()
         setupRecyclerView()
         loadInitialMessages()
+        binding.back.setOnClickListener { startActivity(Intent(this, Home::class.java)) }
         binding.sendButton.setOnClickListener {
             val messageText = binding.messageInput.text.toString().trim()
             if (messageText.isNotEmpty()) {

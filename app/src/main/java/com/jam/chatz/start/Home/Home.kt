@@ -37,7 +37,6 @@ class Home : AppCompatActivity() {
         setContentView(binding.root)
         setupRecyclerView()
         setupSearchView()
-        clicklistener()
         userViewModel.loadUsers()
         binding.swipeRefreshLayout.setOnRefreshListener {
             userViewModel.loadUsers()
@@ -71,32 +70,6 @@ class Home : AppCompatActivity() {
                 return true
             }
         })
-    }
-
-    private fun clicklistener() {
-        binding.moreButton.setOnClickListener {
-            showLogoutConfirmation()
-        }
-    }
-
-    private fun showLogoutConfirmation() {
-        MaterialAlertDialogBuilder(this).setTitle("Logout")
-            .setMessage("Are you sure you want to log out?").setPositiveButton("Log Out") { _, _ ->
-                performLogout()
-            }.setNegativeButton("Cancel", null).show()
-    }
-
-    private fun performLogout() {
-        auth.signOut()
-        navigateToLogin()
-    }
-
-    private fun navigateToLogin() {
-        val intent = Intent(this, SignInScreen::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-        startActivity(intent)
-        finish()
     }
 
     private fun filterUsers(query: String) {

@@ -17,4 +17,7 @@
     <string name="password1">Password</string>
     <string name="login1">Login</string>
     <string name="register_now">Register Now</string>
+    <string name="add_user_button">Add User Button</string>
+    <string name="no_users_found">No users found</string>
+    <string name="back_button">Back button</string>
 </resources>
