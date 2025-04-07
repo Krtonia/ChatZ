@@ -13,10 +13,9 @@ class UserViewModel : ViewModel() {
     private val _users = MutableLiveData<List<User>>()
     val users: LiveData<List<User>> = _users
 
-    // Call this to load users with last messages
     fun loadUsers() {
         viewModelScope.launch {
-            _users.value = repo.getUsersWithLastMessage() // Sorted by last message time
+            _users.value = repo.getUsersWithLastMessage()
         }
     }
 

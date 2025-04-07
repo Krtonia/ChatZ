@@ -39,14 +39,12 @@ class Home : AppCompatActivity() {
         setupSearchView()
         clicklistener()
         userViewModel.loadUsers()
-
         binding.swipeRefreshLayout.setOnRefreshListener {
             userViewModel.loadUsers()
             Handler(Looper.getMainLooper()).postDelayed({
                 binding.swipeRefreshLayout.isRefreshing = false
             }, 3000)
         }
-
     }
 
     private fun setupRecyclerView() {
@@ -82,14 +80,10 @@ class Home : AppCompatActivity() {
     }
 
     private fun showLogoutConfirmation() {
-        MaterialAlertDialogBuilder(this)
-            .setTitle("Logout")
-            .setMessage("Are you sure you want to log out?")
-            .setPositiveButton("Log Out") { _, _ ->
+        MaterialAlertDialogBuilder(this).setTitle("Logout")
+            .setMessage("Are you sure you want to log out?").setPositiveButton("Log Out") { _, _ ->
                 performLogout()
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
+            }.setNegativeButton("Cancel", null).show()
     }
 
     private fun performLogout() {
@@ -111,8 +105,10 @@ class Home : AppCompatActivity() {
             allUsers
         } else {
             allUsers.filter { user ->
-                user.username?.contains(query, ignoreCase = true) == true ||
-                        user.useremail?.contains(query, ignoreCase = true) == true
+                user.username?.contains(
+                    query,
+                    ignoreCase = true
+                ) == true || user.useremail?.contains(query, ignoreCase = true) == true
             }
         }
         userAdapter.updateUsers(filteredList)
