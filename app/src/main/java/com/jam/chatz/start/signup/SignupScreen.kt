@@ -84,6 +84,7 @@ class SignUpScreen : AppCompatActivity() {
             firestore.collection("Users").document(user.uid).set(userData).addOnSuccessListener {
                     binding.pgbar.visibility = View.GONE
                     showSuccess("Registration successful!")
+                finish()
                     // Sign out the automatically logged-in user
                     auth.signOut()
                     navigateToSignIn()

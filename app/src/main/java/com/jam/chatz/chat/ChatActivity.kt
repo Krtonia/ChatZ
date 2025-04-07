@@ -25,7 +25,7 @@ class ChatActivity : AppCompatActivity() {
     private var otherUser: User? = null
     private val allMessages = mutableListOf<Message>()
     private var realTimeListenerActive = false
-    private var isLoading = false
+    private var isLoading : Boolean = false
     private var isLastPage = false
     private var lastVisibleDocument: DocumentSnapshot? = null
     private val pageSize = 20

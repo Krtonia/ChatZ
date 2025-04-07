@@ -11,9 +11,6 @@ import com.bumptech.glide.Glide
 import com.jam.chatz.R
 import com.jam.chatz.user.User
 import com.jam.chatz.chat.ChatActivity
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class UserAdapter(private var users: List<User>) :
     RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
@@ -25,21 +22,17 @@ class UserAdapter(private var users: List<User>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.user_item_layout, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.user_item_layout, parent, false)
         return UserViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val currentUser = users[position]
-        holder.usernameTextView.text = currentUser.username ?: "No name"
-        holder.lastMessageText.text =
-            currentUser.lastMessage ?: "No messages yet" // Set last message
-
-        Glide.with(holder.itemView.context)
-            .load(currentUser.imageurl ?: R.drawable.img)
-            .circleCrop()
-            .into(holder.userImageView)
+        holder.usernameTextView.text = currentUser.username
+        holder.lastMessageText.text = currentUser.lastMessage ?: ""
+        Glide.with(holder.itemView.context).load(currentUser.imageurl ?: R.drawable.img)
+            .circleCrop().into(holder.userImageView)
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, ChatActivity::class.java)

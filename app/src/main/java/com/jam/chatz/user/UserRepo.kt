@@ -16,35 +16,30 @@ class UserRepo {
         val currentUserId = auth.currentUser?.uid ?: return emptyList()
 
         return try {
-            val chats = firestore.collection("Users")
-                .document(currentUserId)
-                .collection("chats")
-                .orderBy("timestamp", Query.Direction.DESCENDING)
-                .get()
-                .await()
-                .documents
+            val allUsers =
+                firestore.collection("Users").whereNotEqualTo("userid", currentUserId).get().await()
+                    .toObjects(User::class.java).associateBy { it.userid }
 
-            val users = chats.mapNotNull { chatDoc ->
+            val chatDocs = firestore.collection("Users").document(currentUserId).collection("chats")
+                .orderBy("timestamp", Query.Direction.DESCENDING).get().await().documents
+
+            val usersWithChats = chatDocs.mapNotNull { chatDoc ->
                 val otherUserId = chatDoc.id
-                val lastMessage = chatDoc.getString("lastMessage")
+                val lastMessage = chatDoc.getString("lastMessage") ?: ""
                 val timestamp = chatDoc.getTimestamp("timestamp")
 
-                // Fetch user details
-                val user = firestore.collection("Users")
-                    .document(otherUserId)
-                    .get()
-                    .await()
-                    .toObject<User>()
-                    ?.copy(
-                        lastMessage = lastMessage ?: "No messages yet",
-                        lastMessageTimestamp = timestamp
-                    )
-                user
-            }
+                allUsers[otherUserId]?.copy(
+                    lastMessage = lastMessage, lastMessageTimestamp = timestamp
+                )
+            }.toMutableList()
 
-            users
+            val usersWithoutChats = allUsers.values.filter { user ->
+                usersWithChats.none { it.userid == user.userid }
+            }.map { it.copy(lastMessage = "")}
+
+            usersWithChats + usersWithoutChats
         } catch (e: Exception) {
-            Log.e("UserRepo", "Error fetching messages", e)
+            Log.e("UserRepo", "Error fetching users", e)
             emptyList()
         }
     }

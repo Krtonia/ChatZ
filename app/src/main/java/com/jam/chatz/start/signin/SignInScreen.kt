@@ -33,15 +33,17 @@ class SignInScreen : AppCompatActivity() {
 
             if (email.isEmpty() || pass.isEmpty()) {
                 Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_LONG).show()
-            } else {binding.pgbar.visibility = View.VISIBLE
+            } else {
+                binding.pgbar.visibility = View.VISIBLE
                 auth.signInWithEmailAndPassword(email, pass)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             Toast.makeText(this, "Login successfull", Toast.LENGTH_LONG)
                                 .show()
-                            binding.pgbar.visibility = View.GONE
-                            startActivity(Intent(this, Home::class.java))
                             finish()
+                            binding.pgbar.visibility = View.GONE
+
+                            startActivity(Intent(this, Home::class.java))
                         } else {
                             binding.pgbar.visibility = View.GONE
                             Toast.makeText(
@@ -54,6 +56,11 @@ class SignInScreen : AppCompatActivity() {
 
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        finish()
     }
 
     private fun alreadyLogin() {
