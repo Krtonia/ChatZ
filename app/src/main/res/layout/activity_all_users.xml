@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="10dp"
+    android:fitsSystemWindows="true"
+    tools:context=".start.home.AllUsers">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <!-- Main Content Area -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="64dp"
+                android:layout_marginHorizontal="12dp"
+                android:fontFamily="@font/satoshi"
+                android:text="@string/chatz"
+                android:textSize="55sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/searchCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="6dp">
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="4dp"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="Search..." />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/noUsersFoundText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="@string/no_users_found"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/usersRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="16dp" />
+
+        </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="70dp"
+        android:contentDescription="@string/add_user_button"
+        android:src="@drawable/person_add"
+        app:elevation="10dp"
+        app:fabSize="auto" />
+</RelativeLayout>

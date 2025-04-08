@@ -1,88 +1,46 @@
-// Home.kt
+// AllUsers.kt
 package com.jam.chatz.start.home
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.facebook.shimmer.ShimmerFrameLayout
-import com.google.android.material.card.MaterialCardView
-import com.google.firebase.auth.FirebaseAuth
-import com.jam.chatz.R
 import com.jam.chatz.adapter.UserAdapter
-import com.jam.chatz.chat.ChatActivity
-import com.jam.chatz.databinding.ActivityHomeBinding
-import com.jam.chatz.user.User
+import com.jam.chatz.databinding.ActivityAllUsersBinding
 import com.jam.chatz.viewmodel.UserViewModel
+import androidx.activity.viewModels
+import com.jam.chatz.R
+import com.jam.chatz.chat.ChatActivity
+import com.jam.chatz.user.User
 
-class Home : AppCompatActivity() {
-    private lateinit var binding: ActivityHomeBinding
+class AllUsers : AppCompatActivity() {
+    private lateinit var binding: ActivityAllUsersBinding
     private lateinit var userAdapter: UserAdapter
     private lateinit var shim: ShimmerFrameLayout
     private val userViewModel: UserViewModel by viewModels()
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityHomeBinding.inflate(layoutInflater)
+        binding = ActivityAllUsersBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        auth = FirebaseAuth.getInstance()
         enableEdgeToEdge()
 
         setupRecyclerView()
         setupSearchView()
         shim = binding.shimmerLayout
-
-        loadConversationUsers()
-
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            loadConversationUsers()
-        }
-
-        binding.fab.setOnClickListener {
-            val intent = Intent(this, AllUsers::class.java)
-            startActivity(intent)
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-        }
-    }
-
-    private fun loadConversationUsers() {
         shimmer(true)
-        userViewModel.loadUsersWithConversations()
-        userViewModel.conversationUsers.observe(this) { users ->
+
+        userViewModel.allUsers.observe(this) { users ->
             userAdapter.updateUsers(users)
             shimmer(false)
             checkEmptyState(users)
-            binding.swipeRefreshLayout.isRefreshing = false
         }
-    }
 
-    private fun checkEmptyState(users: List<User>) {
-        if (users.isEmpty()) {
-            binding.noUsersFoundText.text = "No conversations yet\nStart a new chat by tapping the + button"
-            binding.noUsersFoundText.visibility = View.VISIBLE
-        } else {
-            binding.noUsersFoundText.visibility = View.GONE
-        }
-    }
-
-    private fun shimmer(show: Boolean) {
-        if (show) {
-            shim.visibility = View.VISIBLE
-            shim.startShimmer()
-            binding.usersRecyclerView.visibility = View.GONE
-        } else {
-            shim.visibility = View.GONE
-            shim.stopShimmer()
-            binding.usersRecyclerView.visibility = View.VISIBLE
-        }
+        userViewModel.loadAllUsers()
     }
 
     private fun setupRecyclerView() {
@@ -91,11 +49,12 @@ class Home : AppCompatActivity() {
                 putExtra("USER", user)
             }
             startActivity(intent)
+            finish()
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
         binding.usersRecyclerView.apply {
-            layoutManager = LinearLayoutManager(this@Home)
+            layoutManager = LinearLayoutManager(this@AllUsers)
             adapter = userAdapter
         }
     }
@@ -124,8 +83,19 @@ class Home : AppCompatActivity() {
         checkEmptyState(filteredList)
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        finishAffinity()
+    private fun checkEmptyState(users: List<User>) {
+        binding.noUsersFoundText.visibility = if (users.isEmpty()) View.VISIBLE else View.GONE
+    }
+
+    private fun shimmer(show: Boolean) {
+        if (show) {
+            shim.visibility = View.VISIBLE
+            shim.startShimmer()
+            binding.usersRecyclerView.visibility = View.GONE
+        } else {
+            shim.visibility = View.GONE
+            shim.stopShimmer()
+            binding.usersRecyclerView.visibility = View.VISIBLE
+        }
     }
 }

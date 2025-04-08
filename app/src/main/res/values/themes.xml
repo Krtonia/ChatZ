@@ -51,8 +51,9 @@
 
         <item name="android:statusBarColor">#2C5F34</item>
         <item name="android:windowLightStatusBar">true</item>
-
     </style>
+
+
 
     <!-- Splash Screen Theme -->
     <style name="App.Starting.Theme" parent="Theme.Material3.DayNight.NoActionBar">
@@ -61,9 +62,7 @@
 
         <!-- Pre-Android 12 Splash Screen attributes -->
         <item name="android:windowSplashScreenBackground" tools:targetApi="31">#FFFFFF</item>
-        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="31">
-            @drawable/splash_light
-        </item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="31">@drawable/splash_light</item>
 
         <!-- Specify the theme to use after splash screen -->
         <item name="postSplashScreenTheme">@style/Theme.Chatz</item>
