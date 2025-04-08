@@ -17,9 +17,10 @@ import com.jam.chatz.adapter.MessageAdapter
 import com.jam.chatz.user.User
 import com.jam.chatz.databinding.ActivityChatBinding
 import com.jam.chatz.message.Message
-import com.jam.chatz.start.Home.Home
+import com.jam.chatz.start.home.Home
 import com.jam.chatz.viewmodel.ChatViewModel
 
+@Suppress("DEPRECATION")
 class ChatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatBinding
     private lateinit var messageAdapter: MessageAdapter
@@ -127,13 +128,13 @@ class ChatActivity : AppCompatActivity() {
     private fun setupRealTimeListener(userId: String) {
         chatViewModel.getMessages(userId).observe(this) { newMessages ->
             val recentNewMessages = newMessages.filter { newMsg ->
-                !allMessages.any { existingMsg -> existingMsg.messageId == newMsg.messageId }
-            }
+                !allMessages.any { existingMsg -> existingMsg.messageId == newMsg.messageId } }
             if (recentNewMessages.isNotEmpty()) {
                 allMessages.addAll(recentNewMessages)
                 allMessages.sortBy { it.timestamp.seconds }
                 messageAdapter.notifyDataSetChanged()
                 messageAdapter.updateMessages(allMessages)
+                scrollToBottom()
             }
         }
     }

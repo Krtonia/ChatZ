@@ -6,12 +6,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.jam.chatz.R
 import com.jam.chatz.databinding.ActivitySignInScreenBinding
-import com.jam.chatz.start.Home.Home
+import com.jam.chatz.start.home.Home
 import com.jam.chatz.start.signup.SignUpScreen
 
 class SignInScreen : AppCompatActivity() {

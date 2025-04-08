@@ -1,35 +1,39 @@
-package com.jam.chatz.start.Home
+package com.jam.chatz.start.home
 
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.jam.chatz.R
 import com.jam.chatz.adapter.UserAdapter
 import com.jam.chatz.databinding.ActivityHomeBinding
-import com.jam.chatz.start.signin.SignInScreen
 import com.jam.chatz.user.User
 import com.jam.chatz.viewmodel.UserViewModel
 
+@SuppressLint("SetTextI18n")
 class Home : AppCompatActivity() {
     private lateinit var userRecyclerView: RecyclerView
     private lateinit var userAdapter: UserAdapter
+    private lateinit var shim: ShimmerFrameLayout
     private val userViewModel: UserViewModel by viewModels()
     private var allUsers: List<User> = emptyList()
     private lateinit var auth: FirebaseAuth
     private val binding: ActivityHomeBinding by lazy { ActivityHomeBinding.inflate(layoutInflater) }
+
+    //Shimmer
+
+
+    //onCreate function
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
@@ -37,12 +41,31 @@ class Home : AppCompatActivity() {
         setContentView(binding.root)
         setupRecyclerView()
         setupSearchView()
+        shim = binding.shimmerLayout
+        shimmer(true)
+        userViewModel.users.observe(this, Observer { users ->
+            userAdapter.updateUsers(users)
+            shimmer(false)
+        })
         userViewModel.loadUsers()
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            userViewModel.loadUsers()
-            Handler(Looper.getMainLooper()).postDelayed({
-                binding.swipeRefreshLayout.isRefreshing = false
-            }, 3000)
+        binding.swipeRefreshLayout.setOnRefreshListener { userViewModel.loadUsers()
+        shimmer(true)}
+        userViewModel.users.observe(
+            this, Observer { users -> binding.swipeRefreshLayout.isRefreshing = false })
+        binding.fab.setOnClickListener {
+
+        }
+    }
+
+    private fun shimmer(show: Boolean){
+        if (show) {
+            shim.visibility = View.VISIBLE
+            shim.startShimmer()
+            binding.usersRecyclerView.visibility = View.GONE
+        } else {
+            shim.visibility = View.GONE
+            shim.stopShimmer()
+            binding.usersRecyclerView.visibility = View.VISIBLE
         }
     }
 
@@ -57,14 +80,12 @@ class Home : AppCompatActivity() {
     private fun setupSearchView() {
         val searchCard: MaterialCardView = findViewById(R.id.searchCard)
         val searchView: SearchView = findViewById(R.id.searchView)
-
         searchCard.setOnClickListener {
             searchView.isIconified = false
         }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean = false
-
             override fun onQueryTextChange(newText: String?): Boolean {
                 filterUsers(newText.orEmpty())
                 return true
@@ -79,8 +100,7 @@ class Home : AppCompatActivity() {
         } else {
             allUsers.filter { user ->
                 user.username?.contains(
-                    query,
-                    ignoreCase = true
+                    query, ignoreCase = true
                 ) == true || user.useremail?.contains(query, ignoreCase = true) == true
             }
         }
@@ -109,6 +129,5 @@ class Home : AppCompatActivity() {
                 }
             }
         }
-
     }
 }

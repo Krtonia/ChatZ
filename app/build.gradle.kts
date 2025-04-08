@@ -25,8 +25,7 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
     }
@@ -44,6 +43,7 @@ android {
 
 dependencies {
 
+    //Default
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -61,8 +61,8 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
 
     //Coroutines
-    implementation (libs.kotlinx.coroutines.android)
-    implementation (libs.kotlinx.coroutines.play.services)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.play.services)
 
     //Dagger-Hilt
     implementation(libs.hilt.android)
@@ -95,7 +95,10 @@ dependencies {
     //Recycler
     implementation(libs.androidx.recyclerview)
 
-    // CardView for item layout
+    //Shimmer-Effect (Test)
+    implementation (libs.shimmer)
+
+    //CardView for item layout
     implementation(libs.androidx.cardview)
 
     //Material

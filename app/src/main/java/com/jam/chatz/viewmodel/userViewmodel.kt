@@ -14,9 +14,13 @@ class UserViewModel : ViewModel() {
     val users: LiveData<List<User>> = _users
 
     fun loadUsers() {
-        viewModelScope.launch {
-            _users.value = repo.getUsersWithLastMessage()
-        }
+        repo.getUsersWithLastMessage(object : UserRepo.UserRepoCallback {
+            override fun onSuccess(users: List<User>) {
+                _users.value = users
+            }
+            override fun onFailure(exception: Exception) {
+                _users.value = emptyList()
+            }
+        })
     }
-
 }

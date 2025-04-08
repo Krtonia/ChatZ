@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:elevation="10dp"
     android:fitsSystemWindows="true"
-    tools:context=".start.Home.Home">
+    tools:context=".start.home.Home">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
@@ -61,11 +61,45 @@
                 android:textSize="18sp"
                 android:visibility="gone" />
 
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                    <include layout="@layout/row_user_list_shimmer" />
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/usersRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingBottom="16dp" />
+
         </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

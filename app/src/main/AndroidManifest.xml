@@ -23,7 +23,7 @@
             android:exported="false"
             tools:ignore="Instantiatable" />
         <activity
-            android:name=".start.Home.Home"
+            android:name=".start.home.Home"
             android:exported="false" />
         <activity
             android:name=".start.signup.SignUpScreen"
