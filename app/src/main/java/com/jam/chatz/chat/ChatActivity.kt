@@ -1,6 +1,7 @@
 package com.jam.chatz.chat
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -38,7 +39,11 @@ class ChatActivity : AppCompatActivity() {
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
         enableEdgeToEdge()
-        binding.back.setOnClickListener { startActivity(Intent(this, Home::class.java)) }
+        binding.back.setOnClickListener {
+            startActivity(Intent(this, Home::class.java))
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            finish()
+        }
         otherUser = intent.getParcelableExtra("USER")
         if (otherUser == null) {
             Toast.makeText(this, "User data not available", Toast.LENGTH_SHORT).show()
@@ -128,7 +133,8 @@ class ChatActivity : AppCompatActivity() {
     private fun setupRealTimeListener(userId: String) {
         chatViewModel.getMessages(userId).observe(this) { newMessages ->
             val recentNewMessages = newMessages.filter { newMsg ->
-                !allMessages.any { existingMsg -> existingMsg.messageId == newMsg.messageId } }
+                !allMessages.any { existingMsg -> existingMsg.messageId == newMsg.messageId }
+            }
             if (recentNewMessages.isNotEmpty()) {
                 allMessages.addAll(recentNewMessages)
                 allMessages.sortBy { it.timestamp.seconds }

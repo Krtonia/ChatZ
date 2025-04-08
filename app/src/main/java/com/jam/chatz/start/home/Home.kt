@@ -30,9 +30,6 @@ class Home : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private val binding: ActivityHomeBinding by lazy { ActivityHomeBinding.inflate(layoutInflater) }
 
-    //Shimmer
-
-
     //onCreate function
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +45,10 @@ class Home : AppCompatActivity() {
             shimmer(false)
         })
         userViewModel.loadUsers()
-        binding.swipeRefreshLayout.setOnRefreshListener { userViewModel.loadUsers()
-        shimmer(true)}
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            userViewModel.loadUsers()
+            shimmer(true)
+        }
         userViewModel.users.observe(
             this, Observer { users -> binding.swipeRefreshLayout.isRefreshing = false })
         binding.fab.setOnClickListener {
@@ -57,7 +56,7 @@ class Home : AppCompatActivity() {
         }
     }
 
-    private fun shimmer(show: Boolean){
+    private fun shimmer(show: Boolean) {
         if (show) {
             shim.visibility = View.VISIBLE
             shim.startShimmer()
@@ -129,5 +128,9 @@ class Home : AppCompatActivity() {
                 }
             }
         }
+    }
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finishAffinity()
     }
 }
