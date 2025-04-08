@@ -1,5 +1,6 @@
 package com.jam.chatz.adapter
 
+import android.app.Activity
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
@@ -37,6 +38,13 @@ class UserAdapter(private var users: List<User>) : RecyclerView.Adapter<UserAdap
             val intent = Intent(holder.itemView.context, ChatActivity::class.java)
             intent.putExtra("USER", currentUser)
             holder.itemView.context.startActivity(intent)
+            //Animation
+            if (holder.itemView.context is Activity) {
+                (holder.itemView.context as Activity).overridePendingTransition(
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left
+                )
+            }
         }
     }
 

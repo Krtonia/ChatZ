@@ -38,6 +38,7 @@ class ChatActivity : AppCompatActivity() {
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
         enableEdgeToEdge()
+        binding.back.setOnClickListener { startActivity(Intent(this, Home::class.java)) }
         otherUser = intent.getParcelableExtra("USER")
         if (otherUser == null) {
             Toast.makeText(this, "User data not available", Toast.LENGTH_SHORT).show()
@@ -49,7 +50,6 @@ class ChatActivity : AppCompatActivity() {
         setupToolbar()
         setupRecyclerView()
         loadInitialMessages()
-        binding.back.setOnClickListener { startActivity(Intent(this, Home::class.java)) }
         binding.sendButton.setOnClickListener {
             val messageText = binding.messageInput.text.toString().trim()
             if (messageText.isNotEmpty()) {
