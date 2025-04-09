@@ -1,11 +1,16 @@
 package com.jam.chatz.start.signin
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.jam.chatz.databinding.ActivitySignInScreenBinding
@@ -28,32 +33,46 @@ class SignInScreen : AppCompatActivity() {
         binding.lgbtn.setOnClickListener {
             var email = binding.email.text.toString()
             var pass = binding.pass.text.toString()
-
             if (email.isEmpty() || pass.isEmpty()) {
                 Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_LONG).show()
             } else {
                 binding.pgbar.visibility = View.VISIBLE
-                auth.signInWithEmailAndPassword(email, pass)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(this, "Login successfull", Toast.LENGTH_LONG)
-                                .show()
-                            finish()
-                            binding.pgbar.visibility = View.GONE
+                auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(this, "Login successfull", Toast.LENGTH_LONG).show()
+                        finish()
+                        binding.pgbar.visibility = View.GONE
 
-                            startActivity(Intent(this, Home::class.java))
-                        } else {
-                            binding.pgbar.visibility = View.GONE
-                            Toast.makeText(
-                                this,
-                                "Login failed ${task.exception.toString()}",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
+                        startActivity(Intent(this, Home::class.java))
+                    } else {
+                        binding.pgbar.visibility = View.GONE
+                        Toast.makeText(
+                            this, "Login failed ${task.exception.toString()}", Toast.LENGTH_LONG
+                        ).show()
                     }
-
+                }
             }
         }
+    }
+
+    override fun dispatchTouchEvent(touch: MotionEvent): Boolean {
+        if (touch.action == MotionEvent.ACTION_DOWN) {
+            val view = currentFocus
+            if (view is EditText) {
+                val outRect = android.graphics.Rect()
+                view.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(touch.rawX.toInt(), touch.rawY.toInt())) {
+                    view.clearFocus()
+                    hideKeyboard(view)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(touch)
+    }
+
+    private fun hideKeyboard(view: View) {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     override fun onPause() {
@@ -70,5 +89,3 @@ class SignInScreen : AppCompatActivity() {
         }
     }
 }
-
-

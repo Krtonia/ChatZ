@@ -1,19 +1,14 @@
-// Home.kt
 package com.jam.chatz.start.home
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.facebook.shimmer.ShimmerFrameLayout
-import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.FirebaseAuth
 import com.jam.chatz.R
 import com.jam.chatz.adapter.UserAdapter
@@ -28,6 +23,7 @@ class Home : AppCompatActivity() {
     private lateinit var shim: ShimmerFrameLayout
     private val userViewModel: UserViewModel by viewModels()
     private lateinit var auth: FirebaseAuth
+    private var originalUsers: List<User> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,17 +31,11 @@ class Home : AppCompatActivity() {
         setContentView(binding.root)
         auth = FirebaseAuth.getInstance()
         enableEdgeToEdge()
-
         setupRecyclerView()
         setupSearchView()
         shim = binding.shimmerLayout
-
         loadConversationUsers()
-
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            loadConversationUsers()
-        }
-
+        binding.swipeRefreshLayout.setOnRefreshListener { loadConversationUsers() }
         binding.fab.setOnClickListener {
             val intent = Intent(this, AllUsers::class.java)
             startActivity(intent)
@@ -57,6 +47,7 @@ class Home : AppCompatActivity() {
         shimmer(true)
         userViewModel.loadUsersWithConversations()
         userViewModel.conversationUsers.observe(this) { users ->
+            originalUsers = users
             userAdapter.updateUsers(users)
             shimmer(false)
             checkEmptyState(users)
@@ -108,14 +99,25 @@ class Home : AppCompatActivity() {
                 return true
             }
         })
+        binding.searchView.setOnCloseListener {
+            resetSearch()
+            false
+        }
+    }
+
+    private fun resetSearch() {
+        binding.searchView.setQuery("", false)
+        userViewModel.loadAllUsers()
+        userAdapter.updateUsers(originalUsers)
+        checkEmptyState(originalUsers)
+        binding.searchView.isIconified = true
     }
 
     private fun filterUsers(query: String) {
-        val currentList = userAdapter.currentList
         val filteredList = if (query.isEmpty()) {
-            currentList
+            originalUsers
         } else {
-            currentList.filter { user ->
+            originalUsers.filter { user ->
                 user.username?.contains(query, ignoreCase = true) == true ||
                         user.useremail?.contains(query, ignoreCase = true) == true
             }

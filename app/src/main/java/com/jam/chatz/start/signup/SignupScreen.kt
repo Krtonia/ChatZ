@@ -1,8 +1,12 @@
 package com.jam.chatz.start.signup
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -55,6 +59,26 @@ class SignUpScreen : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun dispatchTouchEvent(touch: MotionEvent): Boolean {
+        if (touch.action == MotionEvent.ACTION_DOWN) {
+            val view = currentFocus
+            if (view is EditText) {
+                val outRect = android.graphics.Rect()
+                view.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(touch.rawX.toInt(), touch.rawY.toInt())) {
+                    view.clearFocus()
+                    hideKeyboard(view)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(touch)
+    }
+
+    private fun hideKeyboard(view: View) {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun registerUser(name: String, email: String, password: String) {

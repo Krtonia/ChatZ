@@ -1,9 +1,12 @@
-// AllUsers.kt
+@file:Suppress("DEPRECATION")
+
 package com.jam.chatz.start.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -21,6 +24,7 @@ class AllUsers : AppCompatActivity() {
     private lateinit var binding: ActivityAllUsersBinding
     private lateinit var userAdapter: UserAdapter
     private lateinit var shim: ShimmerFrameLayout
+    private var originalUsers: List<User> = emptyList()
     private val userViewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,18 +32,16 @@ class AllUsers : AppCompatActivity() {
         binding = ActivityAllUsersBinding.inflate(layoutInflater)
         setContentView(binding.root)
         enableEdgeToEdge()
-
         setupRecyclerView()
         setupSearchView()
         shim = binding.shimmerLayout
         shimmer(true)
-
         userViewModel.allUsers.observe(this) { users ->
+            originalUsers = users
             userAdapter.updateUsers(users)
             shimmer(false)
             checkEmptyState(users)
         }
-
         userViewModel.loadAllUsers()
     }
 
@@ -52,7 +54,6 @@ class AllUsers : AppCompatActivity() {
             finish()
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
-
         binding.usersRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@AllUsers)
             adapter = userAdapter
@@ -67,16 +68,28 @@ class AllUsers : AppCompatActivity() {
                 return true
             }
         })
+        binding.searchView.setOnCloseListener {
+            resetSearch()
+            false
+        }
+    }
+
+    private fun resetSearch() {
+        binding.searchView.setQuery("", false)
+        userViewModel.loadAllUsers()
+        userAdapter.updateUsers(originalUsers)
+        checkEmptyState(originalUsers)
+        binding.searchView.isIconified = true
     }
 
     private fun filterUsers(query: String) {
-        val currentList = userAdapter.currentList
         val filteredList = if (query.isEmpty()) {
-            currentList
+            originalUsers
         } else {
-            currentList.filter { user ->
-                user.username?.contains(query, ignoreCase = true) == true ||
-                        user.useremail?.contains(query, ignoreCase = true) == true
+            originalUsers.filter { user ->
+                user.username?.contains(
+                    query, ignoreCase = true
+                ) == true || user.useremail?.contains(query, ignoreCase = true) == true
             }
         }
         userAdapter.updateUsers(filteredList)
