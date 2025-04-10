@@ -49,8 +49,15 @@
         <item name="colorSurfaceContainerHigh">@color/surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/surfaceContainerHighest</item>
 
-        <item name="android:statusBarColor">#2C5F34</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <!-- Status bar customization -->
+        <item name="android:statusBarColor">@color/toolbar</item>
+
+        <!-- For API level 23+ (Marshmallow) -->
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+
+        <!-- For edge-to-edge display -->
+        <item name="android:windowLightNavigationBar">true</item>
+
     </style>
 
 

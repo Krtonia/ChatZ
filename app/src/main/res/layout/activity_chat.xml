@@ -12,9 +12,9 @@
         android:id="@+id/chat_toolbar"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:elevation="20dp"
+        android:elevation="80dp"
+        android:background="@color/toolbar"
         app:elevationOverlayEnabled="true"
-        android:windowTranslucentStatus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -27,9 +27,9 @@
                 android:id="@+id/back"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="#00000000"
                 android:contentDescription="@string/back_button"
                 android:src="@drawable/back"
-                android:background="@color/surface"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/chat_user_image"
                 app:layout_constraintHorizontal_bias="0.076"
@@ -142,10 +142,10 @@
             android:layout_width="wrap_content"
             android:layout_height="65dp"
             android:fontFamily="@font/mulish"
-            app:iconSize="30dp"
-            app:iconGravity="end"
-            app:icon="@drawable/send"
             app:cornerRadius="15dp"
+            app:icon="@drawable/send"
+            app:iconGravity="end"
+            app:iconSize="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -153,13 +153,14 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageButton
-        android:clickable="true"
         android:id="@+id/godbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00000000"
+        android:clickable="true"
         android:contentDescription="godown-button"
         android:src="@drawable/godown"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/messages_recycler_view"
         app:layout_constraintEnd_toEndOf="@+id/messages_recycler_view"
         app:layout_constraintHorizontal_bias="0.96"
@@ -167,7 +168,6 @@
         app:layout_constraintTop_toBottomOf="@+id/chat_toolbar"
         app:layout_constraintVertical_bias="0.945"
         app:tint="@color/primary"
-        android:visibility="gone"
         tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
