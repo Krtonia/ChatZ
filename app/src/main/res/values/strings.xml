@@ -20,4 +20,7 @@
     <string name="add_user_button">Add User Button</string>
     <string name="no_users_found">No users found</string>
     <string name="back_button">Back button</string>
+    <string name="your_profile">Your Profile</string>
+    <string name="username">Username:</string>
+    <string name="logout">Logout</string>
 </resources>

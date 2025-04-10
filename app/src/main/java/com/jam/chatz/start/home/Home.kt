@@ -32,6 +32,7 @@ class Home : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         enableEdgeToEdge()
         setupRecyclerView()
+        setupBottomNavigation()
         setupSearchView()
         shim = binding.shimmerLayout
         loadConversationUsers()
@@ -41,6 +42,25 @@ class Home : AppCompatActivity() {
             startActivity(intent)
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
+    }
+
+    private fun setupBottomNavigation() {
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_profile -> {
+                    startActivity(Intent(this, ProfileActivity::class.java))
+                    true
+                }
+                R.id.nav_home -> {
+                    // Already on home
+                    true
+                }
+                else -> false
+            }
+        }
+
+        // Set the selected item to highlight the correct tab
+        binding.bottomNavigation.selectedItemId = R.id.nav_home
     }
 
     private fun loadConversationUsers() {

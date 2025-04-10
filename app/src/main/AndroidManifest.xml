@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Chatz"
         tools:targetApi="31">
         <activity
+            android:name=".start.home.ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".start.home.AllUsers"
             android:exported="false" />
         <activity
