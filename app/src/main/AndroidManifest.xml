@@ -22,7 +22,9 @@
             android:exported="false" />
         <activity
             android:name=".chat.ChatActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowOptOutEdgeToEdgeEnforcement="true"
+            tools:targetApi="35" />
         <activity
             android:name=".adapter.UserAdapter"
             android:exported="false"

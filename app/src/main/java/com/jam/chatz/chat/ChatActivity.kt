@@ -1,27 +1,21 @@
 package com.jam.chatz.chat
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
-import android.view.Window
-import android.view.WindowInsetsController
-import android.view.WindowManager
+import android.view.WindowInsets
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.firestore.DocumentSnapshot
 import com.jam.chatz.R
 import com.jam.chatz.adapter.MessageAdapter
@@ -30,6 +24,7 @@ import com.jam.chatz.databinding.ActivityChatBinding
 import com.jam.chatz.message.Message
 import com.jam.chatz.start.home.Home
 import com.jam.chatz.viewmodel.ChatViewModel
+import androidx.core.graphics.drawable.toDrawable
 
 @Suppress("DEPRECATION")
 class ChatActivity : AppCompatActivity() {
@@ -44,11 +39,13 @@ class ChatActivity : AppCompatActivity() {
     private var lastVisibleDocument: DocumentSnapshot? = null
     private val pageSize = 20
 
+    @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
         enableEdgeToEdge()
+        statuscolor()
         window.statusBarColor = ContextCompat.getColor(this, R.color.toolbar)
         binding.back.setOnClickListener {
             startActivity(Intent(this, Home::class.java))
@@ -79,10 +76,19 @@ class ChatActivity : AppCompatActivity() {
                         }
                     }
                 }
-            }else if (messageText.isBlank() || messageText.isEmpty())
-            {
-                Toast.makeText(this,"Can't send an empty message", Toast.LENGTH_SHORT).show()
+            } else if (messageText.isBlank() || messageText.isEmpty()) {
+                Toast.makeText(this, "Can't send an empty message", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun statuscolor(){
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        {
+            binding.chatToolbar.setBackgroundColor(getResources().getColor(R.color.toolbar))
+            binding.chatUsername.setTextColor(getResources().getColor(R.color.white))
+            binding.userkastatus.setTextColor(getResources().getColor(R.color.white))
+            binding.back.setColorFilter(getResources().getColor(R.color.white))
         }
     }
 
