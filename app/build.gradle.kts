@@ -5,6 +5,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
     id("com.google.firebase.crashlytics")
+    kotlin("plugin.serialization") version "2.1.20"
     alias(libs.plugins.google.gms.google.services)
 }
 
@@ -86,6 +87,15 @@ dependencies {
     //Glide Image
     implementation(libs.glide)
 
+    //Retrofit
+    implementation(libs.retrofit.v2110)
+
+    //Serialization
+    implementation(libs.kotlinx.serialization.json)
+
+    //Gson converter
+    implementation(libs.converter.gson)
+
     //Room Database
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
@@ -96,7 +106,7 @@ dependencies {
     implementation(libs.androidx.recyclerview)
 
     //Shimmer-Effect (Test)
-    implementation (libs.shimmer)
+    implementation(libs.shimmer)
 
     //CardView for item layout
     implementation(libs.androidx.cardview)

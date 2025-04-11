@@ -2,15 +2,12 @@ package com.jam.chatz.chat
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowInsets
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +21,6 @@ import com.jam.chatz.databinding.ActivityChatBinding
 import com.jam.chatz.message.Message
 import com.jam.chatz.start.home.Home
 import com.jam.chatz.viewmodel.ChatViewModel
-import androidx.core.graphics.drawable.toDrawable
 
 @Suppress("DEPRECATION")
 class ChatActivity : AppCompatActivity() {
@@ -39,14 +35,12 @@ class ChatActivity : AppCompatActivity() {
     private var lastVisibleDocument: DocumentSnapshot? = null
     private val pageSize = 20
 
-    @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
         enableEdgeToEdge()
-        statuscolor()
-        window.statusBarColor = ContextCompat.getColor(this, R.color.toolbar)
+        statusColor()
         binding.back.setOnClickListener {
             startActivity(Intent(this, Home::class.java))
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
@@ -82,13 +76,13 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    private fun statuscolor(){
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.VANILLA_ICE_CREAM)
-        {
+    private fun statusColor() {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
             binding.chatToolbar.setBackgroundColor(getResources().getColor(R.color.toolbar))
             binding.chatUsername.setTextColor(getResources().getColor(R.color.white))
             binding.userkastatus.setTextColor(getResources().getColor(R.color.white))
             binding.back.setColorFilter(getResources().getColor(R.color.white))
+            window.statusBarColor = ContextCompat.getColor(this, R.color.toolbar)
         }
     }
 

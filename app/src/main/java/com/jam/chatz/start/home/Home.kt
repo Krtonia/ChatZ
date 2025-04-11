@@ -77,7 +77,7 @@ class Home : AppCompatActivity() {
 
     private fun checkEmptyState(users: List<User>) {
         if (users.isEmpty()) {
-            binding.noUsersFoundText.text = "No conversations yet\nStart a new chat by tapping the + button"
+            binding.noUsersFoundText.text = "No conversations yet\nStart a new chat by tapping the button"
             binding.noUsersFoundText.visibility = View.VISIBLE
         } else {
             binding.noUsersFoundText.visibility = View.GONE

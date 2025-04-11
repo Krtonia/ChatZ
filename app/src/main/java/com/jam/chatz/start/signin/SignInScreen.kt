@@ -2,7 +2,10 @@ package com.jam.chatz.start.signin
 
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -34,12 +37,18 @@ class SignInScreen : AppCompatActivity() {
             var email = binding.email.text.toString()
             var pass = binding.pass.text.toString()
             if (email.isEmpty() || pass.isEmpty()) {
-                Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this,
+                    "Please fill all the fields & Check your connection",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else if (!isInternetAvailable()) {
+                Toast.makeText(this, "Please check your Internet Connection", Toast.LENGTH_LONG).show()
             } else {
                 binding.pgbar.visibility = View.VISIBLE
                 auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Toast.makeText(this, "Login successfull", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Logged-in successfully", Toast.LENGTH_LONG).show()
                         finish()
                         binding.pgbar.visibility = View.GONE
 
@@ -88,4 +97,13 @@ class SignInScreen : AppCompatActivity() {
             finish()
         }
     }
+
+    private fun isInternetAvailable(): Boolean {
+        val connectivityManager =
+            getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+        return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    }
+
 }

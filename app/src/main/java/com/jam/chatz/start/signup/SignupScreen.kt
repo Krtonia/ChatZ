@@ -2,6 +2,8 @@ package com.jam.chatz.start.signup
 
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -53,6 +55,7 @@ class SignUpScreen : AppCompatActivity() {
                 cnfpass.isEmpty() -> showError("Please confirm your password")
                 pass != cnfpass -> showError("Passwords don't match")
                 pass.length < 6 -> showError("Password must be at least 6 characters")
+                !isInternetAvailable() -> showError("Please check your Internet Connection")
                 else -> {
                     binding.pgbar.visibility = View.VISIBLE
                     registerUser(name, email, pass)
@@ -119,6 +122,14 @@ class SignUpScreen : AppCompatActivity() {
             finish()
         }
 
+    }
+
+    private fun isInternetAvailable(): Boolean {
+        val connectivityManager =
+            getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+        return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 
     private fun showError(message: String) {
