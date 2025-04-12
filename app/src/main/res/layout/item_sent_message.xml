@@ -56,31 +56,6 @@
                     android:textSize="10sp"
                     tools:text="12:34 PM" />
             </LinearLayout>
-
-            <!-- Image Message Container -->
-            <LinearLayout
-                android:id="@+id/image_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/sent_message_container"
-                app:layout_constraintEnd_toEndOf="@+id/sent_message_container">
-
-                <ImageView
-                    android:id="@+id/message_image"
-                    android:layout_width="250dp"
-                    android:layout_height="250dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"/>
-
-                <TextView
-                    android:id="@+id/image_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
