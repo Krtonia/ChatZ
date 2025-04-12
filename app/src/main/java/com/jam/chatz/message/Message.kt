@@ -10,7 +10,7 @@ data class Message(
     val senderId: String = "",
     val receiverId: String = "",
     val message: String = "",
-    @Contextual val timestamp: com.google.firebase.Timestamp = com.google.firebase.Timestamp.now(),
+    @Contextual val timestamp: Timestamp = Timestamp.now(),
     val isRead: Boolean = false,
     val imageUrl: String? = null,  // This stores the image URL
     val isImage: Boolean = true   // This indicates if it's an image message
