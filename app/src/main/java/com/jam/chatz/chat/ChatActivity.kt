@@ -1,6 +1,7 @@
 package com.jam.chatz.chat
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -28,9 +29,10 @@ import com.jam.chatz.viewmodel.ChatViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import androidx.core.net.toUri
 
 @Suppress("DEPRECATION")
-class ChatActivity : AppCompatActivity() {
+class ChatActivity : AppCompatActivity(), MessageAdapter.OnImageClickListener {
     private lateinit var binding: ActivityChatBinding
     private lateinit var messageAdapter: MessageAdapter
     private val chatViewModel: ChatViewModel by viewModels()
@@ -61,11 +63,9 @@ class ChatActivity : AppCompatActivity() {
             return
         }
 
-        binding.messageInput.focusable
-
         binding.godbtn.setOnClickListener { scrollToBottom() }
         binding.godbtn.visibility = View.GONE
-        binding.imgup.setOnClickListener { showImagePicker() }
+        binding.imgup.setOnClickListener { showImageChooser() }
 
         setupToolbar()
         setupRecyclerView()
@@ -90,14 +90,38 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-        uri?.let { imageUri ->
-            uploadAndSendImage(imageUri)
+    override fun onImageClick(imageUrl: String) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.setDataAndType(imageUrl.toUri(), "image/*")
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        try {
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(this, "No app available to view images ${e}", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun showImagePicker() {
-        imagePickerLauncher.launch(arrayOf("image/*"))
+    private val imageChooserLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val uri = result.data?.data
+            uri?.let { imageUri ->
+                uploadAndSendImage(imageUri)
+            }
+        }
+    }
+
+    private fun showImageChooser() {
+        val galleryIntent = Intent(Intent.ACTION_PICK).apply {
+            type = "image/*"
+        }
+        val fileIntent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            type = "image/*"
+            addCategory(Intent.CATEGORY_OPENABLE)
+        }
+
+        val chooser = Intent.createChooser(fileIntent, "Select Image")
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(galleryIntent))
+        imageChooserLauncher.launch(chooser)
     }
 
 
@@ -156,7 +180,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        messageAdapter = MessageAdapter(allMessages)
+        messageAdapter = MessageAdapter(allMessages, this)
         val layoutManager = LinearLayoutManager(this).apply {
             stackFromEnd = true
             reverseLayout = false
@@ -229,19 +253,19 @@ class ChatActivity : AppCompatActivity() {
         isLoading = true
         otherUser?.userid?.let { userId ->
             chatViewModel.loadMoreMessages(userId, lastVisibleDocument!!, pageSize).observe(this) { messages ->
-                    if (messages.isNotEmpty()) {
-                        allMessages.addAll(0, messages)
-                        allMessages.sortBy { it.timestamp.seconds }
-                        messageAdapter.notifyDataSetChanged()
-                        lastVisibleDocument = chatViewModel.getLastVisibleDocument()
-                        if (messages.size < pageSize) {
-                            isLastPage = true
-                        }
-                    } else {
+                if (messages.isNotEmpty()) {
+                    allMessages.addAll(0, messages)
+                    allMessages.sortBy { it.timestamp.seconds }
+                    messageAdapter.notifyDataSetChanged()
+                    lastVisibleDocument = chatViewModel.getLastVisibleDocument()
+                    if (messages.size < pageSize) {
                         isLastPage = true
                     }
-                    isLoading = false
+                } else {
+                    isLastPage = true
                 }
+                isLoading = false
+            }
         }
     }
 

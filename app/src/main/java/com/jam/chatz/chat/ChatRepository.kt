@@ -30,7 +30,6 @@ class ChatRepository {
                 }
                 callback(messages, lastVisible)
             }.addOnFailureListener { e ->
-                Log.e("ChatRepository", "Error loading initial messages", e)
                 callback(emptyList(), null)
             }
     }
@@ -52,7 +51,6 @@ class ChatRepository {
                 }
                 callback(messages, newLastVisible)
             }.addOnFailureListener { e ->
-                Log.e("ChatRepository", "Error loading more messages", e)
                 callback(emptyList(), null)
             }
     }
@@ -65,7 +63,6 @@ class ChatRepository {
             .orderBy("timestamp", Query.Direction.ASCENDING)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
-                    Log.e("ChatRepository", "Error listening to messages", error)
                     return@addSnapshotListener
                 }
 
@@ -121,11 +118,11 @@ class ChatRepository {
             messageId = messageId,
             senderId = currentUserId,
             receiverId = receiverId,
-            text = "", // Empty for image messages
+            text = "",
             timestamp = Timestamp.now(),
             isRead = false,
             imageUrl = imageUrl,
-            type = "image" // Mark as image message
+            type = "image"
         )
 
         firestore.collection("chats").document(chatId).collection("messages").document(messageId)
@@ -138,7 +135,6 @@ class ChatRepository {
     }
 
     fun addMessage(chatId: String, message: Message, callback: (Boolean) -> Unit) {
-        // Create a proper map that matches our Message class structure
         val messageData = hashMapOf(
             "messageId" to message.messageId,
             "senderId" to message.senderId,
@@ -152,8 +148,6 @@ class ChatRepository {
 
         FirebaseFirestore.getInstance().collection("chats").document(chatId).collection("messages")
             .document(message.messageId).set(messageData).addOnSuccessListener {
-                Log.d("ChatRepository", "Message added successfully")
-                // Also update chat metadata for both users
                 if (message.senderId.isNotEmpty() && message.receiverId.isNotEmpty()) {
                     val lastMessageText = if (message.isImage) "📷 Image" else message.text
                     updateChatMetadata(

@@ -32,7 +32,6 @@ object Uploader {
 
             if (response.isSuccessful) {
                 response.body()?.data?.link?.also {
-                    Log.d("Uploader", "Image uploaded: $it")
                 }
             } else {
                 Log.e("Uploader", "Upload failed: ${response.errorBody()?.string()}")

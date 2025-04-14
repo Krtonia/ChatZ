@@ -187,6 +187,8 @@
         android:contentDescription="@string/take_down"
         android:src="@drawable/godown"
         android:id="@+id/godbtn"
+        style="@style/CircleImageView"
+
         app:fabCustomSize="40dp"
         app:layout_constraintBottom_toBottomOf="@+id/messages_recycler_view"
         app:layout_constraintEnd_toEndOf="@+id/messages_recycler_view"

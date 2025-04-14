@@ -15,7 +15,7 @@
         <item name="colorAccent">@color/primary</item>
         <item name="expandedHintEnabled">false</item>
         <item name="boxStrokeWidth">1.5dp</item>
-        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxStrokeWidthFocused">1.5dp</item>
         <item name="boxCornerRadiusBottomStart">8dp</item>
         <item name="boxCornerRadiusBottomEnd">8dp</item>
         <item name="boxCornerRadiusTopStart">8dp</item>

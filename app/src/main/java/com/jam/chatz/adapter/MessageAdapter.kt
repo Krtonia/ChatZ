@@ -21,8 +21,12 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class MessageAdapter(private var messages: List<Message>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MessageAdapter(private var messages: List<Message>,private val onImageClickListener: OnImageClickListener? = null) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    //Testing Image opening functionality
+    interface OnImageClickListener {
+        fun onImageClick(imageUrl: String)
+    }
 
     private val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
     private val items = mutableListOf<Any>()
@@ -44,7 +48,6 @@ class MessageAdapter(private var messages: List<Message>) :
         var lastDate: String? = null
         messages.sortedBy { it.timestamp.seconds }.forEach { message ->
             if (message.isImage && message.imageUrl.isNullOrEmpty()) {
-                Log.w("MessageAdapter", "Image message missing URL: $message")
                 return@forEach
             }
             val currentDate = getFormattedDate(message.timestamp.seconds * 1000)
@@ -161,20 +164,24 @@ class MessageAdapter(private var messages: List<Message>) :
             is SentImageViewHolder -> {
                 holder.progressBar.visibility = View.VISIBLE
                 holder.timeText.text = timeString
-                // Log the URL we're trying to load
                 Log.d("MessageAdapter", "Loading sent image from URL: ${message.imageUrl}")
                 message.imageUrl?.let { url ->
                     loadImageWithGlide(url, holder.messageImage, holder.progressBar)
+                    holder.messageImage.setOnClickListener {
+                        onImageClickListener?.onImageClick(url)
+                    }
                 }
             }
 
             is ReceivedImageViewHolder -> {
                 holder.progressBar.visibility = View.VISIBLE
                 holder.timeText.text = timeString
-                // Log the URL we're trying to load
                 Log.d("MessageAdapter", "Loading received image from URL: ${message.imageUrl}")
                 message.imageUrl?.let { url ->
                     loadImageWithGlide(url, holder.messageImage, holder.progressBar)
+                    holder.messageImage.setOnClickListener {
+                        onImageClickListener?.onImageClick(url)
+                    }
                 }
             }
         }
@@ -192,6 +199,7 @@ class MessageAdapter(private var messages: List<Message>) :
                 .override(600, 600)
                 .centerCrop()
                 .addListener(object : RequestListener<Drawable> {
+
                     override fun onLoadFailed(
                         e: GlideException?,
                         model: Any?,
@@ -228,7 +236,6 @@ class MessageAdapter(private var messages: List<Message>) :
     fun updateMessages(newMessages: List<Message>) {
         val validMessages = newMessages.filter { message ->
             if (message.isImage && message.imageUrl.isNullOrEmpty()) {
-                Log.w("MessageAdapter", "Filtered out invalid image message: $message")
                 false
             } else {
                 true
