@@ -93,7 +93,7 @@ class ChatRepository {
             messageId = messageId,
             senderId = currentUserId,
             receiverId = receiverId,
-            message = messageText,
+            text = messageText,
             timestamp = Timestamp.now(),
             isRead = false
         )
@@ -108,31 +108,61 @@ class ChatRepository {
     }
 
     fun sendImageMessage(receiverId: String, imageUrl: String, callback: (Boolean) -> Unit) {
-        if (currentUserId.isEmpty()) {
+        if (imageUrl.isBlank() || currentUserId.isEmpty()) {
             callback(false)
             return
         }
 
         val chatId = getChatId(currentUserId, receiverId)
-        val messageId = firestore.collection("chats").document(chatId).collection("messages").document().id
+        val messageId =
+            firestore.collection("chats").document(chatId).collection("messages").document().id
 
         val message = Message(
             messageId = messageId,
             senderId = currentUserId,
             receiverId = receiverId,
-            message = "", // Empty for image messages
+            text = "", // Empty for image messages
             timestamp = Timestamp.now(),
             isRead = false,
-            imageUrl = imageUrl,  // Set the actual image URL here
-            isImage = true        // Mark as image message
+            imageUrl = imageUrl,
+            type = "image" // Mark as image message
         )
-
 
         firestore.collection("chats").document(chatId).collection("messages").document(messageId)
             .set(message).addOnSuccessListener {
                 updateChatMetadata(chatId, currentUserId, receiverId, "📷 Image")
                 callback(true)
             }.addOnFailureListener {
+                callback(false)
+            }
+    }
+
+    fun addMessage(chatId: String, message: Message, callback: (Boolean) -> Unit) {
+        // Create a proper map that matches our Message class structure
+        val messageData = hashMapOf(
+            "messageId" to message.messageId,
+            "senderId" to message.senderId,
+            "receiverId" to message.receiverId,
+            "text" to message.text,
+            "timestamp" to message.timestamp,
+            "isRead" to message.isRead,
+            "imageUrl" to message.imageUrl,
+            "type" to message.type
+        )
+
+        FirebaseFirestore.getInstance().collection("chats").document(chatId).collection("messages")
+            .document(message.messageId).set(messageData).addOnSuccessListener {
+                Log.d("ChatRepository", "Message added successfully")
+                // Also update chat metadata for both users
+                if (message.senderId.isNotEmpty() && message.receiverId.isNotEmpty()) {
+                    val lastMessageText = if (message.isImage) "📷 Image" else message.text
+                    updateChatMetadata(
+                        chatId, message.senderId, message.receiverId, lastMessageText
+                    )
+                }
+                callback(true)
+            }.addOnFailureListener { e ->
+                Log.e("ChatRepository", "Error adding message", e)
                 callback(false)
             }
     }

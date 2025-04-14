@@ -24,4 +24,7 @@
     <string name="username">Username:</string>
     <string name="logout">Logout</string>
     <string name="image_upload">Image Upload</string>
+    <string name="start_your_conversation">Start your conversation...</string>
+    <string name="attach_image">attach image</string>
+    <string name="take_down">take down</string>
 </resources>

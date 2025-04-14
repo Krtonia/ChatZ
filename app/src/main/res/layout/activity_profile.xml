@@ -7,14 +7,14 @@
     android:fitsSystemWindows="true"
     tools:context=".start.home.ProfileActivity">
 
-    <com.google.android.material.textview.MaterialTextView
+    <TextView
         android:id="@+id/textView4"
+        style="@style/TextAppearance.Material3.DisplayMedium"
         android:layout_width="wrap_content"
         android:layout_height="64dp"
         android:layout_marginHorizontal="12dp"
         android:fontFamily="@font/satoshi"
         android:text="@string/chatz"
-        android:textSize="55sp"
         android:textStyle="bold" />
 
     <!-- Centered user info -->
@@ -66,25 +66,6 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:cornerRadius="10dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/profileLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom"
-        android:orientation="vertical"
-        android:visibility="visible">
-
-
-        <!-- Bottom Navigation -->
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigation"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:background="@color/surface"
-            app:labelVisibilityMode="labeled"
-            app:menu="@menu/bottom_nav_menu" />
     </LinearLayout>
 
 </RelativeLayout>

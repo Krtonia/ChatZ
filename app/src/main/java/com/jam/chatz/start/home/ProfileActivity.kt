@@ -26,7 +26,6 @@ class ProfileActivity : AppCompatActivity() {
             showLogoutConfirmation()
         }
         loadUserProfile()
-        setupBottomNavigation()
     }
 
     private fun loadUserProfile() {
@@ -46,22 +45,6 @@ class ProfileActivity : AppCompatActivity() {
             .addOnFailureListener {
                 binding.usernameText.text = "Username: Error loading"
             }
-    }
-
-    private fun setupBottomNavigation() {
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> {
-                    startActivity(Intent(this, Home::class.java))
-                    true
-                }
-                R.id.nav_profile -> {
-                    true
-                }
-                else -> false
-            }
-        }
-        binding.bottomNavigation.selectedItemId = R.id.nav_profile
     }
 
     private fun showLogoutConfirmation() {

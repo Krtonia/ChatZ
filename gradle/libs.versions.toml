@@ -1,12 +1,12 @@
 [versions]
 agp = "8.9.1"
 cardview = "1.0.0"
-compiler = "4.16.0"  # Updated to match glide
-converterGson = "2.9.0"  # Matched with retrofit
+compiler = "4.16.0"
+converterGson = "2.9.0"
 coreSplashscreen = "1.0.0"
 firebaseBom = "33.11.0"
-firebaseFirestoreKtx = "24.11.0"  # Specific version instead of "latest_version"
-glide = "4.16.0"  # Only one version
+firebaseFirestoreKtx = "24.11.0"
+glide = "4.16.0"
 kotlin = "2.0.21"
 coreKtx = "1.15.0"
 junit = "4.13.2"
@@ -27,7 +27,7 @@ credentials = "1.5.0"
 credentialsPlayServicesAuth = "1.5.0"
 googleid = "1.1.1"
 firebaseDatabase = "21.0.0"
-recyclerview = "1.4.0" # Matched with converter
+recyclerview = "1.4.0"
 roomRuntime = "2.6.1"
 shimmer = "0.5.0"
 swiperefreshlayout = "1.1.0"

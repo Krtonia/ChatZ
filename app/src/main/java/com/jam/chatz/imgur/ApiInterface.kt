@@ -16,18 +16,14 @@ interface ApiInterface {
     @Multipart
     @Headers("Authorization: Client-ID e750ce30b3266b8")
     @POST("image")
-    suspend fun uploadImage(
-        @Part image: MultipartBody.Part
-    ): Response<ImgurResponse>
+    suspend fun uploadImage(@Part image: MultipartBody.Part): Response<ImgurResponse>
 
     companion object {
         private const val BASE_URL = "https://api.imgur.com/3/"
 
         fun create(): ApiInterface {
             val client = OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BODY
-                })
+                .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .build()
 

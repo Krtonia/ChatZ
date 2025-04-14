@@ -19,11 +19,11 @@ import com.bumptech.glide.Glide
 import com.google.firebase.firestore.DocumentSnapshot
 import com.jam.chatz.R
 import com.jam.chatz.adapter.MessageAdapter
-import com.jam.chatz.user.User
 import com.jam.chatz.databinding.ActivityChatBinding
 import com.jam.chatz.imgur.Uploader
 import com.jam.chatz.message.Message
 import com.jam.chatz.start.home.Home
+import com.jam.chatz.user.User
 import com.jam.chatz.viewmodel.ChatViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -46,25 +46,31 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         enableEdgeToEdge()
-        statusColor()
+
         binding.back.setOnClickListener {
             startActivity(Intent(this, Home::class.java))
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             finish()
         }
+
         otherUser = intent.getParcelableExtra("USER")
         if (otherUser == null) {
             Toast.makeText(this, "User data not available", Toast.LENGTH_SHORT).show()
             finish()
             return
         }
+
+        binding.messageInput.focusable
+
         binding.godbtn.setOnClickListener { scrollToBottom() }
         binding.godbtn.visibility = View.GONE
         binding.imgup.setOnClickListener { showImagePicker() }
+
         setupToolbar()
         setupRecyclerView()
         loadInitialMessages()
+
         binding.sendButton.setOnClickListener {
             val messageText = binding.messageInput.text.toString().trim()
             if (messageText.isNotEmpty()) {
@@ -84,25 +90,16 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    private fun statusColor() {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
-            binding.chatToolbar.setBackgroundColor(getResources().getColor(R.color.toolbar))
-            binding.chatUsername.setTextColor(getResources().getColor(R.color.white))
-            binding.userkastatus.setTextColor(getResources().getColor(R.color.white))
-            binding.back.setColorFilter(getResources().getColor(R.color.white))
-            window.statusBarColor = ContextCompat.getColor(this, R.color.toolbar)
-        }
-    }
-
-    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
         uri?.let { imageUri ->
             uploadAndSendImage(imageUri)
         }
     }
 
     private fun showImagePicker() {
-        imagePickerLauncher.launch("image/*")
+        imagePickerLauncher.launch(arrayOf("image/*"))
     }
+
 
     private fun uploadAndSendImage(imageUri: Uri) {
         binding.progressBar.visibility = View.VISIBLE
@@ -121,13 +118,9 @@ class ChatActivity : AppCompatActivity() {
                                 binding.messageInput.isEnabled = true
                                 binding.sendButton.isEnabled = true
 
-                                if (success) {
-                                    // No need to manually scroll here - the realtime listener will handle it
-                                } else {
+                                if (!success) {
                                     Toast.makeText(
-                                        this@ChatActivity,
-                                        "Failed to send image",
-                                        Toast.LENGTH_SHORT
+                                        this@ChatActivity, "Failed to send image", Toast.LENGTH_SHORT
                                     ).show()
                                 }
                             }
@@ -137,9 +130,7 @@ class ChatActivity : AppCompatActivity() {
                         binding.messageInput.isEnabled = true
                         binding.sendButton.isEnabled = true
                         Toast.makeText(
-                            this@ChatActivity,
-                            "Failed to upload image",
-                            Toast.LENGTH_SHORT
+                            this@ChatActivity, "Failed to upload image", Toast.LENGTH_SHORT
                         ).show()
                     }
                 }
@@ -149,9 +140,7 @@ class ChatActivity : AppCompatActivity() {
                     binding.messageInput.isEnabled = true
                     binding.sendButton.isEnabled = true
                     Toast.makeText(
-                        this@ChatActivity,
-                        "Error: ${e.localizedMessage}",
-                        Toast.LENGTH_SHORT
+                        this@ChatActivity, "Error: ${e.localizedMessage}", Toast.LENGTH_SHORT
                     ).show()
                 }
             }
@@ -163,8 +152,7 @@ class ChatActivity : AppCompatActivity() {
         binding.chatUsername.text = otherUser?.username
         binding.userkastatus.text = "Hey There I am using Chatz!"
         binding.chatToolbar.elevation = 20f
-        Glide.with(this).load(otherUser?.imageurl).placeholder(R.drawable.img).circleCrop()
-            .into(binding.chatUserImage)
+        Glide.with(this).load(otherUser?.imageurl).placeholder(R.drawable.img).circleCrop().into(binding.chatUserImage)
     }
 
     private fun setupRecyclerView() {
@@ -228,7 +216,6 @@ class ChatActivity : AppCompatActivity() {
                 allMessages.sortBy { it.timestamp.seconds }
                 messageAdapter.updateMessages(allMessages)
 
-                // Only scroll to bottom if the new message is from the current user
                 val lastMessage = allMessages.lastOrNull()
                 if (lastMessage != null && lastMessage.senderId == chatViewModel.getCurrentUserId()) {
                     scrollToBottom()
@@ -241,8 +228,7 @@ class ChatActivity : AppCompatActivity() {
         if (isLoading || isLastPage || lastVisibleDocument == null) return
         isLoading = true
         otherUser?.userid?.let { userId ->
-            chatViewModel.loadMoreMessages(userId, lastVisibleDocument!!, pageSize)
-                .observe(this) { messages ->
+            chatViewModel.loadMoreMessages(userId, lastVisibleDocument!!, pageSize).observe(this) { messages ->
                     if (messages.isNotEmpty()) {
                         allMessages.addAll(0, messages)
                         allMessages.sortBy { it.timestamp.seconds }

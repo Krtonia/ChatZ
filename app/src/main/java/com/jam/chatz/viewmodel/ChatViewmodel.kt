@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import com.jam.chatz.chat.ChatRepository
 import com.jam.chatz.message.Message
 
@@ -74,11 +75,43 @@ class ChatViewModel : ViewModel() {
             return
         }
 
+        // Use the repository's dedicated method for sending image messages
         chatRepository.sendImageMessage(receiverId, imageUrl) { success ->
             if (success) {
                 Log.d("ChatViewModel", "Image message sent successfully")
             } else {
                 Log.e("ChatViewModel", "Failed to send image message")
+            }
+            callback(success)
+        }
+    }
+
+    fun sendMessageObject(receiverId: String, message: Message, callback: (Boolean) -> Unit) {
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: run {
+            callback(false)
+            return
+        }
+
+        // Update the message to ensure it has the correct sender and receiver
+        val updatedMessage = message.copy(
+            senderId = currentUserId,
+            receiverId = receiverId,
+            messageId = message.messageId.ifEmpty {
+                FirebaseFirestore.getInstance().collection("chats")
+                    .document(chatRepository.getChatId(currentUserId, receiverId))
+                    .collection("messages").document().id
+            }
+        )
+
+        // Get or create chat ID
+        val chatId = chatRepository.getChatId(currentUserId, receiverId)
+
+        // Add message to Firestore using the repository method
+        chatRepository.addMessage(chatId, updatedMessage) { success ->
+            if (success) {
+                Log.d("ChatViewModel", "Message sent successfully: ${updatedMessage.messageId}")
+            } else {
+                Log.e("ChatViewModel", "Failed to send message")
             }
             callback(success)
         }

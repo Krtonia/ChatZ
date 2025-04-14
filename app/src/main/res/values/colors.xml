@@ -4,20 +4,25 @@
     <color name="onPrimary">#FFFFFF</color>
     <color name="primaryContainer">#CDEDA3</color>
     <color name="onPrimaryContainer">#354E16</color>
+
     <color name="secondary">#586249</color>
     <color name="onSecondary">#FFFFFF</color>
     <color name="secondaryContainer">#DCE7C8</color>
     <color name="onSecondaryContainer">#404A33</color>
+
     <color name="tertiary">#386663</color>
     <color name="onTertiary">#FFFFFF</color>
     <color name="tertiaryContainer">#BCECE7</color>
     <color name="onTertiaryContainer">#1F4E4B</color>
+
     <color name="error">#BA1A1A</color>
     <color name="onError">#FFFFFF</color>
     <color name="errorContainer">#FFDAD6</color>
     <color name="onErrorContainer">#93000A</color>
+
     <color name="background">#F9FAEF</color>
     <color name="onBackground">#1A1C16</color>
+
     <color name="surface">#F9FAEF</color>
     <color name="onSurface">#1A1C16</color>
     <color name="surfaceVariant">#E1E4D5</color>

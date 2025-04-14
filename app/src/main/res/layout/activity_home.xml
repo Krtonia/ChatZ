@@ -19,35 +19,32 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.google.android.material.textview.MaterialTextView
+            <TextView
                 android:id="@+id/textView4"
+                style="@style/TextAppearance.Material3.DisplayMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="64dp"
                 android:layout_marginHorizontal="12dp"
                 android:fontFamily="@font/satoshi"
                 android:text="@string/chatz"
-                android:textSize="55sp"
                 android:textStyle="bold" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/searchCard"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/search_text_view"
+                style="@style/textBoxOutline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp">
+                android:layout_marginHorizontal="20dp"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/ic_search">
 
-                <androidx.appcompat.widget.SearchView
-                    android:id="@+id/searchView"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/search_text"
+                    style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:iconifiedByDefault="false"
-                    android:layout_marginHorizontal="4dp"
-                    android:iconifiedByDefault="false"
-                    android:hint="Search..."/>
-            </com.google.android.material.card.MaterialCardView>
+                    android:hint="Search ..." />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/noUsersFoundText"
@@ -73,18 +70,31 @@
 
                     <!-- Shimmer placeholders -->
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
 
                 </LinearLayout>
@@ -94,28 +104,23 @@
                 android:id="@+id/usersRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="70dp" />
+                android:paddingBottom="10dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
         </LinearLayout>
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <LinearLayout
-        android:id="@+id/profileLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom"
-        android:orientation="vertical"
-        android:visibility="visible">
-
-
-        <!-- Bottom Navigation -->
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigation"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:background="@color/surface"
-            app:labelVisibilityMode="labeled"
-            app:menu="@menu/bottom_nav_menu" />
-    </LinearLayout>
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:clickable="true"
+        android:src="@drawable/ic_profile"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -124,9 +129,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="60dp"
         android:contentDescription="@string/add_user_button"
         android:src="@drawable/person_add"
-        app:elevation="10dp"
         app:fabSize="auto" />
 </RelativeLayout>

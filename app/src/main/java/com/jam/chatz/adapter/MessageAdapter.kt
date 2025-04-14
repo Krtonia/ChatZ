@@ -42,8 +42,11 @@ class MessageAdapter(private var messages: List<Message>) :
     private fun processMessages() {
         items.clear()
         var lastDate: String? = null
-
         messages.sortedBy { it.timestamp.seconds }.forEach { message ->
+            if (message.isImage && message.imageUrl.isNullOrEmpty()) {
+                Log.w("MessageAdapter", "Image message missing URL: $message")
+                return@forEach
+            }
             val currentDate = getFormattedDate(message.timestamp.seconds * 1000)
             if (lastDate == null || currentDate != lastDate) {
                 items.add(DateHeader(currentDate))
@@ -53,7 +56,6 @@ class MessageAdapter(private var messages: List<Message>) :
         }
     }
 
-    // ViewHolder classes
     class DateHeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dateText: TextView = itemView.findViewById(R.id.dateHeader)
     }
@@ -65,7 +67,7 @@ class MessageAdapter(private var messages: List<Message>) :
 
     class SentImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val messageImage: ImageView = itemView.findViewById(R.id.message_image)
-        val timeText: TextView = itemView.findViewById(R.id.sent_message_time)
+        val timeText: TextView = itemView.findViewById(R.id.time_text)
         val progressBar: ProgressBar = itemView.findViewById(R.id.image_progress)
     }
 
@@ -76,7 +78,7 @@ class MessageAdapter(private var messages: List<Message>) :
 
     class ReceivedImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val messageImage: ImageView = itemView.findViewById(R.id.message_image)
-        val timeText: TextView = itemView.findViewById(R.id.received_message_time)
+        val timeText: TextView = itemView.findViewById(R.id.time_text)
         val progressBar: ProgressBar = itemView.findViewById(R.id.image_progress)
     }
 
@@ -84,40 +86,40 @@ class MessageAdapter(private var messages: List<Message>) :
         return when (val item = items[position]) {
             is DateHeader -> VIEW_TYPE_DATE_HEADER
             is Message -> {
-                if (item.senderId == currentUserId) {
-                    if (item.isImage && item.imageUrl != null) VIEW_TYPE_SENT_IMAGE else VIEW_TYPE_SENT_TEXT
-                } else {
-                    if (item.isImage && item.imageUrl != null) VIEW_TYPE_RECEIVED_IMAGE else VIEW_TYPE_RECEIVED_TEXT
+                when {
+                    item.senderId == currentUserId && item.type == "image" && !item.imageUrl.isNullOrEmpty() -> VIEW_TYPE_SENT_IMAGE
+                    item.senderId == currentUserId -> VIEW_TYPE_SENT_TEXT
+                    item.senderId != currentUserId && item.type == "image" && !item.imageUrl.isNullOrEmpty() -> VIEW_TYPE_RECEIVED_IMAGE
+                    else -> VIEW_TYPE_RECEIVED_TEXT
                 }
             }
+
             else -> throw IllegalArgumentException("Unknown view type")
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            VIEW_TYPE_DATE_HEADER -> DateHeaderViewHolder(
-                LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_date_header, parent, false)
-            )
-            VIEW_TYPE_SENT_TEXT -> SentTextViewHolder(
-                LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_sent_message, parent, false)
-            )
-            VIEW_TYPE_SENT_IMAGE -> SentImageViewHolder(
-                LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_message_sent_image, parent, false)
-            )
-            VIEW_TYPE_RECEIVED_TEXT -> ReceivedTextViewHolder(
-                LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_recieved_message, parent, false)
-            )
-            VIEW_TYPE_RECEIVED_IMAGE -> ReceivedImageViewHolder(
-                LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_message_recieved_image, parent, false)
-            )
-            else -> throw IllegalArgumentException("Invalid view type")
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
+        VIEW_TYPE_DATE_HEADER -> DateHeaderViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_date_header, parent, false)
+        )
+
+        VIEW_TYPE_SENT_TEXT -> SentTextViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_sent_message, parent, false)
+        )
+
+        VIEW_TYPE_SENT_IMAGE -> SentImageViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_message_sent_image, parent, false)
+        )
+
+        VIEW_TYPE_RECEIVED_TEXT -> ReceivedTextViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_recieved_message, parent, false)
+        )
+
+        VIEW_TYPE_RECEIVED_IMAGE -> ReceivedImageViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_message_recieved_image, parent, false)
+        )
+
+        else -> throw IllegalArgumentException("Invalid view type")
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -129,23 +131,50 @@ class MessageAdapter(private var messages: List<Message>) :
 
                 when (holder) {
                     is SentTextViewHolder -> {
-                        holder.messageText.text = item.message
+                        holder.messageText.text = item.text
                         holder.timeText.text = timeString
                     }
+
                     is SentImageViewHolder -> {
-                        holder.progressBar.visibility = View.VISIBLE
-                        loadImageWithGlide(item.imageUrl!!, holder.messageImage, holder.progressBar)
-                        holder.timeText.text = timeString
+                        bindImageMessage(holder, item, timeString)
                     }
+
                     is ReceivedTextViewHolder -> {
-                        holder.messageText.text = item.message
+                        holder.messageText.text = item.text
                         holder.timeText.text = timeString
                     }
+
                     is ReceivedImageViewHolder -> {
-                        holder.progressBar.visibility = View.VISIBLE
-                        loadImageWithGlide(item.imageUrl!!, holder.messageImage, holder.progressBar)
-                        holder.timeText.text = timeString
+                        bindImageMessage(holder, item, timeString)
                     }
+                }
+            }
+        }
+    }
+
+    private fun bindImageMessage(
+        holder: Any,
+        message: Message,
+        timeString: String
+    ) {
+        when (holder) {
+            is SentImageViewHolder -> {
+                holder.progressBar.visibility = View.VISIBLE
+                holder.timeText.text = timeString
+                // Log the URL we're trying to load
+                Log.d("MessageAdapter", "Loading sent image from URL: ${message.imageUrl}")
+                message.imageUrl?.let { url ->
+                    loadImageWithGlide(url, holder.messageImage, holder.progressBar)
+                }
+            }
+
+            is ReceivedImageViewHolder -> {
+                holder.progressBar.visibility = View.VISIBLE
+                holder.timeText.text = timeString
+                // Log the URL we're trying to load
+                Log.d("MessageAdapter", "Loading received image from URL: ${message.imageUrl}")
+                message.imageUrl?.let { url ->
+                    loadImageWithGlide(url, holder.messageImage, holder.progressBar)
                 }
             }
         }
@@ -156,43 +185,57 @@ class MessageAdapter(private var messages: List<Message>) :
         imageView: ImageView,
         progressBar: ProgressBar
     ) {
-        Log.d("MessageAdapter", "Loading image from URL: $imageUrl")
+        Log.d("MessageAdapter", "Loading image from: $imageUrl")
+        if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
+            Glide.with(imageView.context)
+                .load(imageUrl)
+                .override(600, 600)
+                .centerCrop()
+                .addListener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        progressBar.visibility = View.GONE
+                        Log.e("Glide", "Failed to load image: $imageUrl", e)
+                        imageView.setImageResource(R.drawable.img_1)
+                        return false
+                    }
 
-        Glide.with(imageView.context)
-            .load(imageUrl)
-            .override(600, 600)
-            .centerCrop()
-            .addListener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    progressBar.visibility = View.GONE
-                    Log.e("Glide", "Image load failed: $imageUrl", e)
-                    imageView.setImageResource(R.drawable.img_1)
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable,
-                    model: Any,
-                    target: Target<Drawable>,
-                    dataSource: DataSource,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    progressBar.visibility = View.GONE
-                    return false
-                }
-            })
-            .into(imageView)
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        model: Any,
+                        target: Target<Drawable>,
+                        dataSource: DataSource,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        progressBar.visibility = View.GONE
+                        return false
+                    }
+                })
+                .into(imageView)
+        } else {
+            progressBar.visibility = View.GONE
+            Log.e("MessageAdapter", "Invalid image URL: $imageUrl")
+            imageView.setImageResource(R.drawable.img_1)
+        }
     }
 
     override fun getItemCount(): Int = items.size
 
     fun updateMessages(newMessages: List<Message>) {
-        messages = newMessages
+        val validMessages = newMessages.filter { message ->
+            if (message.isImage && message.imageUrl.isNullOrEmpty()) {
+                Log.w("MessageAdapter", "Filtered out invalid image message: $message")
+                false
+            } else {
+                true
+            }
+        }
+
+        messages = validMessages
         processMessages()
         notifyDataSetChanged()
     }

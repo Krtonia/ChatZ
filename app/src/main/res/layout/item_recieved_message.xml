@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,18 +11,19 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/received_message_card"
+        style="@style/Widget.Material3.CardView.Filled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardCornerRadius="12dp"
-        app:cardElevation="5dp"
-        app:cardUseCompatPadding="true"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#BFE6A0"
+            android:background="@color/primaryContainer"
             android:padding="8dp">
 
             <!-- Text Message Container -->
@@ -41,7 +42,7 @@
                     android:autoLink="web|phone|email"
                     android:linksClickable="true"
                     android:maxWidth="260dp"
-                    android:textColor="#000000"
+                    android:textColor="@color/onPrimaryContainer"
                     android:textColorLink="@color/linkColor"
                     android:textIsSelectable="true"
                     android:textSize="16sp"
@@ -52,7 +53,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:textColor="@color/onPrimaryContainer"
                     android:textSize="10sp"
                     tools:text="12:34 PM" />
             </LinearLayout>
@@ -60,4 +62,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -9,12 +9,17 @@ data class Message(
     val messageId: String = "",
     val senderId: String = "",
     val receiverId: String = "",
-    val message: String = "",
+    val text: String = "",
     @Contextual val timestamp: Timestamp = Timestamp.now(),
     val isRead: Boolean = false,
-    val imageUrl: String? = null,  // This stores the image URL
-    val isImage: Boolean = true   // This indicates if it's an image message
+    val imageUrl: String? = null,
+    val type: String = "text",
 ) {
-    // Empty constructor for Firebase
-    constructor() : this("", "", "", "", Timestamp.now(), false, null, false)
+    val isImage: Boolean
+        get() = type == "image"
+
+    val message: String
+        get() = text
+
+    constructor() : this("", "", "", "", Timestamp.now(), false, null, "text")
 }

@@ -2,6 +2,8 @@ package com.jam.chatz.start.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -32,35 +34,16 @@ class Home : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         enableEdgeToEdge()
         setupRecyclerView()
-        setupBottomNavigation()
         setupSearchView()
         shim = binding.shimmerLayout
         loadConversationUsers()
         binding.swipeRefreshLayout.setOnRefreshListener { loadConversationUsers() }
+        binding.profile.setOnClickListener { startActivity(Intent(this, ProfileActivity::class.java)) }
         binding.fab.setOnClickListener {
             val intent = Intent(this, AllUsers::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
-    }
-
-    private fun setupBottomNavigation() {
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_profile -> {
-                    startActivity(Intent(this, ProfileActivity::class.java))
-                    true
-                }
-                R.id.nav_home -> {
-                    // Already on home
-                    true
-                }
-                else -> false
-            }
-        }
-
-        // Set the selected item to highlight the correct tab
-        binding.bottomNavigation.selectedItemId = R.id.nav_home
     }
 
     private fun loadConversationUsers() {
@@ -77,7 +60,9 @@ class Home : AppCompatActivity() {
 
     private fun checkEmptyState(users: List<User>) {
         if (users.isEmpty()) {
-            binding.noUsersFoundText.text = "No conversations yet\nStart a new chat by tapping the button"
+            binding.noUsersFoundText.text = buildString {
+                append("No conversations yet\nStart a new chat by tapping the button below")
+            }
             binding.noUsersFoundText.visibility = View.VISIBLE
         } else {
             binding.noUsersFoundText.visibility = View.GONE
@@ -112,25 +97,37 @@ class Home : AppCompatActivity() {
     }
 
     private fun setupSearchView() {
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?) = false
-            override fun onQueryTextChange(newText: String?): Boolean {
-                filterUsers(newText.orEmpty())
-                return true
+
+        binding.searchText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?, start: Int, count: Int, after: Int
+            ) {}
+
+            override fun onTextChanged(
+                s: CharSequence?, start: Int, before: Int, count: Int
+            ) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                if ((s?.length ?: 0) >= 3) {
+                    filterUsers(s.toString())
+                } else {
+                    userViewModel.loadAllUsers()
+                    userAdapter.updateUsers(originalUsers)
+                    checkEmptyState(originalUsers)
+                }
             }
         })
-        binding.searchView.setOnCloseListener {
+
+        binding.searchTextView.setEndIconOnClickListener {
             resetSearch()
-            false
         }
     }
 
     private fun resetSearch() {
-        binding.searchView.setQuery("", false)
+        binding.searchText.setText("")
         userViewModel.loadAllUsers()
         userAdapter.updateUsers(originalUsers)
         checkEmptyState(originalUsers)
-        binding.searchView.isIconified = true
     }
 
     private fun filterUsers(query: String) {
@@ -138,8 +135,7 @@ class Home : AppCompatActivity() {
             originalUsers
         } else {
             originalUsers.filter { user ->
-                user.username?.contains(query, ignoreCase = true) == true ||
-                        user.useremail?.contains(query, ignoreCase = true) == true
+                user.username?.contains(query, ignoreCase = true) == true || user.useremail?.contains(query, ignoreCase = true) == true
             }
         }
         userAdapter.updateUsers(filteredList)

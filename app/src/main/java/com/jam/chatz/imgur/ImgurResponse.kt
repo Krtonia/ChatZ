@@ -94,4 +94,6 @@ data class ImgurData(
 
     @SerialName("link")
     val link: String? = null
+
+
 )

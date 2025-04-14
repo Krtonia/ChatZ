@@ -3,9 +3,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp"
-    android:layout_marginStart="40dp"
+    android:layout_marginStart="10dp"
     android:layout_marginEnd="8dp"
-    android:layout_gravity="end">
+    android:layout_gravity="start">
 
     <FrameLayout
         android:layout_width="250dp"
@@ -15,8 +15,8 @@
             android:id="@+id/message_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop" />
 
         <ProgressBar
             android:id="@+id/image_progress"
@@ -25,7 +25,7 @@
             android:layout_gravity="center"/>
     </FrameLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/time_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

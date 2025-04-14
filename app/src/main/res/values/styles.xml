@@ -1,7 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="CircleImageView">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+
+    <style name="textBoxOutline" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="android:textColor">@color/onBackground</item>
+        <item name="boxBackgroundColor">@color/surface</item>
+        <item name="errorEnabled">false</item>
+        <item name="hintEnabled">false</item>
+        <item name="thumbColor">@color/onBackground</item>
+        <item name="colorAccent">@color/primary</item>
+        <item name="expandedHintEnabled">false</item>
+        <item name="boxStrokeWidth">1.5dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>    <!--MISC. COLOR-->
+        <item name="hintTextColor">@color/onSecondaryContainer</item>
+        <item name="startIconTint">@color/primary</item>
+        <item name="passwordToggleTint">@color/onBackground</item>
+        <item name="colorControlActivated">@color/primary</item>
+        <item name="colorControlNormal">@color/primary</item>
+        <item name="colorControlHighlight">@color/primary</item>
+        <item name="android:colorControlActivated">@color/primary</item>
+        <item name="android:colorControlNormal">@color/primary</item>
+        <item name="android:colorControlHighlight">@color/primary</item>
+    </style>
+
+
 </resources>
