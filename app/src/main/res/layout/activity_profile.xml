@@ -56,16 +56,31 @@
             android:textSize="18sp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/logoutBtn"
+            android:id="@+id/changeUname"
             style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/mulish"
+            android:layout_marginTop="10dp"
+            android:paddingHorizontal="24dp"
+            android:text="@string/change_username"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="10dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/logoutBtn"
+            style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mulish"
+            android:layout_marginTop="20dp"
             android:paddingHorizontal="24dp"
             android:text="@string/logout"
             android:textSize="18sp"
             android:textStyle="bold"
             app:cornerRadius="10dp" />
+
     </LinearLayout>
 
 </RelativeLayout>

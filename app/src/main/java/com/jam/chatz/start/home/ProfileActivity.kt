@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jam.chatz.R
@@ -26,7 +27,12 @@ class ProfileActivity : AppCompatActivity() {
             showLogoutConfirmation()
         }
         loadUserProfile()
+
+        binding.changeUname.setOnClickListener { }
     }
+
+
+
 
     private fun loadUserProfile() {
         val currentUser = auth.currentUser ?: run {

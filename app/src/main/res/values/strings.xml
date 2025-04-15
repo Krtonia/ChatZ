@@ -29,4 +29,5 @@
     <string name="take_down">take down</string>
     <string name="new_user">New User?</string>
     <string name="login_instead">Login instead</string>
+    <string name="change_username">Change Username</string>
 </resources>

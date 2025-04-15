@@ -68,12 +68,6 @@ class ChatViewModel : ViewModel() {
     }
 
     fun sendImageMessage(receiverId: String, imageUrl: String, callback: (Boolean) -> Unit) {
-        run {
-            Log.e("ChatViewModel", "Cannot send message - user not authenticated")
-            callback(false)
-            return
-        }
-
         chatRepository.sendImageMessage(receiverId, imageUrl) { success ->
             if (success) {
                 Log.d("ChatViewModel", "Image message sent successfully")

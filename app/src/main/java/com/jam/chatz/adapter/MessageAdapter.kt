@@ -23,7 +23,6 @@ import java.util.Locale
 
 class MessageAdapter(private var messages: List<Message>,private val onImageClickListener: OnImageClickListener? = null) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    //Testing Image opening functionality
     interface OnImageClickListener {
         fun onImageClick(imageUrl: String)
     }
