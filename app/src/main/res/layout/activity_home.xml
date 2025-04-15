@@ -7,120 +7,124 @@
     android:fitsSystemWindows="true"
     tools:context=".start.home.Home">
 
-    <!-- Home Layout -->
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
+    <LinearLayout
+        android:id="@+id/homeLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/homeLayout"
+        <TextView
+            android:id="@+id/textView4"
+            style="@style/TextAppearance.Material3.DisplayMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:fontFamily="@font/satoshi"
+            android:text="@string/chatz"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/search_text_view"
+            style="@style/textBoxOutline"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/ic_search">
 
-            <TextView
-                android:id="@+id/textView4"
-                style="@style/TextAppearance.Material3.DisplayMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="64dp"
-                android:layout_marginHorizontal="12dp"
-                android:fontFamily="@font/satoshi"
-                android:text="@string/chatz"
-                android:textStyle="bold" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/search_text_view"
-                style="@style/textBoxOutline"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/search_text"
+                style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/ic_search">
+                android:hint="Search ..." />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/search_text"
-                    style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Search ..." />
-            </com.google.android.material.textfield.TextInputLayout>
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/noUsersFoundText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="16dp"
-                android:text="@string/no_users_found"
-                android:textAlignment="center"
-                android:textSize="18sp"
-                android:visibility="gone" />
-
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmerLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <!-- Shimmer placeholders -->
-                    <include layout="@layout/row_user_list_shimmer" />
-
-                    <include layout="@layout/row_user_list_shimmer" />
-
-                    <include layout="@layout/row_user_list_shimmer" />
-
-                    <include layout="@layout/row_user_list_shimmer" />
-
-                    <include layout="@layout/row_user_list_shimmer" />
-
-                    <include layout="@layout/row_user_list_shimmer" />
-
-                    <include layout="@layout/row_user_list_shimmer" />
-
-                    <include layout="@layout/row_user_list_shimmer" />
-
-                    <include layout="@layout/row_user_list_shimmer" />
-
-                    <include layout="@layout/row_user_list_shimmer" />
-
-                    <include layout="@layout/row_user_list_shimmer" />
-
-                    <include layout="@layout/row_user_list_shimmer" />
-
-                    <include layout="@layout/row_user_list_shimmer" />
-
-                    <include layout="@layout/row_user_list_shimmer" />
-
-                </LinearLayout>
-            </com.facebook.shimmer.ShimmerFrameLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/usersRecyclerView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="10dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/noUsersFoundText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/no_users_found"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <include layout="@layout/row_user_list_shimmer" />
+
+                        <include layout="@layout/row_user_list_shimmer" />
+
+                        <include layout="@layout/row_user_list_shimmer" />
+
+                        <include layout="@layout/row_user_list_shimmer" />
+
+                        <include layout="@layout/row_user_list_shimmer" />
+
+                        <include layout="@layout/row_user_list_shimmer" />
+
+                        <include layout="@layout/row_user_list_shimmer" />
+
+                        <include layout="@layout/row_user_list_shimmer" />
+
+                        <include layout="@layout/row_user_list_shimmer" />
+
+                        <include layout="@layout/row_user_list_shimmer" />
+
+                        <include layout="@layout/row_user_list_shimmer" />
+
+                        <include layout="@layout/row_user_list_shimmer" />
+
+                        <include layout="@layout/row_user_list_shimmer" />
+
+                        <include layout="@layout/row_user_list_shimmer" />
+                    </LinearLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/usersRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="10dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            </LinearLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
+
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginEnd="18dp"
         android:clickable="true"
-        android:src="@drawable/ic_profile"/>
+        android:contentDescription="profile section"
+        android:src="@drawable/ic_profile" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

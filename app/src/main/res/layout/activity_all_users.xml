@@ -21,35 +21,32 @@
             android:orientation="vertical">
 
 
-            <com.google.android.material.textview.MaterialTextView
+            <TextView
                 android:id="@+id/textView4"
+                style="@style/TextAppearance.Material3.DisplayMedium"
                 android:layout_width="wrap_content"
-                android:layout_height="64dp"
-                android:layout_marginHorizontal="12dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:fontFamily="@font/satoshi"
                 android:text="@string/chatz"
-                android:textSize="55sp"
                 android:textStyle="bold" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/searchCard"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/search_text_view"
+                style="@style/textBoxOutline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp">
+                android:layout_marginHorizontal="20dp"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/ic_search">
 
-                <androidx.appcompat.widget.SearchView
-                    android:id="@+id/searchView"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/search_text"
+                    style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:iconifiedByDefault="false"
-                    android:layout_marginHorizontal="4dp"
-                    android:iconifiedByDefault="false"
-                    android:queryHint="Search..." />
-            </com.google.android.material.card.MaterialCardView>
+                    android:hint="Search ..." />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/noUsersFoundText"
@@ -68,27 +65,46 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
+
                     <include layout="@layout/row_user_list_shimmer" />
                 </LinearLayout>
             </com.facebook.shimmer.ShimmerFrameLayout>

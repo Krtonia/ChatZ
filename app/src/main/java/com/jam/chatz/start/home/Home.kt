@@ -1,5 +1,6 @@
 package com.jam.chatz.start.home
 
+import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -8,17 +9,16 @@ import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.firebase.auth.FirebaseAuth
-import com.jam.chatz.R
 import com.jam.chatz.adapter.UserAdapter
 import com.jam.chatz.chat.ChatActivity
 import com.jam.chatz.databinding.ActivityHomeBinding
 import com.jam.chatz.user.User
 import com.jam.chatz.viewmodel.UserViewModel
 
+@Suppress("DEPRECATION")
 class Home : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var userAdapter: UserAdapter
@@ -42,7 +42,6 @@ class Home : AppCompatActivity() {
         binding.fab.setOnClickListener {
             val intent = Intent(this, AllUsers::class.java)
             startActivity(intent)
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
     }
 
@@ -87,9 +86,8 @@ class Home : AppCompatActivity() {
                 putExtra("USER", user)
             }
             startActivity(intent)
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         }
-
         binding.usersRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@Home)
             adapter = userAdapter
@@ -108,7 +106,7 @@ class Home : AppCompatActivity() {
             ) {}
 
             override fun afterTextChanged(s: Editable?) {
-                if ((s?.length ?: 0) >= 3) {
+                if ((s?.length ?: 0) >= 1) {
                     filterUsers(s.toString())
                 } else {
                     userViewModel.loadAllUsers()
@@ -141,6 +139,7 @@ class Home : AppCompatActivity() {
         userAdapter.updateUsers(filteredList)
         checkEmptyState(filteredList)
     }
+
 
     override fun onBackPressed() {
         super.onBackPressed()

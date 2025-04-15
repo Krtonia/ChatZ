@@ -4,6 +4,8 @@ package com.jam.chatz.start.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -61,25 +63,39 @@ class AllUsers : AppCompatActivity() {
     }
 
     private fun setupSearchView() {
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?) = false
-            override fun onQueryTextChange(newText: String?): Boolean {
-                filterUsers(newText.orEmpty())
-                return true
+
+        binding.searchText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?, start: Int, count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence?, start: Int, before: Int, count: Int
+            ) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if ((s?.length ?: 0) >= 1) {
+                    filterUsers(s.toString())
+                } else {
+                    userViewModel.loadAllUsers()
+                    userAdapter.updateUsers(originalUsers)
+                    checkEmptyState(originalUsers)
+                }
             }
         })
-        binding.searchView.setOnCloseListener {
+
+        binding.searchTextView.setEndIconOnClickListener {
             resetSearch()
-            false
         }
     }
 
     private fun resetSearch() {
-        binding.searchView.setQuery("", false)
+        binding.searchText.setText("")
         userViewModel.loadAllUsers()
         userAdapter.updateUsers(originalUsers)
         checkEmptyState(originalUsers)
-        binding.searchView.isIconified = true
     }
 
     private fun filterUsers(query: String) {
