@@ -1,10 +1,8 @@
 package com.jam.chatz.chat
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -12,7 +10,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -97,7 +94,7 @@ class ChatActivity : AppCompatActivity(), MessageAdapter.OnImageClickListener {
         try {
             startActivity(intent)
         } catch (e: Exception) {
-            Toast.makeText(this, "No app available to view images ${e}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "No app available to view images ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 

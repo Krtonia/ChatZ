@@ -14,7 +14,6 @@ class ChatViewModel : ViewModel() {
     private val chatRepository = ChatRepository()
     private var lastVisibleDocument: DocumentSnapshot? = null
     private val _isLoading = MutableLiveData(false)
-    val isLoading: LiveData<Boolean> = _isLoading
 
     fun getInitialMessages(userId: String, pageSize: Int): LiveData<List<Message>> {
         val messagesLiveData = MutableLiveData<List<Message>>()
@@ -69,13 +68,12 @@ class ChatViewModel : ViewModel() {
     }
 
     fun sendImageMessage(receiverId: String, imageUrl: String, callback: (Boolean) -> Unit) {
-        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: run {
+        run {
             Log.e("ChatViewModel", "Cannot send message - user not authenticated")
             callback(false)
             return
         }
 
-        // Use the repository's dedicated method for sending image messages
         chatRepository.sendImageMessage(receiverId, imageUrl) { success ->
             if (success) {
                 Log.d("ChatViewModel", "Image message sent successfully")
@@ -92,7 +90,6 @@ class ChatViewModel : ViewModel() {
             return
         }
 
-        // Update the message to ensure it has the correct sender and receiver
         val updatedMessage = message.copy(
             senderId = currentUserId,
             receiverId = receiverId,
@@ -103,10 +100,8 @@ class ChatViewModel : ViewModel() {
             }
         )
 
-        // Get or create chat ID
         val chatId = chatRepository.getChatId(currentUserId, receiverId)
 
-        // Add message to Firestore using the repository method
         chatRepository.addMessage(chatId, updatedMessage) { success ->
             if (success) {
                 Log.d("ChatViewModel", "Message sent successfully: ${updatedMessage.messageId}")

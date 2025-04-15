@@ -21,12 +21,10 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="-8dp"
             android:src="@drawable/zoom_welcome"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintTop_toTopOf="parent">
 
         </com.google.android.material.imageview.ShapeableImageView>
 
@@ -60,8 +58,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.74">
+            app:layout_constraintTop_toBottomOf="@+id/shapeableImageView"
+            app:layout_constraintVertical_bias="0.312">
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -88,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -127,18 +125,31 @@
                 android:textStyle="bold"
                 app:cornerRadius="10dp" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/regbtn"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="70dp"
-                android:layout_marginTop="40dp"
-                android:fontFamily="@font/mulish"
-                android:text="@string/register_now"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:cornerRadius="10dp" />
+                android:layout_gravity="center"
+                android:layout_marginTop="100dp"
+                android:orientation="horizontal">
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/newusertext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/new_user"
+                    android:fontFamily="@font/mulish"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/regbtn"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/register_now"
+                    android:fontFamily="@font/mulish"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
         </LinearLayout>
 

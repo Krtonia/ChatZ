@@ -155,11 +155,7 @@ class MessageAdapter(private var messages: List<Message>,private val onImageClic
         }
     }
 
-    private fun bindImageMessage(
-        holder: Any,
-        message: Message,
-        timeString: String
-    ) {
+    private fun bindImageMessage(holder: Any, message: Message, timeString: String) {
         when (holder) {
             is SentImageViewHolder -> {
                 holder.progressBar.visibility = View.VISIBLE
@@ -187,11 +183,7 @@ class MessageAdapter(private var messages: List<Message>,private val onImageClic
         }
     }
 
-    private fun loadImageWithGlide(
-        imageUrl: String,
-        imageView: ImageView,
-        progressBar: ProgressBar
-    ) {
+    private fun loadImageWithGlide(imageUrl: String, imageView: ImageView, progressBar: ProgressBar) {
         Log.d("MessageAdapter", "Loading image from: $imageUrl")
         if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
             Glide.with(imageView.context)

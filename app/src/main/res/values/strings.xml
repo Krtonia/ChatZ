@@ -27,4 +27,6 @@
     <string name="start_your_conversation">Start your conversation...</string>
     <string name="attach_image">attach image</string>
     <string name="take_down">take down</string>
+    <string name="new_user">New User?</string>
+    <string name="login_instead">Login instead</string>
 </resources>

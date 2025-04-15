@@ -136,20 +136,20 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="70dp"
             android:fontFamily="@font/mulish"
-            android:text="Register"
+            android:text="@string/register"
             android:textSize="18sp"
             android:textStyle="bold"
             app:cornerRadius="10dp" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/lgbtn"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="70dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/mulish"
-            android:text="Login instead"
+            android:text="@string/login_instead"
             android:textSize="18sp"
             android:textStyle="bold"
             app:cornerRadius="10dp" />
