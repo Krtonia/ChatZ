@@ -42,6 +42,7 @@ class Home : AppCompatActivity() {
         binding.fab.setOnClickListener {
             val intent = Intent(this, AllUsers::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         }
     }
 
@@ -99,11 +100,13 @@ class Home : AppCompatActivity() {
         binding.searchText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
                 s: CharSequence?, start: Int, count: Int, after: Int
-            ) {}
+            ) {
+            }
 
             override fun onTextChanged(
                 s: CharSequence?, start: Int, before: Int, count: Int
-            ) {}
+            ) {
+            }
 
             override fun afterTextChanged(s: Editable?) {
                 if ((s?.length ?: 0) >= 1) {
