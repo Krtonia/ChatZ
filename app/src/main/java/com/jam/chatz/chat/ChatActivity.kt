@@ -138,7 +138,6 @@ class ChatActivity : AppCompatActivity(), MessageAdapter.OnImageClickListener {
                                 binding.progressBar.visibility = View.GONE
                                 binding.messageInput.isEnabled = true
                                 binding.sendButton.isEnabled = true
-
                                 if (!success) {
                                     Toast.makeText(
                                         this@ChatActivity, "Failed to send image", Toast.LENGTH_SHORT

@@ -1,5 +1,6 @@
 package com.jam.chatz.start.home
 
+//noinspection SuspiciousImport
 import android.R
 import android.content.Intent
 import android.os.Bundle
@@ -17,6 +18,7 @@ import com.jam.chatz.chat.ChatActivity
 import com.jam.chatz.databinding.ActivityHomeBinding
 import com.jam.chatz.user.User
 import com.jam.chatz.viewmodel.UserViewModel
+import kotlin.math.log
 
 @Suppress("DEPRECATION")
 class Home : AppCompatActivity() {
