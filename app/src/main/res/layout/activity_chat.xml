@@ -35,6 +35,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageButton
+                android:id="@+id/imgup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:contentDescription="@string/image_upload"
+                android:src="@drawable/imgup"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.927"
+                app:layout_constraintStart_toEndOf="@+id/chat_username"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/chat_user_image"
                 android:layout_width="56dp"
@@ -89,6 +102,8 @@
     </com.google.android.material.appbar.MaterialToolbar>
 
     <!-- Messages RecyclerView -->
+
+    <!-- Message input area -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messages_recycler_view"
         android:layout_width="match_parent"
@@ -97,9 +112,11 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/message_input_layout"
-        app:layout_constraintTop_toBottomOf="@id/chat_toolbar" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chat_toolbar"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <!-- Message input area -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/message_input_layout"
         android:layout_width="match_parent"
@@ -168,5 +185,15 @@
         app:layout_constraintVertical_bias="0.945"
         app:tint="@color/primary"
         tools:ignore="ContentDescription" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/messages_recycler_view"
+        app:layout_constraintEnd_toEndOf="@+id/messages_recycler_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chat_toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

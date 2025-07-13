@@ -23,4 +23,5 @@
     <string name="your_profile">Your Profile</string>
     <string name="username">Username:</string>
     <string name="logout">Logout</string>
+    <string name="image_upload">Image Upload</string>
 </resources>

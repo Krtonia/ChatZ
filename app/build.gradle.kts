@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
     id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
     id("com.google.firebase.crashlytics")
     kotlin("plugin.serialization") version "2.1.20"
     alias(libs.plugins.google.gms.google.services)
@@ -44,7 +43,7 @@ android {
 
 dependencies {
 
-    //Default
+    // Default
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -58,59 +57,57 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    //Splashscreen
+    // Splashscreen
     implementation(libs.androidx.core.splashscreen)
 
-    //Coroutines
+    // Coroutines
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.play.services)
 
-    //Dagger-Hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
 
-    //FireBase
-    implementation(libs.firebase.crashlytics)
-    implementation(libs.firebase.analytics)
+    // Firebase
     implementation(platform(libs.firebase.bom))
-    implementation(libs.google.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
     implementation(libs.google.firebase.auth)
     implementation(libs.google.firebase.database)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.storage)
 
-    //ViewModel
+    // ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
-    implementation(libs.glide.v4151)
 
-    //Glide Image
-    implementation(libs.glide)
+    //Glide
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    kapt ("com.github.bumptech.glide:compiler:4.16.0")
 
-    //Retrofit
-    implementation(libs.retrofit.v2110)
-
-    //Serialization
     implementation(libs.kotlinx.serialization.json)
 
-    //Gson converter
-    implementation(libs.converter.gson)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
-    //Room Database
+    // Firebase Firestore with Kotlin serialization support
+    implementation("com.google.firebase:firebase-firestore-ktx:24.11.0")
+
+    // Retrofit with Kotlin Serialization converter
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
+
+    // Retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+
+
+    // Serialization
+    implementation(libs.kotlinx.serialization.json)
+
+    // Room Database
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
-    annotationProcessor(libs.androidx.room.compiler)
 
-    //Recycler
+    // UI
     implementation(libs.androidx.recyclerview)
-
-    //Shimmer-Effect (Test)
-    implementation(libs.shimmer)
-
-    //CardView for item layout
     implementation(libs.androidx.cardview)
-
-    //Material
-    implementation(libs.google.material)
+    implementation(libs.shimmer)
 }

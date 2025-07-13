@@ -1,10 +1,18 @@
 package com.jam.chatz.adapter
 
+import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.google.firebase.auth.FirebaseAuth
 import com.jam.chatz.R
 import com.jam.chatz.message.Message
@@ -49,11 +57,17 @@ class MessageAdapter(private var messages: List<Message>) :
     class SentMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val messageText: TextView = itemView.findViewById(R.id.sent_message_text)
         val timeText: TextView = itemView.findViewById(R.id.sent_message_time)
+        val messageImage: ImageView = itemView.findViewById(R.id.message_image)
+        val messageContainer: ViewGroup = itemView.findViewById(R.id.sent_message_container)
+        val imageContainer: ViewGroup = itemView.findViewById(R.id.image_container)
     }
 
     class ReceivedMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val messageText: TextView = itemView.findViewById(R.id.received_message_text)
         val timeText: TextView = itemView.findViewById(R.id.received_message_time)
+        val messageImage: ImageView = itemView.findViewById(R.id.message_image)
+        val messageContainer: ViewGroup = itemView.findViewById(R.id.received_message_container)
+        val imageContainer: ViewGroup = itemView.findViewById(R.id.image_container)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -67,7 +81,6 @@ class MessageAdapter(private var messages: List<Message>) :
                     VIEW_TYPE_RECEIVED
                 }
             }
-
             else -> throw IllegalArgumentException("Unknown view type")
         }
     }
@@ -79,13 +92,11 @@ class MessageAdapter(private var messages: List<Message>) :
                     .inflate(R.layout.item_date_header, parent, false)
                 DateHeaderViewHolder(view)
             }
-
             VIEW_TYPE_SENT -> {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_sent_message, parent, false)
                 SentMessageViewHolder(view)
             }
-
             else -> {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_recieved_message, parent, false)
@@ -99,22 +110,86 @@ class MessageAdapter(private var messages: List<Message>) :
             is DateHeader -> {
                 (holder as DateHeaderViewHolder).dateText.text = item.date
             }
-
             is Message -> {
                 val formatter = SimpleDateFormat("hh:mm a", Locale.getDefault())
                 val timeString = formatter.format(Date(item.timestamp.seconds * 1000))
 
                 if (holder.itemViewType == VIEW_TYPE_SENT) {
                     val sentHolder = holder as SentMessageViewHolder
-                    sentHolder.messageText.text = item.message
-                    sentHolder.timeText.text = timeString
+                    bindImageOrTextMessage(sentHolder, item, timeString)
                 } else {
                     val receivedHolder = holder as ReceivedMessageViewHolder
-                    receivedHolder.messageText.text = item.message
-                    receivedHolder.timeText.text = timeString
+                    bindImageOrTextMessage(receivedHolder, item, timeString)
                 }
             }
         }
+    }
+
+    private fun bindImageOrTextMessage(
+        holder: Any,
+        message: Message,
+        timeString: String
+    ) {
+        when (holder) {
+            is SentMessageViewHolder -> {
+                if (message.isImage && message.imageUrl != null) {
+                    Log.e("Image","image::  ${message.imageUrl}")
+                    holder.imageContainer.visibility = View.VISIBLE
+                    holder.messageContainer.visibility = View.GONE
+                    loadImageWithGlide(holder.messageImage, message.imageUrl)
+                    holder.timeText.text = timeString
+                } else {
+                    holder.imageContainer.visibility = View.GONE
+                    holder.messageContainer.visibility = View.VISIBLE
+                    holder.messageText.text = message.message
+                    holder.timeText.text = timeString
+                }
+            }
+            is ReceivedMessageViewHolder -> {
+                if (message.isImage && message.imageUrl != null) {
+                    holder.imageContainer.visibility = View.VISIBLE
+                    holder.messageContainer.visibility = View.GONE
+                    loadImageWithGlide(holder.messageImage, message.imageUrl)
+                    holder.timeText.text = timeString
+                } else {
+                    holder.imageContainer.visibility = View.GONE
+                    holder.messageContainer.visibility = View.VISIBLE
+                    holder.messageText.text = message.message
+                    holder.timeText.text = timeString
+                }
+            }
+        }
+    }
+
+    private fun loadImageWithGlide(imageView: ImageView, url: String) {
+        Glide.with(imageView.context)
+            .load(url)
+            .override(600, 600)
+            .centerCrop()
+            .addListener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    Log.e("Glide", "Image load failed: $url", e)
+                    // Show error placeholder
+                    imageView.setImageResource(R.drawable.img_1)
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable,
+                    model: Any,
+                    target: Target<Drawable>,
+                    dataSource: DataSource,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    return false
+                }
+            })
+            .into(imageView)
     }
 
     override fun getItemCount(): Int = items.size

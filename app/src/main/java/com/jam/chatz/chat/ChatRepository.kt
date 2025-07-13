@@ -107,6 +107,36 @@ class ChatRepository {
             }
     }
 
+    fun sendImageMessage(receiverId: String, imageUrl: String, callback: (Boolean) -> Unit) {
+        if (currentUserId.isEmpty()) {
+            callback(false)
+            return
+        }
+
+        val chatId = getChatId(currentUserId, receiverId)
+        val messageId = firestore.collection("chats").document(chatId).collection("messages").document().id
+
+        val message = Message(
+            messageId = messageId,
+            senderId = currentUserId,
+            receiverId = receiverId,
+            message = "", // Empty for image messages
+            timestamp = Timestamp.now(),
+            isRead = false,
+            imageUrl = imageUrl,  // Set the actual image URL here
+            isImage = true        // Mark as image message
+        )
+
+
+        firestore.collection("chats").document(chatId).collection("messages").document(messageId)
+            .set(message).addOnSuccessListener {
+                updateChatMetadata(chatId, currentUserId, receiverId, "📷 Image")
+                callback(true)
+            }.addOnFailureListener {
+                callback(false)
+            }
+    }
+
     private fun updateChatMetadata(
         chatId: String, senderId: String, receiverId: String, lastMessage: String
     ) {

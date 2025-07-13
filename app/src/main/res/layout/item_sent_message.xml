@@ -15,7 +15,6 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="12dp"
         app:cardElevation="5dp"
-
         app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -26,32 +25,61 @@
             android:background="#B6DAFF"
             android:padding="8dp">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/sent_message_text"
+            <!-- Text Message Container -->
+            <LinearLayout
+                android:id="@+id/sent_message_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxWidth="260dp"
-                android:textSize="16sp"
-                android:autoLink="web|phone|email"
-                android:linksClickable="true"
-                android:textIsSelectable="true"
-                android:textColorLink="@color/linkColor"
-                android:textColor="#000000"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="This is a sample sent message that might be a bit longer and wrap to multiple lines." />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/sent_message_time"
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/sent_message_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxWidth="260dp"
+                    android:textSize="16sp"
+                    android:autoLink="web|phone|email"
+                    android:linksClickable="true"
+                    android:textIsSelectable="true"
+                    android:textColorLink="@color/linkColor"
+                    android:textColor="#000000"
+                    tools:text="This is a sample sent message that might be a bit longer and wrap to multiple lines." />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/sent_message_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="#000000"
+                    android:textSize="10sp"
+                    tools:text="12:34 PM" />
+            </LinearLayout>
+
+            <!-- Image Message Container -->
+            <LinearLayout
+                android:id="@+id/image_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="#000000"
-                android:textSize="10sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sent_message_text"
-                tools:text="12:34 PM" />
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/sent_message_container"
+                app:layout_constraintEnd_toEndOf="@+id/sent_message_container">
+
+                <ImageView
+                    android:id="@+id/message_image"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
+                    android:id="@+id/image_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

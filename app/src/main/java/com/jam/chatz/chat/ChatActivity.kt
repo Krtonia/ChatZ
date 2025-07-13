@@ -2,14 +2,17 @@ package com.jam.chatz.chat
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,9 +21,13 @@ import com.jam.chatz.R
 import com.jam.chatz.adapter.MessageAdapter
 import com.jam.chatz.user.User
 import com.jam.chatz.databinding.ActivityChatBinding
+import com.jam.chatz.imgur.Uploader
 import com.jam.chatz.message.Message
 import com.jam.chatz.start.home.Home
 import com.jam.chatz.viewmodel.ChatViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Suppress("DEPRECATION")
 class ChatActivity : AppCompatActivity() {
@@ -54,6 +61,7 @@ class ChatActivity : AppCompatActivity() {
         }
         binding.godbtn.setOnClickListener { scrollToBottom() }
         binding.godbtn.visibility = View.GONE
+        binding.imgup.setOnClickListener { showImagePicker() }
         setupToolbar()
         setupRecyclerView()
         loadInitialMessages()
@@ -83,6 +91,70 @@ class ChatActivity : AppCompatActivity() {
             binding.userkastatus.setTextColor(getResources().getColor(R.color.white))
             binding.back.setColorFilter(getResources().getColor(R.color.white))
             window.statusBarColor = ContextCompat.getColor(this, R.color.toolbar)
+        }
+    }
+
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        uri?.let { imageUri ->
+            uploadAndSendImage(imageUri)
+        }
+    }
+
+    private fun showImagePicker() {
+        imagePickerLauncher.launch("image/*")
+    }
+
+    private fun uploadAndSendImage(imageUri: Uri) {
+        binding.progressBar.visibility = View.VISIBLE
+        binding.messageInput.isEnabled = false
+        binding.sendButton.isEnabled = false
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val imageUrl = Uploader.uploadImage(this@ChatActivity, imageUri)
+
+                withContext(Dispatchers.Main) {
+                    if (imageUrl != null) {
+                        otherUser?.userid?.let { userId ->
+                            chatViewModel.sendImageMessage(userId, imageUrl) { success ->
+                                binding.progressBar.visibility = View.GONE
+                                binding.messageInput.isEnabled = true
+                                binding.sendButton.isEnabled = true
+
+                                if (success) {
+                                    // No need to manually scroll here - the realtime listener will handle it
+                                } else {
+                                    Toast.makeText(
+                                        this@ChatActivity,
+                                        "Failed to send image",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        }
+                    } else {
+                        binding.progressBar.visibility = View.GONE
+                        binding.messageInput.isEnabled = true
+                        binding.sendButton.isEnabled = true
+                        Toast.makeText(
+                            this@ChatActivity,
+                            "Failed to upload image",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    binding.progressBar.visibility = View.GONE
+                    binding.messageInput.isEnabled = true
+                    binding.sendButton.isEnabled = true
+                    Toast.makeText(
+                        this@ChatActivity,
+                        "Error: ${e.localizedMessage}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 
@@ -144,17 +216,23 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    // Update the real-time listener setup
     private fun setupRealTimeListener(userId: String) {
         chatViewModel.getMessages(userId).observe(this) { newMessages ->
             val recentNewMessages = newMessages.filter { newMsg ->
                 !allMessages.any { existingMsg -> existingMsg.messageId == newMsg.messageId }
             }
+
             if (recentNewMessages.isNotEmpty()) {
                 allMessages.addAll(recentNewMessages)
                 allMessages.sortBy { it.timestamp.seconds }
-                messageAdapter.notifyDataSetChanged()
                 messageAdapter.updateMessages(allMessages)
-                scrollToBottom()
+
+                // Only scroll to bottom if the new message is from the current user
+                val lastMessage = allMessages.lastOrNull()
+                if (lastMessage != null && lastMessage.senderId == chatViewModel.getCurrentUserId()) {
+                    scrollToBottom()
+                }
             }
         }
     }
