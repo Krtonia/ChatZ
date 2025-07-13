@@ -127,7 +127,7 @@ class ChatRepository {
 
         firestore.collection("chats").document(chatId).collection("messages").document(messageId)
             .set(message).addOnSuccessListener {
-                updateChatMetadata(chatId, currentUserId, receiverId, "📷 Image")
+                updateChatMetadata(chatId, currentUserId, receiverId, "\uD83D\uDDBC\uFE0F Photo")
                 callback(true)
             }.addOnFailureListener {
                 callback(false)
@@ -149,14 +149,14 @@ class ChatRepository {
         FirebaseFirestore.getInstance().collection("chats").document(chatId).collection("messages")
             .document(message.messageId).set(messageData).addOnSuccessListener {
                 if (message.senderId.isNotEmpty() && message.receiverId.isNotEmpty()) {
-                    val lastMessageText = if (message.isImage) "📷 Image" else message.text
+                    val lastMessageText = if (message.isImage) "\uD83D\uDDBC\uFE0F Photo" else message.text
                     updateChatMetadata(
                         chatId, message.senderId, message.receiverId, lastMessageText
                     )
                 }
                 callback(true)
             }.addOnFailureListener { e ->
-                Log.e("ChatRepository", "Error adding message", e)
+                Log.e("ChatRepository", "Error adding message ${e.message}")
                 callback(false)
             }
     }

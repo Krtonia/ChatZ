@@ -6,19 +6,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.MotionEvent
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.jam.chatz.adapter.UserAdapter
 import com.jam.chatz.databinding.ActivityAllUsersBinding
 import com.jam.chatz.viewmodel.UserViewModel
 import androidx.activity.viewModels
-import com.jam.chatz.R
 import com.jam.chatz.chat.ChatActivity
 import com.jam.chatz.user.User
 
@@ -53,8 +49,8 @@ class AllUsers : AppCompatActivity() {
                 putExtra("USER", user)
             }
             startActivity(intent)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
             finish()
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
         binding.usersRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@AllUsers)

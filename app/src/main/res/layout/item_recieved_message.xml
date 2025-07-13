@@ -42,6 +42,7 @@
                     android:autoLink="web|phone|email"
                     android:linksClickable="true"
                     android:maxWidth="260dp"
+                    android:fontFamily="@font/mulish"
                     android:textColor="@color/onPrimaryContainer"
                     android:textColorLink="@color/linkColor"
                     android:textIsSelectable="true"

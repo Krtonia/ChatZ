@@ -64,6 +64,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.play.services)
 
+    //Shimmer-test
+    implementation ("com.github.zaminalirustamov:Shimmer_Animation:1.0.2")
 
     // Firebase
     implementation(platform(libs.firebase.bom))
@@ -82,8 +84,8 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     kapt ("com.github.bumptech.glide:compiler:4.16.0")
 
+    //Serializtaion
     implementation(libs.kotlinx.serialization.json)
-
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
     // Firebase Firestore with Kotlin serialization support

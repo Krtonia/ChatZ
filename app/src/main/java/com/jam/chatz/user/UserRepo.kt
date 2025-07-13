@@ -32,13 +32,11 @@ class UserRepo {
                         return@addOnCompleteListener
                     }
 
-                    // Fetch user details for each chat
                     firestore.collection("Users").whereIn("userid", userIds).get()
                         .addOnCompleteListener { userTask ->
                             if (userTask.isSuccessful) {
                                 val users =
                                     userTask.result?.toObjects(User::class.java) ?: emptyList()
-                                // Map last messages to users
                                 val usersWithMessages = users.map { user ->
                                     val chatDoc = chatDocs.firstOrNull { it.id == user.userid }
                                     user.copy(

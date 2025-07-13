@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="CircleImageView">
         <item name="cornerFamily">rounded</item>
@@ -30,6 +30,4 @@
         <item name="android:colorControlNormal">@color/primary</item>
         <item name="android:colorControlHighlight">@color/primary</item>
     </style>
-
-
 </resources>

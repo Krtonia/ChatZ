@@ -69,7 +69,7 @@
                 tools:text="Username" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/userkastatus"
+                android:id="@+id/userstatus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -148,6 +148,8 @@
                         android:id="@+id/message_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/mulish"
+                        android:textStyle="bold"
                         android:hint="@string/start_your_conversation"
                         android:inputType="textMultiLine"
                         android:maxLines="4" />
@@ -197,14 +199,20 @@
         app:layout_constraintTop_toBottomOf="@+id/chat_toolbar"
         app:layout_constraintVertical_bias="0.945" />
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
         android:visibility="gone"
+        app:indicatorDirectionCircular="counterclockwise"
         app:layout_constraintBottom_toBottomOf="@+id/messages_recycler_view"
         app:layout_constraintEnd_toEndOf="@+id/messages_recycler_view"
+        app:layout_constraintHorizontal_bias="0.696"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chat_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/chat_toolbar"
+        app:layout_constraintVertical_bias="0.795"
+        app:showAnimationBehavior="inward" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

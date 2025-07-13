@@ -101,12 +101,15 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ProgressBar
+            <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/pgbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:visibility="gone"
+                android:indeterminate="true"
+                app:indicatorDirectionCircular="counterclockwise"
+                app:showAnimationBehavior="inward"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

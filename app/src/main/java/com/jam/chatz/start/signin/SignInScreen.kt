@@ -27,7 +27,6 @@ class SignInScreen : AppCompatActivity() {
         enableEdgeToEdge()
         alreadyLogin()
         var auth: FirebaseAuth = FirebaseAuth.getInstance()
-
         setContentView(binding.root)
         binding.regbtn.setOnClickListener { startActivity(Intent(this, SignUpScreen::class.java)) }
         binding.lgbtn.setOnClickListener {
@@ -36,7 +35,7 @@ class SignInScreen : AppCompatActivity() {
             if (email.isEmpty() || pass.isEmpty()) {
                 Toast.makeText(
                     this,
-                    "Please fill all the fields & Check your connection",
+                    "Please fill all the fields",
                     Toast.LENGTH_LONG
                 ).show()
             } else if (!isInternetAvailable()) {
@@ -77,7 +76,7 @@ class SignInScreen : AppCompatActivity() {
     }
 
     private fun hideKeyboard(view: View) {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
@@ -91,11 +90,9 @@ class SignInScreen : AppCompatActivity() {
     }
 
     private fun isInternetAvailable(): Boolean {
-        val connectivityManager =
-            getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         val network = connectivityManager.activeNetwork ?: return false
         val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
         return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
-
 }

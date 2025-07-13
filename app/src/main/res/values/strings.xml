@@ -30,5 +30,9 @@
     <string name="new_user">New User?</string>
     <string name="login_instead">Login instead</string>
     <string name="change_username">Change Username</string>
-    <string name="enter_the_username">Enter the Username</string>
+    <string name="enter_the_username">Enter the New Username</string>
+    <string name="status">Status:</string>
+    <string name="change_status">Change Status</string>
+    <string name="enter_the_new_status">Enter The New Status</string>
+    <string name="edit_profile_image">Edit Profile Image</string>
 </resources>

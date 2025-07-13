@@ -50,4 +50,5 @@
     <color name="toolbar">#2C5F34</color>
     <color name="white">#FFFFFF</color>
     <color name="linkColor">#0066FF</color>
+    <color name="shimmerColor">#C2C2C2</color>
 </resources>

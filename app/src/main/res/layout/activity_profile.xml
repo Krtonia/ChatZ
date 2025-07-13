@@ -17,7 +17,6 @@
         android:text="@string/chatz"
         android:textStyle="bold" />
 
-    <!-- Centered user info -->
     <LinearLayout
         android:id="@+id/userInfoContainer"
         android:layout_width="wrap_content"
@@ -27,6 +26,31 @@
         android:orientation="vertical"
         android:padding="50dp">
 
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profileimg"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img"
+                app:shapeAppearance="@style/CircleImageView" />
+
+
+            <ImageButton
+                android:id="@+id/imgedit"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/circle_background"
+                android:contentDescription="@string/edit_profile_image"
+                android:src="@drawable/edit" />
+        </FrameLayout>
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/profileTitle"
             android:layout_width="wrap_content"
@@ -34,7 +58,7 @@
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/satoshi"
             android:text="@string/your_profile"
-            android:textSize="22sp"
+            android:textSize="32sp"
             android:textStyle="bold" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -44,7 +68,18 @@
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/mulish"
             android:text="@string/username"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/userstatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/mulish"
+            android:text="@string/status"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/emailText"
@@ -53,17 +88,31 @@
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/mulish"
             android:text="Email: "
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/changeUname"
             style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/mulish"
             android:layout_marginTop="10dp"
+            android:fontFamily="@font/mulish"
             android:paddingHorizontal="24dp"
             android:text="@string/change_username"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="10dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/changeStatus"
+            style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/mulish"
+            android:paddingHorizontal="24dp"
+            android:text="@string/change_status"
             android:textSize="18sp"
             android:textStyle="bold"
             app:cornerRadius="10dp" />
@@ -73,8 +122,8 @@
             style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/mulish"
             android:layout_marginTop="20dp"
+            android:fontFamily="@font/mulish"
             android:paddingHorizontal="24dp"
             android:text="@string/logout"
             android:textSize="18sp"

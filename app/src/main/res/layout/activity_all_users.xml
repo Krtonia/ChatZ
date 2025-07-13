@@ -45,6 +45,8 @@
                     style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/mulish"
+                    android:textStyle="bold"
                     android:hint="Search ..." />
             </com.google.android.material.textfield.TextInputLayout>
 

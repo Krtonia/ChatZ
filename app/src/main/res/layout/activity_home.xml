@@ -37,7 +37,9 @@
                 style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Search ..." />
+                android:fontFamily="@font/mulish"
+                android:hint="Search ..."
+                android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

@@ -1,6 +1,5 @@
 package com.jam.chatz.start.signup
 
-import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -80,7 +79,7 @@ class SignUpScreen : AppCompatActivity() {
     }
 
     private fun hideKeyboard(view: View) {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
@@ -101,7 +100,7 @@ class SignUpScreen : AppCompatActivity() {
                 "userid" to user.uid,
                 "username" to name,
                 "useremail" to email,
-                "status" to "",
+                "status" to "Hey There I am using Chatz!",
                 "imageurl" to "https://www.pngarts.com/files/5/User-Avatar-PNG-Image.png"
             )
 

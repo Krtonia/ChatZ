@@ -27,12 +27,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import androidx.core.net.toUri
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 @Suppress("DEPRECATION")
 class ChatActivity : AppCompatActivity(), MessageAdapter.OnImageClickListener {
     private lateinit var binding: ActivityChatBinding
     private lateinit var messageAdapter: MessageAdapter
     private val chatViewModel: ChatViewModel by viewModels()
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private var otherUser: User? = null
     private val allMessages = mutableListOf<Message>()
     private var realTimeListenerActive = false
@@ -170,7 +174,10 @@ class ChatActivity : AppCompatActivity(), MessageAdapter.OnImageClickListener {
     @SuppressLint("SetTextI18n")
     private fun setupToolbar() {
         binding.chatUsername.text = otherUser?.username
-        binding.userkastatus.text = "Hey There I am using Chatz!"
+        db.collection("Users").document(otherUser?.userid!!).get().addOnSuccessListener { document ->
+                val status = document.getString("status") ?: "Unknown"
+                binding.userstatus.text = "$status"
+            }
         binding.chatToolbar.elevation = 20f
         Glide.with(this).load(otherUser?.imageurl).placeholder(R.drawable.img).circleCrop().into(binding.chatUserImage)
     }
