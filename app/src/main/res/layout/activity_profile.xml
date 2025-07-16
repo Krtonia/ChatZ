@@ -1,11 +1,16 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true">
+
+<RelativeLayout
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
-    tools:context=".start.home.ProfileActivity">
+    tools:context=".start.home.profile.ProfileActivity">
 
     <TextView
         android:id="@+id/textView4"
@@ -37,6 +42,7 @@
                 android:layout_height="220dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/img"
+                android:paddingTop="10dp"
                 app:shapeAppearance="@style/CircleImageView" />
 
 
@@ -58,7 +64,7 @@
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/satoshi"
             android:text="@string/your_profile"
-            android:textSize="32sp"
+            style="@style/TextAppearance.Material3.DisplaySmall"
             android:textStyle="bold" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -68,7 +74,7 @@
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/mulish"
             android:text="@string/username"
-            android:textSize="18sp"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:textStyle="bold" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -78,7 +84,7 @@
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/mulish"
             android:text="@string/status"
-            android:textSize="18sp"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:textStyle="bold" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -88,7 +94,7 @@
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/mulish"
             android:text="Email: "
-            android:textSize="18sp"
+            style="@style/TextAppearance.Material3.TitleSmall"
             android:textStyle="bold" />
 
         <com.google.android.material.button.MaterialButton
@@ -100,7 +106,7 @@
             android:fontFamily="@font/mulish"
             android:paddingHorizontal="24dp"
             android:text="@string/change_username"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:cornerRadius="10dp" />
 
@@ -113,7 +119,7 @@
             android:fontFamily="@font/mulish"
             android:paddingHorizontal="24dp"
             android:text="@string/change_status"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:cornerRadius="10dp" />
 
@@ -126,10 +132,11 @@
             android:fontFamily="@font/mulish"
             android:paddingHorizontal="24dp"
             android:text="@string/logout"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:cornerRadius="10dp" />
 
     </LinearLayout>
 
 </RelativeLayout>
+</ScrollView>

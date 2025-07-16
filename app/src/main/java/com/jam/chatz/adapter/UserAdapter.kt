@@ -15,8 +15,6 @@ class UserAdapter(
     private val onUserClick: (User) -> Unit
 ) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
-    val currentList: List<User> get() = users
-
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val usernameTextView: TextView = itemView.findViewById(R.id.username_text_view)
         val userImageView: ImageView = itemView.findViewById(R.id.user_image_view)
@@ -33,6 +31,7 @@ class UserAdapter(
         val currentUser = users[position]
         holder.usernameTextView.text = currentUser.username
         holder.lastMessageText.text = currentUser.lastMessage ?: ""
+
         Glide.with(holder.itemView.context)
             .load(currentUser.imageurl ?: R.drawable.img)
             .circleCrop()

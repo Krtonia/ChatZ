@@ -21,11 +21,22 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+            isUniversalApk = true
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
         }
     }
@@ -64,8 +75,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.play.services)
 
-    //Shimmer-test
-    implementation ("com.github.zaminalirustamov:Shimmer_Animation:1.0.2")
+    // Shimmer-test
+    implementation (libs.shimmer.animation)
 
     // Firebase
     implementation(platform(libs.firebase.bom))
@@ -80,25 +91,24 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
 
-    //Glide
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
-    kapt ("com.github.bumptech.glide:compiler:4.16.0")
+    // Glide
+    implementation (libs.glide)
+    kapt (libs.glide.compiler)
 
-    //Serializtaion
+    // Serialization
     implementation(libs.kotlinx.serialization.json)
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation(libs.kotlinx.serialization.json.v160)
 
     // Firebase Firestore with Kotlin serialization support
-    implementation("com.google.firebase:firebase-firestore-ktx:24.11.0")
+    implementation(libs.firebase.firestore.ktx)
 
     // Retrofit with Kotlin Serialization converter
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
 
     // Retrofit
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation (libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
-
 
     // Serialization
     implementation(libs.kotlinx.serialization.json)
@@ -107,6 +117,9 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
+
+    // Cloudinary
+    implementation (libs.kotlin.url.gen)
 
     // UI
     implementation(libs.androidx.recyclerview)

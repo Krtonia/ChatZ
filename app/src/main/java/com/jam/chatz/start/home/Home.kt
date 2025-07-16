@@ -1,12 +1,13 @@
 package com.jam.chatz.start.home
 
 //noinspection SuspiciousImport
-import android.R
+import com.jam.chatz.R
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -16,9 +17,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.jam.chatz.adapter.UserAdapter
 import com.jam.chatz.chat.ChatActivity
 import com.jam.chatz.databinding.ActivityHomeBinding
+import com.jam.chatz.start.home.profile.ProfileActivity
 import com.jam.chatz.user.User
 import com.jam.chatz.viewmodel.UserViewModel
-import kotlin.math.log
 
 @Suppress("DEPRECATION")
 class Home : AppCompatActivity() {
@@ -28,6 +29,7 @@ class Home : AppCompatActivity() {
     private val userViewModel: UserViewModel by viewModels()
     private lateinit var auth: FirebaseAuth
     private var originalUsers: List<User> = emptyList()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,11 +42,13 @@ class Home : AppCompatActivity() {
         shim = binding.shimmerLayout
         loadConversationUsers()
         binding.swipeRefreshLayout.setOnRefreshListener { loadConversationUsers() }
-        binding.profile.setOnClickListener { startActivity(Intent(this, ProfileActivity::class.java)) }
+        binding.profile.setOnClickListener {
+            startActivity(Intent(this, ProfileActivity::class.java))
+        }
         binding.fab.setOnClickListener {
             val intent = Intent(this, AllUsers::class.java)
             startActivity(intent)
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
         }
     }
 
@@ -89,7 +93,7 @@ class Home : AppCompatActivity() {
                 putExtra("USER", user)
             }
             startActivity(intent)
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
         binding.usersRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@Home)

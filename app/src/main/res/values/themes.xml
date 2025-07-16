@@ -65,11 +65,11 @@
     <!-- Splash Screen Theme -->
     <style name="App.Starting.Theme" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Android 12+ Splash Screen API attributes -->
-        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_light</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/chatz</item>
 
         <!-- Pre-Android 12 Splash Screen attributes -->
         <item name="android:windowSplashScreenBackground" tools:targetApi="31">#FFFFFF</item>
-        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="31">@drawable/splash_light</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="31">@mipmap/chatz</item>
 
         <!-- Specify the theme to use after splash screen -->
         <item name="postSplashScreenTheme">@style/Theme.Chatz</item>

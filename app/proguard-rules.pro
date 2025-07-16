@@ -20,7 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.jam.chatz.imgur.** { *; }
+-keep class com.jam.chatz.cloudinary.** { *; }
 -keepclasseswithmembers class * {
     @kotlinx.serialization.* <methods>;
 }

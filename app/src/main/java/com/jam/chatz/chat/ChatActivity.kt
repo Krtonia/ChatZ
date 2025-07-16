@@ -18,7 +18,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.jam.chatz.R
 import com.jam.chatz.adapter.MessageAdapter
 import com.jam.chatz.databinding.ActivityChatBinding
-import com.jam.chatz.imgur.Uploader
+import com.jam.chatz.cloudinary.Uploader
 import com.jam.chatz.message.Message
 import com.jam.chatz.start.home.Home
 import com.jam.chatz.user.User
