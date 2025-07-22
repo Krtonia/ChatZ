@@ -21,12 +21,13 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/chatz"
         android:label="@string/app_name"
+        android:name=".Chatz"
         android:roundIcon="@mipmap/chatz_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Chatz"
         tools:targetApi="31">
         <activity
-            android:name=".start.home.profile.ProfileActivity"
+            android:name=".start.home.ProfileActivity"
             android:exported="false" />
         <activity
             android:name=".start.home.AllUsers"

@@ -2,26 +2,39 @@ package com.jam.chatz.start.home
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jam.chatz.R
+import com.jam.chatz.cloudinary.Uploader
 import com.jam.chatz.databinding.ActivityProfileBinding
 import com.jam.chatz.start.signin.SignInScreen
+import kotlinx.coroutines.launch
 
 @SuppressLint("SetTextI18n")
 class ProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProfileBinding
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private var isUploadingImage = false
 
+    private val photoPickerLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri ->
+        uri?.let { selectedUri ->
+            uploadProfileImage(selectedUri)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +45,15 @@ class ProfileActivity : AppCompatActivity() {
         loadUserProfile()
         binding.changeUname.setOnClickListener { openDialog() }
         binding.changeStatus.setOnClickListener { statusDialog() }
-        binding.imgedit.setOnClickListener { Toast.makeText(this,"Edit button is being clicked", Toast.LENGTH_SHORT).show() }
+        binding.imgedit.setOnClickListener {
+            if (!isUploadingImage) {
+                openImagePicker()
+            } else {
+                Toast.makeText(this, "Please wait, image is uploading...", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
+
 
     private fun openDialog() {
         val dialogView = layoutInflater.inflate(R.layout.item_username, null)
@@ -49,6 +69,76 @@ class ProfileActivity : AppCompatActivity() {
         }.setNegativeButton("Cancel", null).create()
 
         dialog.show()
+    }
+
+    private fun openImagePicker() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Change Profile Picture")
+            .setMessage("Select a new profile picture from your gallery")
+            .setPositiveButton("Choose from Gallery") { _, _ ->
+                photoPickerLauncher.launch("image/*")
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun uploadProfileImage(uri: Uri) {
+        if (isUploadingImage) return
+
+        isUploadingImage = true
+
+        binding.imgedit.isEnabled = false
+        Toast.makeText(this, "Uploading profile picture...", Toast.LENGTH_SHORT).show()
+
+        lifecycleScope.launch {
+            try {
+                val imageUrl = Uploader.uploadImage(this@ProfileActivity, uri)
+
+                if (imageUrl != null) {
+                    updateProfileImageInFirebase(imageUrl)
+                } else {
+                    runOnUiThread {
+                        Toast.makeText(this@ProfileActivity, "Failed to upload image. Please try again.", Toast.LENGTH_LONG).show()
+                    }
+                }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    Toast.makeText(this@ProfileActivity, "Error uploading image: ${e.message}", Toast.LENGTH_LONG).show()
+                }
+            } finally {
+                isUploadingImage = false
+                runOnUiThread {
+                    binding.imgedit.isEnabled = true
+                }
+            }
+        }
+    }
+
+    private fun updateProfileImageInFirebase(imageUrl: String) {
+        val currentUser = auth.currentUser ?: run {
+            startActivity(Intent(this, SignInScreen::class.java))
+            finish()
+            return
+        }
+
+        val userData = hashMapOf(
+            "imageurl" to imageUrl
+        )
+
+        db.collection("Users")
+            .document(currentUser.uid)
+            .update(userData as Map<String, Any>)
+            .addOnSuccessListener {
+                Glide.with(this)
+                    .load(imageUrl)
+                    .placeholder(R.drawable.img)
+                    .into(binding.profileimg)
+
+                Toast.makeText(this, "Profile picture updated successfully!", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Failed to update profile picture: ${e.message}", Toast.LENGTH_LONG).show()
+            }
     }
 
     private fun statusDialog() {
@@ -113,7 +203,6 @@ class ProfileActivity : AppCompatActivity() {
             return
         }
 
-        //Loading User-profile image
         db.collection("Users").document(currentUser.uid).get().addOnSuccessListener { document ->
             if (document != null && document.contains("imageurl")) {
                 val imageUrl = document.getString("imageurl")

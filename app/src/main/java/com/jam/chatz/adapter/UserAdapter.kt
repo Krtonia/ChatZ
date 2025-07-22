@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jam.chatz.R
 import com.jam.chatz.user.User
 
@@ -31,9 +32,11 @@ class UserAdapter(
         val currentUser = users[position]
         holder.usernameTextView.text = currentUser.username
         holder.lastMessageText.text = currentUser.lastMessage ?: ""
-
         Glide.with(holder.itemView.context)
-            .load(currentUser.imageurl ?: R.drawable.img)
+            .load(currentUser.imageurl)
+            .placeholder(R.drawable.img)
+            .error(R.drawable.img)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .circleCrop()
             .into(holder.userImageView)
 
