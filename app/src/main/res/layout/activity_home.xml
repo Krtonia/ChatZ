@@ -73,33 +73,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
-
                         <include layout="@layout/row_user_list_shimmer" />
-
                         <include layout="@layout/row_user_list_shimmer" />
-
                         <include layout="@layout/row_user_list_shimmer" />
-
                         <include layout="@layout/row_user_list_shimmer" />
-
                         <include layout="@layout/row_user_list_shimmer" />
-
                         <include layout="@layout/row_user_list_shimmer" />
-
                         <include layout="@layout/row_user_list_shimmer" />
-
                         <include layout="@layout/row_user_list_shimmer" />
-
                         <include layout="@layout/row_user_list_shimmer" />
-
                         <include layout="@layout/row_user_list_shimmer" />
-
                         <include layout="@layout/row_user_list_shimmer" />
-
                         <include layout="@layout/row_user_list_shimmer" />
-
                         <include layout="@layout/row_user_list_shimmer" />
-
                         <include layout="@layout/row_user_list_shimmer" />
                     </LinearLayout>
                 </com.facebook.shimmer.ShimmerFrameLayout>
@@ -118,15 +104,16 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="18dp"
         android:clickable="true"
         android:contentDescription="profile section"
-        android:src="@drawable/ic_profile" />
+        android:src="@drawable/ic_profile"
+        android:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

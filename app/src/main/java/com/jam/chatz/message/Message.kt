@@ -1,5 +1,6 @@
 package com.jam.chatz.message
 
+import com.bumptech.glide.annotation.GlideModule
 import com.google.firebase.Timestamp
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable

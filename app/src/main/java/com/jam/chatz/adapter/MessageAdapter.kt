@@ -10,6 +10,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
@@ -185,6 +186,7 @@ class MessageAdapter(private var messages: List<Message>,private val onImageClic
     private fun loadImageWithGlide(imageUrl: String, imageView: ImageView, progressBar: ProgressBar) {
         Log.d("MessageAdapter", "Loading image from: $imageUrl")
         if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
+            @GlideModule
             Glide.with(imageView.context)
                 .load(imageUrl)
                 .override(600, 600)

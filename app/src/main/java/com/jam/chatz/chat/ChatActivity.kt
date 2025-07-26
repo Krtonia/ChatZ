@@ -27,6 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import androidx.core.net.toUri
+import com.bumptech.glide.annotation.GlideModule
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -179,6 +180,7 @@ class ChatActivity : AppCompatActivity(), MessageAdapter.OnImageClickListener {
                 binding.userstatus.text = "$status"
             }
         binding.chatToolbar.elevation = 20f
+        @GlideModule
         Glide.with(this).load(otherUser?.imageurl).placeholder(R.drawable.img).circleCrop().into(binding.chatUserImage)
     }
 

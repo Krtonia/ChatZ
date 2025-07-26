@@ -14,6 +14,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.annotation.GlideModule
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -40,6 +41,9 @@ class Home : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
         enableEdgeToEdge()
+
+        binding.profile.setImageResource(com.jam.chatz.R.drawable.img)
+
         setupRecyclerView()
         setupSearchView()
         shim = binding.shimmerLayout
@@ -48,7 +52,6 @@ class Home : AppCompatActivity() {
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             loadConversationUsers()
-            loadCurrentUserProfile()
         }
 
         binding.profile.setOnClickListener {
@@ -64,13 +67,11 @@ class Home : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
         loadCurrentUserProfile()
     }
 
     private fun loadCurrentUserProfile() {
         val currentUser = auth.currentUser ?: return
-
         db.collection("Users")
             .document(currentUser.uid)
             .get()
@@ -82,12 +83,16 @@ class Home : AppCompatActivity() {
                             .load(imageUrl)
                             .placeholder(com.jam.chatz.R.drawable.img)
                             .circleCrop()
+                            .dontAnimate()
                             .into(binding.profile)
+                    }else{
+                        binding.profile.setImageResource(com.jam.chatz.R.drawable.img)
                     }
                 }
             }
             .addOnFailureListener {
                 Log.e("Home","Failed to load profile picture")
+                binding.profile.setImageResource(com.jam.chatz.R.drawable.img)
             }
     }
 

@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.bumptech.glide.annotation.GlideModule
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
@@ -129,6 +130,7 @@ class ProfileActivity : AppCompatActivity() {
             .document(currentUser.uid)
             .update(userData as Map<String, Any>)
             .addOnSuccessListener {
+                @GlideModule
                 Glide.with(this)
                     .load(imageUrl)
                     .placeholder(R.drawable.img)
@@ -207,6 +209,7 @@ class ProfileActivity : AppCompatActivity() {
             if (document != null && document.contains("imageurl")) {
                 val imageUrl = document.getString("imageurl")
                 if (!imageUrl.isNullOrEmpty()) {
+                    @GlideModule
                     Glide.with(this).load(imageUrl).placeholder(R.drawable.img).into(binding.profileimg)
                 }
             }

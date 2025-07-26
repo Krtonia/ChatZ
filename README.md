@@ -1,4 +1,4 @@
-![ChatZ Banner](.github/assets/ChatZ_banner.webp)
+![ChatZ Banner](.github/assets/chatz_banner.webp)
 
 ## Overview
 
