@@ -49,11 +49,13 @@
 ## 📸 Screenshots
 
 <p align="center">
-  <img src=".github/assets/splash.webp" width="200"/>
-  <img src=".github/assets/signin.webp" width="200"/>
-  <img src=".github/assets/chatlist.webp" width="200"/>
-  <img src=".github/assets/chatroom.webp" width="200"/>
+  <img src=".github/assets/login.webp" width="200"/>
+  <img src=".github/assets/register.webp" width="200"/>
+  <img src=".github/assets/home.webp" width="200"/>
   <img src=".github/assets/profile.webp" width="200"/>
+  <img src=".github/assets/shimmer.webp" width="200"/>
+  <img src=".github/assets/users.webp" width="200"/>
+  <img src=".github/assets/message.webp" width="200"/>
 </p>
 
 ## 🚀 Getting Started
@@ -76,3 +78,19 @@
 4. Sync Gradle and resolve dependencies
 
 5. Run the app on your emulator or real device 🚀
+
+## 🧩 Architecture
+
+- MVVM pattern with clean separation of UI, ViewModel, and Repository
+- Uses StateFlow / LiveData for reactive updates
+- Organized modular code (UI → ViewModels)
+
+## 🤝 Contributing
+- Contributions, issues, and feature requests are welcome!
+
+- Fork the repo
+
+- Create your feature branch (git checkout -b feature/new-feature)
+- Commit your changes (git commit -m 'Add new feature')
+- Push to the branch (git push origin feature/new-feature)
+- Open a Pull Request
